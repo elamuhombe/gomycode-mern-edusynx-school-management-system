@@ -10,8 +10,6 @@ const PORT = 5000;
 const MONGO_URI =process.env.MONGO_URI;
 
 // Connect to MongoDB 
-
-
 async function connectToDatabase() {
     try {
         await mongoose.connect(MONGO_URI);
