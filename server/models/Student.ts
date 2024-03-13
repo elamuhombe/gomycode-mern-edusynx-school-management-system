@@ -6,7 +6,7 @@ type Gender = "male || female";
 // Define a string literal type representing student type
 type StudentType = "day || boarding";
 
-type HasGuardian = "true || false";
+type HasGuardian = "yes || no";
 
 // Define the interface for Student Document
 interface Student{
