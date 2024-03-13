@@ -6,6 +6,8 @@ type Gender = "male || female";
 // Define a string literal type representing student type
 type StudentType = "day || boarding";
 
+type HasGuardian = "true || false";
+
 // Define the interface for Student Document
 interface Student{
     StudentID: Number,
@@ -17,5 +19,16 @@ interface Student{
     ClassName: String,
     PreviousSchool: String,
     EnrollmentDate: Date,
+    Father:{
+        FatherName: String,
+        ContactNumber: Number,
+        EmailAddress: String
+    }
+    Mother:{
+        MotherName: String,
+        ContactNumber: Number,
+        EmailAddress: String
+    }
+    Guardian: HasGuardian
 
 }
