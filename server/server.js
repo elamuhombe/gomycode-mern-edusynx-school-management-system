@@ -7,6 +7,22 @@ require ('dotenv').config;
 const app = express();
 const PORT = 5000;
 
+const MONGO_URI =process.env.MONGO_URI;
+
+// Connect to MongoDB 
+
+
+async function connectToDatabase() {
+    try {
+        await mongoose.connect(MONGO_URI);
+        console.log('Connection to edusynx database successful');
+    } catch(error) {
+        console.log('Unable to connect to database:', error.message);
+    }
+}
+// Run the connectToDatabase function
+connectToDatabase();
+
 
 
 
