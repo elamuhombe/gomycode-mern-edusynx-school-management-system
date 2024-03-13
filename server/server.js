@@ -24,5 +24,7 @@ async function connectToDatabase() {
 connectToDatabase();
 
 
-
+app.listen(PORT, ()=>{
+    console.log(`server is currently running at ${PORT}`)
+});
 
