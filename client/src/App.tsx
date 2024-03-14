@@ -1,7 +1,7 @@
-import { Home } from "./pages";
+import Login from "./pages/Login";
 
 export default function App() {
-  return <div className="bg-red-500 text-white">
-    <Home />
+  return <div>
+    <Login />
   </div>;
 }
