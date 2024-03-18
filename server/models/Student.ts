@@ -1,17 +1,6 @@
 import { Document, Schema, model, Types } from 'mongoose';
+import { Gender, Guardian, StudentType } from './types';
 
-// Define a string literal type representing gender
-type Gender = "male" | "female";
-
-// Define a string literal type representing student type
-type StudentType = "day" | "boarding";
-
-// Define interface for Guardian
-interface Guardian {
-    GuardianName: string;
-    ContactNumber: number;
-    EmailAddress: string;
-}
 
 // Define the interface for Student Document
 interface IStudent extends Document {
