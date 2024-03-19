@@ -9,8 +9,8 @@ interface IStudent extends Document {
     studentDateOfBirth: Date;
     gender: Gender;
     studentType: StudentType;
-    classID: number;
-    className: string;
+    classNameID: number;
+    classNameName: string;
     previousSchool: string;
     enrollmentDate: Date;
     guardian: Guardian | null; // Guardian details (father, mother, or other)
@@ -23,8 +23,8 @@ const studentSchema = new Schema<IStudent>({
     studentDateOfBirth: { type: Date, required: true },
     gender: { type: String, enum: ['male', 'female'], required: true },
     studentType: { type: String, enum: ['day', 'boarding'], required: true },
-    classID: { type: Number, required: true },
-    className: { type: String, required: true },
+    classNameID: { type: Number, required: true },
+    classNameName: { type: String, required: true },
     previousSchool: { type: String, required: true },
     enrollmentDate: { type: Date, required: true },
     guardian: { type: Object } 
@@ -32,4 +32,4 @@ const studentSchema = new Schema<IStudent>({
 
 // Create and export Student model
 const Student = model<IStudent>('Student', studentSchema);
-export default Student;
+export {IStudent, Student};
