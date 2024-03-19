@@ -1,6 +1,4 @@
-import Header from "./components/shared/Header";
-import Main from "./components/shared/Main";
-import Footer from "./components/shared/Footer";
+import { Footer, Header, Main } from './components/index'
 
 
 export default function App() {
