@@ -3,9 +3,6 @@ import Main from "./components/shared/Main";
 import Footer from "./components/shared/Footer";
 
 
-
-
-
 export default function App() {
   return (
     <div className="m-4">
