@@ -27,4 +27,4 @@ const parentSchema = new Schema<IParent>({
 
 // Create and export Parent model
 const Parent = model<IParent>('Parent', parentSchema);
-export default Parent;
+export {IParent,Parent};
