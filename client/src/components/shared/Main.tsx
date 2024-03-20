@@ -6,6 +6,25 @@ export default function Main() {
         <div className="flex-1">
           <h1 className="text-2xl font-lato font-bold mt-8">Edusynx School Management System, where education meets innovation!</h1>
           <p className="mt-4">Are you tired of the old-fashioned administrative hassles that come with managing a school? Look no further! Our cutting-edge platform is designed to streamline every aspect of school management, from student enrollment to academic performance tracking.</p>
+          <hr className="w-full mt-4 mb-4"></hr>
+          <div className="flex flex-wrap">
+          <h4 className="w-full">Benefits of Edusynx</h4>
+          <div className="flex-1">
+          <ul>Centralized Data Management</ul>
+          <ul>Efficient Administration</ul>
+          <ul>Automated Attendance Tracking</ul>
+          </div>
+          
+          <div className="flex-1">
+          <ul>Improved Communication</ul>
+          <ul>Data Analysis and Reporting</ul>
+          <ul>Enhanced Parental Involvement</ul>
+          <ul>Accurate Fee Management</ul>
+          </div>
+          
+
+          </div>
+          
         </div>
         <div className="flex-1 flex justify-center">
           <img src="/images/school-system.jpg" alt="school system" />
