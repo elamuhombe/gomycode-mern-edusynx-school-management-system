@@ -1,0 +1,6 @@
+.bullet {
+    background-image: url('bullet.png'); /* URL of your image */
+    background-repeat: no-repeat;
+    background-size: contain; /* Adjust to fit your image size */
+    padding-left: 30px; /* Adjust to fit your image size */
+  }
