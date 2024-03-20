@@ -10,6 +10,7 @@ export type StudentType = "day" | "boarding";
 export interface Guardian {
     guardianName: string;
     contactNumber1: number;
-    contactNumber2: number;
+    contactNumber2?: number;
     emailAddress: string;
+
 }
