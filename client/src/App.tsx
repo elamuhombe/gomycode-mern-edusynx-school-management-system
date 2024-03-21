@@ -6,7 +6,7 @@ import {Header, Main, Footer} from './pages/index';
 export default function App() {
   return (
     // Wrapping the components in a div with a margin of 4
-    <div className="m-4">
+    <div className="m-4 font-sans">
       <Header />
       <Main />
       <Footer />
