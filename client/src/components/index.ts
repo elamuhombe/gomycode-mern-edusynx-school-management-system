@@ -1,3 +1,3 @@
-export {default as Footer} from './shared/Footer';
-export {default as Header} from './shared/Header';
-export {default as Main} from './shared/Main';
+export {default as Footer} from './shared/templates/Home/Footer/Footer';
+export {default as Header} from './shared/templates/Home/Header/Navbar';
+export {default as Main} from './shared/templates/Home/Main/Main';
