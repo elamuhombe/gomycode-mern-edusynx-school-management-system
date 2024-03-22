@@ -4,10 +4,25 @@ import { BiChevronDown } from 'react-icons/bi'; // Import the BiChevronDown icon
 
 const Navbar: React.FC = () => {
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleNavbar = () => {
     setIsNavbarOpen(!isNavbarOpen);
+    setIsDropdownOpen(false); // Close the dropdown when hamburger menu is clicked
   };
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  // Define array of links with their respective URLs
+  const links = [
+    { text: 'Home', url: '/' },
+    { text: 'Services', url: '../../Services' },
+    { text: 'Contact Us', url: '../../ContactUs' },
+    { text: 'Register', url: '../../Register' },
+    { text: 'Login', url: '../../Login' },
+  ];
 
   return (
     <div>
@@ -23,22 +38,18 @@ const Navbar: React.FC = () => {
 
           <div className={`transition-all duration-300 ease-in-out w-full md:block md:w-auto ${isNavbarOpen ? 'block' : 'hidden'}`} id="navbar-dropdown">
             <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-              <li>
-                <Link to="/" className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent" aria-current="page">Home</Link>
-              </li>
-              <li>
-                <Link to="../../Services" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Services</Link>
-              </li>
-              <li>
-                <Link to="../../ContactUs" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Contact Us</Link>
-              </li>
+              {links.map((link, index) => (
+                <li key={index}>
+                  <Link to={link.url} className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">{link.text}</Link>
+                </li>
+              ))}
               <li>
                 <div className="relative">
-                  <button onClick={toggleNavbar} className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent focus:outline-none flex items-center">
+                  <button onClick={toggleDropdown} className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent focus:outline-none flex items-center">
                     Help And Support
                     <BiChevronDown className="w-4 h-4 ml-1" />
                   </button>
-                  <ul className={`absolute top-full left-0 mt-2 w-48 rounded-lg bg-white border border-gray-200 shadow-lg ${isNavbarOpen ? 'block' : 'hidden'}`}>
+                  <ul className={`absolute top-full left-0 mt-2 w-48 rounded-lg bg-white border border-gray-200 shadow-lg ${isDropdownOpen ? 'block' : 'hidden'}`}>
                     <li>
                       <Link to="/support/Faq" className="block px-4 py-2 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">FAQ</Link>
                     </li>
@@ -47,12 +58,6 @@ const Navbar: React.FC = () => {
                     </li>
                   </ul>
                 </div>
-              </li>
-              <li>
-                <Link to="../../Register" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Register</Link>
-              </li>
-              <li>
-                <Link to="../../Login" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Login</Link>
               </li>
             </ul>
           </div>
