@@ -1,9 +1,11 @@
 import React from 'react';
+import { Footer, Header } from '../components';
 
 const Register: React.FC = () => {
   return (
     <div>
-      {/* Your registration content will go here */}
+      <Header />
+      <Footer />
     </div>
   );
 }

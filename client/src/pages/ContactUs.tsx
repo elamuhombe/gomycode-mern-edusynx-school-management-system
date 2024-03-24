@@ -1,7 +1,11 @@
 
 import React from "react"
+import { Footer, Header } from "../components"
 export default function ContactUs() {
   return (
-    <div>ContactSupport</div>
+    <div>
+      <Header />
+      <Footer />
+    </div>
   )
 }
