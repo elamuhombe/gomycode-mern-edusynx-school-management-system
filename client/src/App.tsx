@@ -7,6 +7,7 @@ import ContactUs from './pages/ContactUs';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import FAQ from './pages/support/FAQ';
+import Documentation from './pages/support/Documentation';
 
 
 const App: React.FC = () => {
@@ -20,6 +21,7 @@ const App: React.FC = () => {
           <Route path="/ContactUs" element={<ContactUs />} />
           <Route path="/Services" element={<Services />} />
           <Route path="/support/FAQ" element ={<FAQ />} />
+          <Route path="/support/Documentation" element ={<Documentation/>} />
           <Route path="/" element={<Home />} />
         </Routes>
       
