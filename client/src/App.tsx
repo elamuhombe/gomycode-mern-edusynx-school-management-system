@@ -6,6 +6,7 @@ import Services from './pages/Services';
 import ContactUs from './pages/ContactUs';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import FAQ from './pages/support/FAQ';
 
 
 const App: React.FC = () => {
@@ -18,6 +19,7 @@ const App: React.FC = () => {
           <Route path="/Register" element={<Register />} />
           <Route path="/ContactUs" element={<ContactUs />} />
           <Route path="/Services" element={<Services />} />
+          <Route path="/support/FAQ" element ={<FAQ />} />
           <Route path="/" element={<Home />} />
         </Routes>
       
