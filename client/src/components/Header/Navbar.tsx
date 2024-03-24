@@ -51,7 +51,7 @@ const Navbar: React.FC = () => {
                   </button>
                   <ul className={`absolute top-full left-0 mt-2 w-48 rounded-lg bg-white border border-gray-200 shadow-lg ${isDropdownOpen ? 'block' : 'hidden'}`}>
                     <li>
-                      <Link to="/support/Faq" className="block px-4 py-2 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">FAQ</Link>
+                      <Link to="/support/FAQ" className="block px-4 py-2 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">FAQ</Link>
                     </li>
                     <li>
                       <Link to="/support/Documentation" className="block px-4 py-2 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Documentation</Link>
