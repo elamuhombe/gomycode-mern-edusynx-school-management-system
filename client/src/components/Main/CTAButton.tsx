@@ -1,5 +1,5 @@
 import React from 'react';
-import './CTAButton.css';
+
 
 interface CTAButtonProps {
   text: string;
@@ -8,9 +8,12 @@ interface CTAButtonProps {
 
 const CTAButton: React.FC<CTAButtonProps> = ({ text, onClick }) => {
   return (
-    <button className="cta-button" onClick={onClick}>
+ 
+        <button className="bg-red-400 hover:bg-blue-700 text-white font-bold py-2 px-8 rounded-full mt-4" onClick={onClick}>
       {text}
     </button>
+   
+    
   );
 };
 
