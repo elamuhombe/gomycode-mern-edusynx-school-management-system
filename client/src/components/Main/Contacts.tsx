@@ -11,10 +11,10 @@ const Contacts: React.FC = () => {
   };
 
   return (
-    <div className="flex">
+    <div className="flex mt-8">
       {/* Form to add new contact */}
       <form className='flex flex-col flex-1 gap-4'>
-        <h4>Get In Touch</h4>
+        <h3 className='text-xl font-600'>Get In Touch</h3>
         <p>Please feel free to contact us if you have any questions, comments, or inquiries. We'd love to hear from you!</p>
         <div className='flex flex-1 flex-col w-80'>
           <TextField id="names" label="Names" variant="standard" />
