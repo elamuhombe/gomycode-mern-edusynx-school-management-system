@@ -8,7 +8,9 @@ const ContactUs = () =>{
 return (
   <div>
     <Header />
-    <Contacts />
+    <div className="flex justify-center"> {/* Center horizontally */}
+        <Contacts />
+      </div>
     <Footer />
   </div>
 );
