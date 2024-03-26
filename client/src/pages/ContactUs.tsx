@@ -1,11 +1,16 @@
 
 import React from "react"
 import { Footer, Header } from "../components"
-export default function ContactUs() {
-  return (
-    <div>
-      <Header />
-      <Footer />
-    </div>
-  )
-}
+import Contacts from  "../components/Main/Contacts/Contacts";
+const ContactUs = () =>{
+
+
+return (
+  <div>
+    <Header />
+    <Contacts />
+    <Footer />
+  </div>
+);
+};
+export default ContactUs;
