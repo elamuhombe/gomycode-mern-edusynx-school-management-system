@@ -8,7 +8,7 @@ interface CTAButtonProps {
 const CTAButton: React.FC<CTAButtonProps> = ({ text }) => {
   const { goToRegisterPage } = useCustomNavigation(); // Call the hook to get the navigation function
 
-  // Click handler function to navigate to the register page
+  // Directly navigate to the register page
   const handleClick = () => {
     goToRegisterPage(); // Use the navigation function to navigate
   };
