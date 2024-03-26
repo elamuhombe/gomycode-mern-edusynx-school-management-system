@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Footer, Header } from '../components';
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -17,7 +18,9 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div>
+      <Header />
+      <div className="flex justify-center items-center h-screen">
       <div className="w-full max-w-xs">
         <h2 className="text-center text-2xl mb-4">Login</h2>
         {error && <div className="text-red-500 mb-4">{error}</div>}
@@ -48,6 +51,10 @@ const Login: React.FC = () => {
         </form>
       </div>
     </div>
+    <Footer />
+
+    </div>
+    
   );
 };
 
