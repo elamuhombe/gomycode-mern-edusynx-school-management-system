@@ -1,10 +1,9 @@
 import React from 'react';
 import CTAButton from './CTAButton';
 
+
 const Hero: React.FC = () => {
-  const handleClick = () => {
-    alert('Button clicked!');
-  };
+ 
   return (
     <div>
       {/* Hero Section */}
@@ -28,7 +27,7 @@ const Hero: React.FC = () => {
               <ul className="bullet h-4 md:h-8">Accurate Fee Management</ul><br></br>
             </div>
           </div>
-          <CTAButton text="Get Started" onClick={handleClick} />
+          <CTAButton text="Get Started"/>
         </div>
         <div className="flex-1 flex justify-center">
           <img src="/images/school-software.png" alt="School System" />
