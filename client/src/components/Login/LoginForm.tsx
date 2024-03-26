@@ -21,6 +21,9 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
     }
   };
 
+  const usernameEntered = username.trim() !== '';
+  const passwordEntered = password.trim() !== '';
+
   return (
     <form onSubmit={handleLogin}>
       <div className="mb-4">
@@ -31,7 +34,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
           value={username}
           placeholder='username'
           onChange={(e) => setUsername(e.target.value)}
-          className="w-full border border-gray-400 p-2"
+          className={`w-full border border-gray-400 p-2 ${usernameEntered ? 'bg-blue-50' : ''}`}
           required
         />
       </div>
@@ -43,7 +46,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
           value={password}
           placeholder='Password'
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full border border-gray-400 p-2"
+          className={`w-full border border-gray-400 p-2 ${passwordEntered ? 'bg-blue-50' : ''}`}
           required
         />
       </div>
