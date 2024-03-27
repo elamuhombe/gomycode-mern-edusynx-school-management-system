@@ -1,5 +1,7 @@
 // LoginForm.tsx
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+
 
 interface LoginFormProps {
   onSubmit: (username: string, password: string) => void;
@@ -25,7 +27,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
   const passwordEntered = password.trim() !== '';
 
   return (
-    <form onSubmit={handleLogin}>
+    <div>
+      <form onSubmit={handleLogin}>
       <div className="mb-4">
         <label htmlFor="username" className="block mb-2">Username:</label>
         <input
@@ -53,6 +56,12 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
       {error && <div className="text-red-500 mb-4">{error}</div>}
       <button type="submit" className="mt-8 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">Login</button>
     </form>
+    <p>
+        Don't have an account? <Link to="/register">Register</Link>
+      </p>
+    </div>
+    
+    
   );
 };
 
