@@ -12,16 +12,20 @@ const Register: React.FC = () => {
         <form className='flex flex-col w-full gap-4'>
           <h3 className='text-xl font-600'>Register</h3>
           <p>Please fill out the registration form below.</p>
-          <div className='flex flex-col w-full'>
+          <div className='flex flex-col md:flex-row w-full gap-4'>
             <TextField id="schoolName" label="School Name" variant="standard" />
             <TextField id="phoneNumber" label="Phone Number" variant="standard" />
             <TextField id="emailAddress" label="Email Address" variant="standard" />
-            <TextField id="postalAddress" label="Postal  Address" variant="standard" />
-            <TextField id="postalCode" label="Postal Code" variant="standard" />
-            <TextField id="city" label="City" variant="standard" />
-            <TextField id="country" label="Country" variant="standard" />
-            {/* Text field for the message */}
           </div>
+          <div className='flex flex-col md:flex-row w-full gap-4'>
+            <TextField id="postalAddress" label="Postal  Address" variant="standard" className='md:w-1/2' />
+            <TextField id="postalCode" label="Postal Code" variant="standard" className='md:w-1/4' />
+          </div>
+          <div className='flex flex-col md:flex-row w-full gap-4'>
+            <TextField id="city" label="City" variant="standard" className='md:w-1/2' />
+            <TextField id="country" label="Country" variant="standard" className='md:w-1/2' />
+          </div>
+          {/* Text field for the message */}
           <div>
             <CTAButton text="Register" />
           </div>
