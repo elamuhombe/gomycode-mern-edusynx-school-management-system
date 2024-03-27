@@ -15,7 +15,7 @@ const CTAButton: React.FC<CTAButtonProps> = ({ text }) => {
 
   return (
     <button 
-      className="bg-red-400 hover:bg-blue-700 text-white font-bold py-2 px-8 rounded-full mt-4" 
+      className="w-40 bg-red-400 hover:bg-blue-700 text-white font-bold py-2 px-8 rounded-full mt-4" 
       onClick={handleClick} // Attach the click handler
     >
       {text}
