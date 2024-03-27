@@ -1,4 +1,4 @@
-# School Management System Project README
+# School Management System Project
 
 ## 1. Introduction
 This README provides an overview of the proposed School Management System project. The purpose of this system is to streamline administrative tasks, enhance communication between stakeholders, and provide valuable insights through data analysis.
