@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TextField } from '@mui/material';
 import GoogleMap from './GoogleMap';
 import SocialMediaIcons from './SocialMediaIcons';
+import CTAButton from '../CTAButton';
 
 const Contacts: React.FC = () => {
   // State to store the message value
@@ -37,9 +38,7 @@ const Contacts: React.FC = () => {
           />
         </div>
         <div>
-          <button className="bg-red-400 hover:bg-blue-700 text-white font-bold py-2 px-8 rounded-full mt-4" >
-            Submit
-          </button>
+          <CTAButton text="Submit" />
         </div>
       </form>
       <div className='flex flex-1'>
