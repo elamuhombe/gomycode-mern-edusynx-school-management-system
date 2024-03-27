@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Services from './pages/Services';
 import ContactUs from './pages/ContactUs';
 import Login from './pages/Login';
+import ResetPassword from './components/Login/ResetPassword';
 import Register from './pages/Register';
 import FAQ from './pages/support/FAQ';
 import Documentation from './pages/support/Documentation';
@@ -17,6 +18,7 @@ const App: React.FC = () => {
       
         <Routes>
           <Route path="/Login" element={<Login />} />
+          <Route path ="/reset-password" element={<ResetPassword/>} />
           <Route path="/Register" element={<Register />} />
           <Route path="/ContactUs" element={<ContactUs />} />
           <Route path="/Services" element={<Services />} />
