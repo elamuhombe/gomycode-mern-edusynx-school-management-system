@@ -7,7 +7,7 @@ const Register: React.FC = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <Header />
-      <div className='flex flex-col items-center w-full max-w-md px-4'>
+      <div className='flex flex-col items-center w-full max-w-md px-4 justify-center'> {/* Added justify-center class */}
         {/* Form to Register */}
         <form className='flex flex-col w-full gap-4'>
           <h3 className='text-xl font-600'>Register</h3>
@@ -31,8 +31,8 @@ const Register: React.FC = () => {
             <TextField id="city" label="City" variant="standard" className='md:w-1/2' />
             <TextField id="country" label="Country" variant="standard" className='md:w-1/2' />
           </div>
-          {/* Text field for the message */}
-          <div>
+          {/* Center the button */}
+          <div className="text-center">
             <CTAButton text="Register" />
           </div>
         </form>
