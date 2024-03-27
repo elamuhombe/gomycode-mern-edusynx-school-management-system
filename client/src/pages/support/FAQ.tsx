@@ -1,4 +1,5 @@
 import React from 'react';
+import { Footer, Header } from '../../components';
 
 const FAQ = () => {
   // FAQ data specific to a school management system
@@ -11,7 +12,9 @@ const FAQ = () => {
   ];
 
   return (
-    <div className="faq flex justify-center items-center h-full">
+    <div>
+      <Header />
+      <div className="faq flex justify-center items-center h-full">
       <div className="max-w-md w-full">
         <h2 className="text-2xl font-semibold mb-4">School Management System FAQs</h2>
         <ul>
@@ -24,6 +27,9 @@ const FAQ = () => {
         </ul>
       </div>
     </div>
+    <Footer />
+    </div>
+    
   );
 };
 
