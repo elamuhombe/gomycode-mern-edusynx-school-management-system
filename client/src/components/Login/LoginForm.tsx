@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
 
+
 interface LoginFormProps {
   onSubmit: (username: string, password: string) => void;
 }
@@ -57,7 +58,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
           />
         </div>
         {error && <div className="text-red-500 mb-4">{error}</div>}
-        <button type="submit" className="mt-8 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">Login</button>
+        
+        <button type="submit" className="mt-8 w-full bg-red-400 text-white py-2 rounded hover:bg-blue-600">Login</button>
       </form>
       <p>
         <button onClick={handleResetPassword} className="text-blue-500 underline">Forgot your password?</button> {/* Use button to trigger navigate */}
