@@ -20,6 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src", "../server/api", "../server/utils/passwordUtils.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
