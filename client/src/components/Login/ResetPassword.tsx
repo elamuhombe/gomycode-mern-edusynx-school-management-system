@@ -1,42 +1,60 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Assuming you're using React Router for navigation
+import { Footer, Header } from '..';
 
 const ResetPassword: React.FC = () => {
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
 
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Handle form submission, for example, sending the new password to the server
-    console.log('New Password:', password);
-    // Reset password field
-    setPassword('');
+
+    try {
+      const response = await fetch('/api/reset-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (response.ok) {
+        alert('An email with instructions to reset your password has been sent.');
+      } else {
+        throw new Error('Failed to reset password. Please try again later.');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('An error occurred while resetting your password. Please try again later.');
+    }
   };
 
   return (
     <div>
-      <h2>Reset Password</h2>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="password">New Password:</label>
-        <input
-          type="password"
-          id="password"
-          value={password}
-          onChange={handlePasswordChange}
-          required
-        />
-        <button type="submit">Reset Password</button>
-      </form>
-      <p>
-        Back to <Link to="/login">Login</Link>
-      </p>
-      <p>
-        Don't have an account? <Link to="/register">Register</Link>
-      </p>
+       <Header />
+       <div className="flex flex-col items-center justify-center h-screen">
+  <h2 className="mb-4">Reset Password</h2>
+  <form onSubmit={handleSubmit} className="w-full max-w-sm mb-48">
+    <div className="mb-4">
+      <label htmlFor="email" className="block text-gray-700">Email Address:</label>
+      <input
+        type="email"
+        id="email"
+        value={email}
+        onChange={handleEmailChange}
+        required
+        className="w-full px-4 py-2 border rounded-md text-gray-700 bg-white focus:outline-none focus:border-blue-500"
+      />
     </div>
+    <button type="submit" className="w-full px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Reset Password</button>
+  </form>
+</div>
+
+    <Footer />
+      </div>
+    
   );
 };
 
