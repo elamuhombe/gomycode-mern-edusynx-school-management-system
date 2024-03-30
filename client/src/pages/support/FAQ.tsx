@@ -4,11 +4,11 @@ import { Footer, Header } from '../../components';
 const FAQ = () => {
   // FAQ data specific to a school management system
   const faqs = [
-    { question: 'How do I enroll my child in classes?', answer: 'You can enroll your child by visiting the school office.' },
-    { question: 'What are the school hours?', answer: 'The school hours are from 8:00 AM to 3:00 PM, Monday to Friday.' },
-    { question: 'How can I pay school fees online?', answer: 'You can pay school fees online through the schools website or portal.' },
-    { question: 'Who can I contact for technical support with the school portal?', answer: 'You can contact the IT department at it@schoolname.com.' },
-    // Add more FAQ items as needed
+    { question: 'What is the School Management System?', answer: 'The School Management System is a software solution designed to streamline administrative tasks, manage student information, facilitate, communication between stakeholders, and improve decision-making processes within educational institutions.' },
+    { question: 'Who can use the School Management System?', answer: 'The School Management System caters for various users including administrators, teachers, parents, enrollment officers and accountants, each with specific roles and permissions tailored to their responsibilities within the system.' },
+    { question: 'How do I login to the system?', answer: 'To login to the system, visit the login page and enter your username/email address and password provided in your email.' },
+    { question: 'I forgot my password, what should I do?', answer: 'You can usually reset it by clicking on the "Forgot Password" link. Follow the instructions and a new password shall be sent to your email' },
+  
   ];
 
   return (
