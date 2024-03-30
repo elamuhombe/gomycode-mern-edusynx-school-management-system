@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { TextField } from "@mui/material";
-import GoogleMap from "./GoogleMap";
 import SocialMediaIcons from "./SocialMediaIcons";
+import { IoMdMail} from "react-icons/io";
+import { BsTelephoneFill } from "react-icons/bs";
+import { MdLocationPin } from "react-icons/md";
 import CTAButton from "../../shared/CTAButton";
 
 const Contacts: React.FC = () => {
@@ -13,8 +15,7 @@ const Contacts: React.FC = () => {
     setMessage(event.target.value);
   };
 
-  // Replace 'YOUR_API_KEY' with your actual Google Maps API key
-  const apiKey = "YOUR_API_KEY";
+
 
   return (
     <div className="flex mt-8">
@@ -48,14 +49,29 @@ const Contacts: React.FC = () => {
           <CTAButton text="Submit" />
         </div>
       </form>
-      <div className="flex flex-1">
-        <GoogleMap apiKey={apiKey} />{" "}
-        {/* Pass the API key to the GoogleMap component */}
+      
+      <div className="flex flex-col flex-1 gap-4 mt-36">
+      <div>
+      <div className="mt-4" style={{ display: 'flex', alignItems: 'center' }}>
+      <IoMdMail style={{ marginRight: '5px' }} />
+      <span>emuhombe@gmail.com</span>
+    </div>
+    <div className="mt-4" style={{ display: 'flex', alignItems: 'center' }}>
+      <BsTelephoneFill style={{ marginRight: '5px' }} />
+      <span>+254 7012 17 788</span>
+    </div>
+        <div className="mt-4" style={{ display: 'flex', alignItems: 'center' }}>
+      <MdLocationPin style={{ marginRight: '5px' }} />
+      <span>Kisumu, Kenya</span>
+    </div>
+        
       </div>
-      <div className="flex flex-row mt-4">
-        {" "}
-        {/* Add 'mt-4' class to create space */}
-        <SocialMediaIcons />
+      <div className="mt-16">
+          {/* Add 'mt-4' class to create space */}
+          <SocialMediaIcons />
+
+      </div>
+      
       </div>
     </div>
   );
