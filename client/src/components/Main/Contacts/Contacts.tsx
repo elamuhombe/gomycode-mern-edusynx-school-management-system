@@ -1,78 +1,75 @@
 import React, { useState } from "react";
 import { TextField } from "@mui/material";
-import SocialMediaIcons from "./SocialMediaIcons";
-import { IoMdMail} from "react-icons/io";
-import { BsTelephoneFill } from "react-icons/bs";
-import { MdLocationPin } from "react-icons/md";
 import CTAButton from "../../shared/CTAButton";
 
 const Contacts: React.FC = () => {
-  // State to store the message value
+  // State variables to store form input values
+  const [names, setNames] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [emailAddress, setEmailAddress] = useState("");
   const [message, setMessage] = useState("");
 
-  // Function to handle changes in the message field
+  // Event handlers to update state variables when form inputs change
+  const handleNamesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNames(event.target.value);
+  };
+
+  const handlePhoneNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPhoneNumber(event.target.value);
+  };
+
+  const handleEmailAddressChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmailAddress(event.target.value);
+  };
+
   const handleMessageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(event.target.value);
   };
 
-
+  // Function to handle form submission
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // Prevent default form submission
+    try {
+      // Send form data to backend service
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ names, phoneNumber, emailAddress, message }),
+      });
+      // Display success message if email sent successfully
+      if (response.ok) {
+        alert("Email sent successfully!");
+      } else {
+        // Throw error if email sending failed
+        throw new Error("Failed to send email");
+      }
+    } catch (error) {
+      // Log and display error message if an error occurs
+      console.error("Error sending email:", error);
+      alert("Failed to send email. Please try again later.");
+    }
+  };
 
   return (
     <div className="flex mt-8">
-      {/* Form to add new contact */}
-      <form className="flex flex-col flex-1 gap-4">
+      {/* Form to collect user input */}
+      <form className="flex flex-col flex-1 gap-4" onSubmit={handleSubmit}>
         <h3 className="text-xl font-600">Get In Touch</h3>
-        <p>
-          Please feel free to contact us if you have any questions, comments, or
-          inquiries. We'd love to hear from you!
-        </p>
+        <p>Please feel free to contact us if you have any questions, comments, or inquiries. We'd love to hear from you!</p>
         <div className="flex flex-1 flex-col w-80">
-          <TextField id="names" label="Names" variant="standard" />
-          <TextField id="phoneNumber" label="Phone Number" variant="standard" />
-          <TextField
-            id="emailAddress"
-            label="Email Address"
-            variant="standard"
-          />
-          {/* Text field for the message */}
-          <TextField
-            id="message"
-            label="Message"
-            variant="standard"
-            value={message}
-            onChange={handleMessageChange}
-            multiline
-            rows={4}
-          />
+          {/* Text fields for user input */}
+          <TextField id="names" label="Names" variant="standard" value={names} onChange={handleNamesChange} />
+          <TextField id="phoneNumber" label="Phone Number" variant="standard" value={phoneNumber} onChange={handlePhoneNumberChange} />
+          <TextField id="emailAddress" label="Email Address" variant="standard" value={emailAddress} onChange={handleEmailAddressChange} />
+          <TextField id="message" label="Message" variant="standard" value={message} onChange={handleMessageChange} multiline rows={4} />
         </div>
         <div>
-          <CTAButton text="Submit" />
+          {/* Submit button */}
+          <CTAButton text="Submit" type="submit" />
         </div>
       </form>
-      
-      <div className="flex flex-col flex-1 gap-4 mt-36">
-      <div>
-      <div className="mt-4" style={{ display: 'flex', alignItems: 'center' }}>
-      <IoMdMail style={{ marginRight: '5px' }} />
-      <span>emuhombe@gmail.com</span>
-    </div>
-    <div className="mt-4" style={{ display: 'flex', alignItems: 'center' }}>
-      <BsTelephoneFill style={{ marginRight: '5px' }} />
-      <span>+254 7012 17 788</span>
-    </div>
-        <div className="mt-4" style={{ display: 'flex', alignItems: 'center' }}>
-      <MdLocationPin style={{ marginRight: '5px' }} />
-      <span>Kisumu, Kenya</span>
-    </div>
-        
-      </div>
-      <div className="mt-16">
-          {/* Add 'mt-4' class to create space */}
-          <SocialMediaIcons />
-
-      </div>
-      
-      </div>
     </div>
   );
 };
