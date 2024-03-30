@@ -1,7 +1,9 @@
 import React from "react";
 import CTAButton from "../shared/CTAButton";
 
+
 const Hero: React.FC = () => {
+
   return (
     <div>
       {/* Hero Section */}
