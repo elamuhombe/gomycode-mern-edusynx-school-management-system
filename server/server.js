@@ -1,30 +1,34 @@
-// Import required modules
 const express = require('express');
-const mongoose = require('mongoose');
+const sendEmail = require('./api/sendEmail')
 const path = require('path');
-require ('dotenv').config;
+require('dotenv').config();
 
-// Create an instance of the express server
 const app = express();
 const PORT = 5000;
 
-/*
-const MONGO_URI =process.env.MONGO_URI;
+app.use(express.json());
 
-// Connect to MongoDB 
-async function connectToDatabase() {
-    try {
-        await mongoose.connect(MONGO_URI);
-        console.log('Connection to edusynx database successful');
-    } catch(error) {
-        console.log('Unable to connect to database:', error.message);
-    }
-}
-// Run the connectToDatabase function
-connectToDatabase();
-**/
+app.post('/api/sendEmail', async (req, res) => {
+  try {
+    // Log the request body to inspect the payload
+    console.log('Request body:', req.body);
 
-app.listen(PORT, ()=>{
-    console.log(`server is currently running at ${PORT}`)
+    // Extract email data from the request body
+    const { from, message } = req.body;
+
+    // Call the function to send the email
+    const result = await sendEmail({ from, message });
+
+    // Respond with a success message
+    res.status(200).json(result);
+  } catch (error) {
+    // Handle errors and respond with an error message
+    console.error('Error sending email:', error);
+    res.status(500).json({ success: false, error: 'Failed to send email' });
+  }
 });
 
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
