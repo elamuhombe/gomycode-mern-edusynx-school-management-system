@@ -1,12 +1,19 @@
 const express = require('express');
 const sendEmail = require('./api/sendEmail')
 const path = require('path');
+const mongoose = require('mongoose');
+
 require('dotenv').config();
 
 const app = express();
 const PORT = 5000;
 
 app.use(express.json());
+
+// Connect to MongoDB database
+mongoose.connect('mongodb://localhost:27017/SchoolDB')
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.error('Error connecting to MongoDB:', err));
 
 app.post('/api/sendEmail', async (req, res) => {
   try {
