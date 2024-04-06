@@ -23,12 +23,11 @@ const Login: React.FC = () => {
         dispatch({type:"UPDATE_USER",payload:{
           ...state.loggedInUser, ...data.accountDetails
         }})
-     return navigate('/adminDashboard')
+     return navigate('/dashboard/admin')
       }
 
 
-      // Navigate to the next page upon successful login
-      // navigate('/adminDashBoard');
+     
     } catch (error) {
       console.error('Error occurred:', error);
     }
