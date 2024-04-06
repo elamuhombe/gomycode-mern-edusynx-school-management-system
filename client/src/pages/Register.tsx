@@ -1,20 +1,18 @@
 import React from "react";
-import { Footer, Header } from "../components";
-import { TextField } from "@mui/material";
-import CTAButton from "../components/shared/CTAButton";
+import Header from './../components/shared/Header/Header'; // Importing Header component
+import { Footer } from "../components"; // Importing Footer component
+import { TextField, Select, MenuItem } from "@mui/material"; // Importing necessary MUI components
+import CTAButton from "../components/shared/CTAButton"; // Importing CTAButton component
 
-const Register: React.FC = () => {
+const Register: React.FC = () => { // Functional component Register
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <Header />
-      <div className="flex flex-col items-center w-full max-w-md px-4 justify-center">
-        {" "}
-        {/* Added justify-center class */}
-        {/* Form to Register */}
-        <form className="flex flex-col w-full gap-4">
-          <h3 className="text-xl font-600">Register</h3>
-          <p>Please fill out the registration form below.</p>
-          <div className="flex flex-col w-full gap-4">
+    <div className="flex flex-col items-center justify-center min-h-screen"> {/* Main container */}
+      <Header /> {/* Rendering Header component */}
+      <div className="flex flex-col items-center w-full max-w-md px-4 justify-center"> {/* Form container */}
+        <form className="flex flex-col w-full gap-4"> {/* Form */}
+          <h3 className="text-xl font-600">Register</h3> {/* Form title */}
+          <p>Please fill out the registration form below.</p> {/* Form description */}
+          <div className="flex flex-col w-full gap-4"> {/* Form fields */}
             <div className="w-full">
               <TextField
                 id="schoolName"
@@ -37,43 +35,40 @@ const Register: React.FC = () => {
               />
             </div>
           </div>
-          <div className="flex flex-col md:flex-row w-full gap-4">
-            <TextField
-              id="postalAddress"
-              label="Postal  Address"
-              variant="standard"
-              className="md:w-1/2"
-            />
-            <TextField
-              id="postalCode"
-              label="Postal Code"
-              variant="standard"
-              className="md:w-1/4"
-            />
-          </div>
-          <div className="flex flex-col md:flex-row w-full gap-4">
-            <TextField
+          
+          <div className="flex flex-col md:flex-row w-full gap-4"> {/* City and Country selectors */}
+            <Select
               id="city"
               label="City"
               variant="standard"
               className="md:w-1/2"
-            />
-            <TextField
+            >
+              <MenuItem value="Nairobi">Nairobi</MenuItem>
+              <MenuItem value="Mombasa">Mombasa</MenuItem>
+              <MenuItem value="Kisumu">Kisumu</MenuItem>
+              <MenuItem value="Eldoret">Eldoret</MenuItem>
+              <MenuItem value="Nakuru">Kisumu</MenuItem> {/* Fixing value to Nakuru */}
+              {/* Add more cities as needed */}
+            </Select>
+            <Select
               id="country"
               label="Country"
               variant="standard"
+              defaultValue="Kenya" // Set Kenya as default
               className="md:w-1/2"
-            />
+            >
+              <MenuItem value="Kenya">Kenya</MenuItem> {/* Default country */}
+              {/* Add more countries as needed */}
+            </Select>
           </div>
-          {/* Center the button */}
           <div className="text-center">
-            <CTAButton text="Register" />
+            <CTAButton text="Register" to={""} /> {/* Rendering CTAButton component */}
           </div>
         </form>
       </div>
-      <Footer />
+      <Footer /> {/* Rendering Footer component */}
     </div>
   );
 };
 
-export default Register;
+export default Register; // Exporting Register component
