@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Home, Features, Contact, Login, FAQ, Documentation, AdminDashboard,
   EnrollmentOfficerDashboard, ParentDashboard, AccountantDashboard, HeadTeacherDashboard,
   TeacherDashboard} from './pages/index';
-import { GlobalStateProvider } from "./context/useGlobalState";
+
+  import { GlobalStateProvider } from "./hooks/useGlobalContext";
 import ViewStudents from "./pages/Students/ViewStudents";
 ;
 
@@ -20,7 +21,7 @@ const App: React.FC = () => {
             <Route path="/dashboard/teacher" element={<TeacherDashboard />} />
             <Route path="/dashboard/headteacher" element={<HeadTeacherDashboard />} />
             <Route path="/dashboard/admin" element={<AdminDashboard />} />
-            <Route path="/Login" element={<Login />} />
+            <Route path="/login" element={<Login />} />
             {/* <Route path="/reset-password" element={<ResetPassword />} /> */}
             {/* <Route path="/register" element={<Register />} /> */}
             <Route path="/contact" element={<Contact />} />
