@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FaBell, FaUser } from 'react-icons/fa';
-import { useGlobalState } from '../../context/useGlobalState';
+import { useGlobalState } from '../../hooks/useGlobalContext';
 
 interface TopbarProps {
   title: string;
