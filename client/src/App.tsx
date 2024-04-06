@@ -1,36 +1,36 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-
-import Services from './pages/Features';
-import ContactUs from './pages/ContactUs';
-import Login from './pages/Login';
-import ResetPassword from './components/Login/ResetPassword';
-import Register from './pages/Register';
-import FAQ from './pages/support/FAQ';
-import Documentation from './pages/support/Documentation';
-import { GlobalStateProvider } from './context/useGlobalState';
-
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Home, Features, Contact, Login, FAQ, Documentation, AdminDashboard,
+  EnrollmentOfficerDashboard, ParentDashboard, AccountantDashboard, HeadTeacherDashboard,
+  TeacherDashboard} from './pages/index';
+import { GlobalStateProvider } from "./context/useGlobalState";
+import ViewStudents from "./pages/Students/ViewStudents";
+;
 
 const App: React.FC = () => {
   return (
     <GlobalStateProvider>
-    <Router>
-      <div className="m-4 font-sans">
-      
-        <Routes>
-          <Route path="/Login" element={<Login />} />
-          <Route path ="/reset-password" element={<ResetPassword/>} />
-          <Route path="/Register" element={<Register />} />
-          <Route path="/ContactUs" element={<ContactUs />} />
-          <Route path="/Features" element={<Services />} />
-          <Route path="/support/FAQ" element ={<FAQ />} />
-          <Route path="/support/Documentation" element ={<Documentation/>} />
-          <Route path="/" element={<Home />} />
-        </Routes>
-      
-      </div>
-    </Router>
+      <Router>
+        <div className="m-4 font-sans">
+          <Routes>
+            <Route path="/ViewStudents" element={<ViewStudents />} />
+            <Route path="/dashboard/parent" element={<ParentDashboard />} />
+            <Route path="/dashboard/accountant" element={<AccountantDashboard />} />
+            <Route path="/dashboard/enrollment-officer" element={<EnrollmentOfficerDashboard />} />
+            <Route path="/dashboard/teacher" element={<TeacherDashboard />} />
+            <Route path="/dashboard/headteacher" element={<HeadTeacherDashboard />} />
+            <Route path="/dashboard/admin" element={<AdminDashboard />} />
+            <Route path="/Login" element={<Login />} />
+            {/* <Route path="/reset-password" element={<ResetPassword />} /> */}
+            {/* <Route path="/register" element={<Register />} /> */}
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/features" element={<Features />} />
+            <Route path="/support/FAQ" element={<FAQ />} />
+            <Route path="/support/Documentation" element={<Documentation />} />
+            <Route path="/" element={<Home />} />
+          </Routes>
+        </div>
+      </Router>
     </GlobalStateProvider>
   );
 };
