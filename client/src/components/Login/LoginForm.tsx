@@ -1,33 +1,69 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
+import { Link, useNavigate } from 'react-router-dom';
 
 
-interface LoginFormProps {
-  onSubmit: (username: string, password: string) => void;
-}
 
-const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
+const LoginForm: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const navigate = useNavigate(); // Initialize useNavigate hook
+ 
+  const navigate = useNavigate();
 
-  const handleLogin = (event: React.FormEvent) => {
+
+  const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
-    // Here you can implement your login logic
-    if (username === 'example' && password === 'password') {
-      console.log('Login successful!');
-      // Redirect or perform any other action upon successful login
-    } else {
-      setError('Invalid username or password');
+    console.log({username, password})
+  fetch('http://localhost:5100/login', {
+    method: 'POST',
+    body: JSON.stringify({username, password})
+  }).then(res =>res.json())
+    .then(data =>{
+      console.log(data)
+    }).catch(error =>console.log(error.message))
+    return;
+  
+   /*
+    try {
+      // Loop through users array to find matching username and password
+      const matchedUser = state.users.find(
+        user => user.email === username && user.password === password
+      );
+  
+      if (matchedUser) {
+        switch (matchedUser.role) {
+          case Role.Admin:
+            navigate('/dashboard/admin');
+            break;
+          case Role.HeadTeacher:
+            navigate('/dashboard/headteacher');
+            break;
+          case Role.Teacher:
+            navigate('/dashboard/teacher');
+            break;
+          case Role.Accountant:
+            navigate('/dashboard/accountant');
+            break;
+          case Role.EnrollmentOfficer:
+            navigate('/dashboard/enrollment-officer');
+            break;
+          default:
+            setError('Invalid user role');
+        }
+      } else {
+        setError('Invalid username or password');
+      }
+    } catch (error) {
+      console.error('Login failed:', error);
+      setError('Login failed. Please try again.');
     }
+    */
   };
 
   const usernameEntered = username.trim() !== '';
   const passwordEntered = password.trim() !== '';
 
   const handleResetPassword = () => {
-    navigate('/reset-password'); // Use navigate to redirect to the ResetPassword page
+    navigate('/reset-password');
   };
 
   return (
@@ -42,6 +78,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
             placeholder='username'
             onChange={(e) => setUsername(e.target.value)}
             className={`w-full border border-gray-400 p-2 ${usernameEntered ? 'bg-blue-50' : ''}`}
+            autoComplete='username'
             required
           />
         </div>
@@ -51,18 +88,19 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
             type="password"
             id="password"
             value={password}
-            placeholder='Password'
+            placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
             className={`w-full border border-gray-400 p-2 ${passwordEntered ? 'bg-blue-50' : ''}`}
+            autoComplete="current-password" // Add autocomplete attribute
             required
           />
         </div>
-        {error && <div className="text-red-500 mb-4">{error}</div>}
+       
         
         <button type="submit" className="mt-8 w-full bg-red-400 text-white py-2 rounded hover:bg-blue-600">Login</button>
       </form>
       <p>
-        <button onClick={handleResetPassword} className="text-blue-500 underline">Forgot your password?</button> {/* Use button to trigger navigate */}
+        <button onClick={handleResetPassword} className="text-blue-500 underline">Forgot your password?</button>
       </p>
       <p>
         Don't have an account? <Link to="/register">Register</Link>
