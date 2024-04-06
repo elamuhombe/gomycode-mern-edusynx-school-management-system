@@ -1,91 +1,92 @@
-import React, { createContext, useContext, useReducer, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useReducer,
+  ReactNode,
+} from "react";
 
-// Step 1: Define types
-interface User {
-  // Define your User type
-  name: string
-  email: string
-  password?: string
-  role: 'admin' |'user'
+// Define enum for user roles
+export enum Role {
+  Admin = "admin",
+  HeadTeacher = "headteacher",
+  Teacher = "teacher",
+  Parent = "parent",
+  Accountant = "accountant",
+  EnrollmentOfficer = "enrollment-officer",
 }
 
-interface Student {
-  // Define your Student type
+// Define types
+export interface User {
+  name: string;
+  email: string;
+  password?: string;
+  role: Role;
 }
 
-interface Teacher {
-  // Define your Teacher type
+// Define GlobalState type
+export interface GlobalState {
+  users: User[];
+  loggedInUser: User | null;
 }
 
-interface Subject {
-  // Define your Subject type
-}
+const initialState: GlobalState = {
+  users: [],
+  loggedInUser: null,
+};
 
-interface Guardian {
-  // Define your Guardian type
-}
+type Action = { type: "UPDATE_USERS" | "UPDATE_USER"; payload: any };
 
-interface GlobalState {
-  user: User | null;
-  students: Student[];
-  teachers: Teacher[];
-  subjects: Subject[];
-  guardians: Guardian[];
-}
-const initialState:GlobalState={
-  user:null,
-  students:[],
-  teachers:[],
-  subjects:[],
-  guardians:[]
-}
-type Action =
-  | { type: 'UPDATE_USER'; payload: User }
-  | { type: 'UPDATE_STUDENTS'; payload: Student[] }
-  | { type: 'UPDATE_TEACHERS'; payload: Teacher[] }
-  | { type: 'UPDATE_SUBJECTS'; payload: Subject[] }
-  | { type: 'UPDATE_GUARDIANS'; payload: Guardian[] };
+// Create context
+const GlobalStateContext = createContext<
+  | {
+      state: GlobalState;
+      dispatch: React.Dispatch<Action>;
+      getUserRole: (state: GlobalState) => Role;
+    }
+  | undefined
+>(undefined);
 
-// Step 2: Create context
-const GlobalStateContext = createContext<{ state: GlobalState; dispatch: React.Dispatch<Action> } | undefined>(undefined);
-
-// Step 3: Custom hook to access state and update it
+// Custom hook to access state and update it
 export const useGlobalState = () => {
   const context = useContext(GlobalStateContext);
   if (!context) {
-    throw new Error('useGlobalState must be used within a GlobalStateProvider');
+    throw new Error("useGlobalState must be used within a GlobalStateProvider");
   }
   return context;
 };
 
-// Step 4: Reducer function to update state
+// Reducer function to update state
 const reducer = (state: GlobalState, action: Action): GlobalState => {
   switch (action.type) {
-    case 'UPDATE_USER':
-      return { ...state, user: action.payload };
-    case 'UPDATE_STUDENTS':
-      return { ...state, students: action.payload };
-    case 'UPDATE_TEACHERS':
-      return { ...state, teachers: action.payload };
-    case 'UPDATE_SUBJECTS':
-      return { ...state, subjects: action.payload };
-    case 'UPDATE_GUARDIANS':
-      return { ...state, guardians: action.payload };
+    case "UPDATE_USERS":
+      return { ...state, users: action.payload };
+    case "UPDATE_USER":
+      return { ...state, loggedInUser: action.payload };
     default:
       return state;
   }
 };
 
-// Step 4: GlobalStateProvider component
+// GlobalStateProvider component
 interface GlobalStateProviderProps {
   children: ReactNode;
 }
 
-export const GlobalStateProvider: React.FC<GlobalStateProviderProps> = ({ children }) => {
+export const GlobalStateProvider: React.FC<GlobalStateProviderProps> = ({
+  children,
+}) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+
+  // Function to get the user role
+  const getUserRole = (state: GlobalState) => {
+    // Assuming the first user in the state represents the current user
+    const currentUser = state.users[0];
+    return currentUser ? currentUser.role : Role.Admin; // Default to Admin role if no user is available
+  };
+
   return (
-    <GlobalStateContext.Provider value={{ state, dispatch }}>
+    <GlobalStateContext.Provider value={{ state, dispatch, getUserRole }}>
       {children}
     </GlobalStateContext.Provider>
   );
