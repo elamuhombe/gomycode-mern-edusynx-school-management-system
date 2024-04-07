@@ -1,5 +1,3 @@
-
-
 import express,{ Request, Response } from "express";
 import mongoose from 'mongoose';
 
@@ -7,6 +5,7 @@ import cors from "cors";
 import sendEmail from "./services/sendEmail"; // Import the sendEmail function
 import { schoolRouter } from "./routes/schoolRoute";
 import { loginRouter } from "./routes/loginRoute"
+// import { teacherRouter } from "./routes/teacherRoute";
 
 require('dotenv').config();
 
@@ -17,6 +16,7 @@ app.use(express.json());
 
 const uri = process.env.MONGODB_URI as string;
 
+// Connect to MongoDB
 mongoose.connect(uri)
   .then(() => {
     console.log("MongoDB connected successfully");
@@ -33,6 +33,9 @@ app.use(schoolRouter)
 
 // Mount Login route
 app.use(loginRouter)
+
+// Mount Login route
+// app.use(teacherRouter)
 
 // Route handler for signup form submissions
 app.use('/sendEmail', async (req, res) => {
