@@ -2,7 +2,7 @@ import React from "react";
 import Header from './../components/shared/Header/Header'; // Importing Header component
 import { Footer } from "../components"; // Importing Footer component
 import { TextField, Select, MenuItem } from "@mui/material"; // Importing necessary MUI components
-import CTAButton from "../components/shared/CTAButton"; // Importing CTAButton component
+// import CTAButton from "../components/shared/CTAButton"; // Importing CTAButton component
 
 const Register: React.FC = () => { // Functional component Register
   return (
@@ -47,8 +47,8 @@ const Register: React.FC = () => { // Functional component Register
               <MenuItem value="Mombasa">Mombasa</MenuItem>
               <MenuItem value="Kisumu">Kisumu</MenuItem>
               <MenuItem value="Eldoret">Eldoret</MenuItem>
-              <MenuItem value="Nakuru">Kisumu</MenuItem> {/* Fixing value to Nakuru */}
-              {/* Add more cities as needed */}
+              <MenuItem value="Nakuru">Kisumu</MenuItem> 
+          
             </Select>
             <Select
               id="country"
@@ -61,9 +61,11 @@ const Register: React.FC = () => { // Functional component Register
               {/* Add more countries as needed */}
             </Select>
           </div>
-          <div className="text-center">
-            <CTAButton text="Register" to={""} /> {/* Rendering CTAButton component */}
-          </div>
+          {/* 
+        <div className="text-center">
+          <CTAButton text="Register"  />
+        </div> 
+      */}
         </form>
       </div>
       <Footer /> {/* Rendering Footer component */}
