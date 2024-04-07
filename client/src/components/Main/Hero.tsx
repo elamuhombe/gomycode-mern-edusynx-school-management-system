@@ -1,7 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom"; // Import Link from React Router
 import CTAButton from "../shared/CTAButton";
 
+
 const Hero: React.FC = () => {
+
   return (
     <div>
       {/* Hero Section */}
@@ -46,7 +49,9 @@ const Hero: React.FC = () => {
               <br></br>
             </div>
           </div>
-          <CTAButton text="Get Started" />
+          <Link to="/register">
+            <CTAButton text="Get Started" />
+          </Link>
         </div>
         <div className="flex-1 flex justify-center">
           <img src="/images/school-software.png" alt="School System" />

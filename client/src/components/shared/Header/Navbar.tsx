@@ -21,7 +21,7 @@ const Navbar: React.FC = () => {
   // Define array of links with their respective URLs
   const links = [
     { text: 'Home', url: '/' },
-    { text: 'Services', url: '/Services' }, // Corrected URL for Services
+    { text: 'Features', url: '/Features' }, // Corrected URL for Services
     { text: 'Contact Us', url: '/ContactUs' },
     { text: 'Register', url: '/Register' },
     { text: 'Login', url: '/Login' },

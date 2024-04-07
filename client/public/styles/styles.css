@@ -2,6 +2,12 @@
 .bullet {
   background-image: url('../images/check-mark.png'); /* URL of the image */
   background-repeat: no-repeat;
-  background-size: contain; /* Adjust to fit the image size */
-  padding-left: 30px; 
+  background-size: contain; /* Adjust to fit the image size */ 
+  padding-left: 48px;
+  display: flex;
+  align-items: center;
+}
+/* Topbar icon styles */
+.icon{
+  color: grey;
 }

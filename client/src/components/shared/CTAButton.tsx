@@ -1,25 +1,21 @@
-import React from 'react';
-import { useCustomNavigation } from '../../hooks/useNavigation'; // Import the custom navigation hook
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-interface CTAButtonProps {
-  text: string;
-}
+const CTAButton = ({ text, to }:{text:string; to: string}) => {
+  const [clicked, setClicked] = useState(false);
 
-const CTAButton: React.FC<CTAButtonProps> = ({ text }) => {
-  const { goToRegisterPage } = useCustomNavigation(); // Call the hook to get the navigation function
-
-  // Directly navigate to the register page
   const handleClick = () => {
-    goToRegisterPage(); // Use the navigation function to navigate
+    setClicked(true);
   };
 
   return (
-    <button 
-      className="w-40 bg-red-400 hover:bg-blue-700 text-white font-bold py-2 px-8 rounded-full mt-4" 
-      onClick={handleClick} // Attach the click handler
+    <Link
+      to={to}
+      onClick={handleClick}
+      className={`mt-4 inline-block ${clicked ? 'bg-gray-500' : 'bg-red-400'} hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full`}
     >
       {text}
-    </button>
+    </Link>
   );
 };
 
