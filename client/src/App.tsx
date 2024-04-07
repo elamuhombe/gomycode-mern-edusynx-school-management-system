@@ -1,12 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Home, Features, Contact, Login, FAQ, Documentation, AdminDashboard,
+import { Home, Features, Register, Contact, Login, FAQ, Documentation, AdminDashboard,
   EnrollmentOfficerDashboard, ParentDashboard, AccountantDashboard, HeadTeacherDashboard,
-  TeacherDashboard} from './pages/index';
+  TeacherDashboard,
+  AddTeacher} from './pages/index';
 
-  import { GlobalStateProvider } from "./hooks/useGlobalContext";
+import { GlobalStateProvider } from "./hooks/useGlobalContext";
 import ViewStudents from "./pages/Students/ViewStudents";
-;
 
 const App: React.FC = () => {
   return (
@@ -14,6 +14,7 @@ const App: React.FC = () => {
       <Router>
         <div className="m-4 font-sans">
           <Routes>
+          <Route path="/AddTeacher" element={<AddTeacher />} />
             <Route path="/ViewStudents" element={<ViewStudents />} />
             <Route path="/dashboard/parent" element={<ParentDashboard />} />
             <Route path="/dashboard/accountant" element={<AccountantDashboard />} />
@@ -21,9 +22,9 @@ const App: React.FC = () => {
             <Route path="/dashboard/teacher" element={<TeacherDashboard />} />
             <Route path="/dashboard/headteacher" element={<HeadTeacherDashboard />} />
             <Route path="/dashboard/admin" element={<AdminDashboard />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<Login />} /> 
             {/* <Route path="/reset-password" element={<ResetPassword />} /> */}
-            {/* <Route path="/register" element={<Register />} /> */}
+            <Route path="/register" element={<Register />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/features" element={<Features />} />
             <Route path="/support/FAQ" element={<FAQ />} />
