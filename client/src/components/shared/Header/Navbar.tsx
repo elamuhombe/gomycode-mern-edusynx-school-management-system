@@ -21,10 +21,10 @@ const Navbar: React.FC = () => {
   // Define array of links with their respective URLs
   const links = [
     { text: 'Home', url: '/' },
-    { text: 'Features', url: '/Features' }, // Corrected URL for Services
-    { text: 'Contact Us', url: '/ContactUs' },
-    { text: 'Register', url: '/Register' },
-    { text: 'Login', url: '/Login' },
+    { text: 'Features', url: '/features' }, // Corrected URL for Services
+    { text: 'Contact Us', url: '/contact' },
+    { text: 'Register', url: '/register' },
+    { text: 'Login', url: '/login' },
   ];
 
   return (
