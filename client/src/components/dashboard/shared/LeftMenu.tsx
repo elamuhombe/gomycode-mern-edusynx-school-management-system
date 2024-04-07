@@ -1,52 +1,34 @@
 import React, { useState } from 'react';
-import { FaChevronLeft, FaChevronRight, FaSignOutAlt } from 'react-icons/fa';
-import { Link} from 'react-router-dom';
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const LeftMenu: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isFinanceOpen, setIsFinanceOpen] = useState(false);
-  const [isStudentsOpen, setIsStudentsOpen] = useState(false);
-  const [isTeachersOpen, setIsTeachersOpen] = useState(false);
-  const [isReportsOpen, setIsReportsOpen] = useState(false);
-  const [isParentsOpen, setIsParentsOpen] = useState(false);
-  const [isHeadTeacherOpen, setIsHeadTeacherOpen] = useState(false);
+  const [activeMenu, setActiveMenu] = useState<string | null>(null);
 
-
+  const menuItems = [
+    { name: "Finance", submenus: ["Add Expense", "Delete Expense"] },
+    { name: "Students", submenus: ["Add Student", "Delete Student"] },
+    { name: "Teachers", submenus: ["Add Teacher", "Delete Teacher"] },
+    { 
+      name: "Reports", 
+      submenus: [
+        "Students Reports", 
+        "Teachers Reports", 
+        "Accounts Report"
+      ] 
+    },
+    { name: "Parents", submenus: ["Add Parent", "Delete Parent"] },
+    { name: "Head Teacher", submenus: ["Add Head Teacher", "Delete Head Teacher"] },
+  ];
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+    setActiveMenu(null);
   };
 
-  const toggleFinanceMenu = () => {
-    setIsFinanceOpen(!isFinanceOpen);
-  };
-
-  const toggleStudentsMenu = () => {
-    setIsStudentsOpen(!isStudentsOpen);
-  };
-
-  const toggleTeachersMenu = () => {
-    setIsTeachersOpen(!isTeachersOpen);
-  };
-
-  const toggleReportsMenu = () => {
-    setIsReportsOpen(!isReportsOpen);
-  };
-
-  const toggleParentsMenu = () => {
-    setIsParentsOpen(!isParentsOpen);
-  };
-
-  const toggleHeadTeacherMenu = () => {
-    setIsHeadTeacherOpen(!isHeadTeacherOpen);
-  };
-
-  const handleLogout = () => {
-    // Implement your logout logic here
-    // For example, clear session data, etc.
-    console.log('Logged out...');
-
-  
+  const toggleSubmenu = (menuName: string) => {
+    setActiveMenu(activeMenu === menuName ? null : menuName);
   };
 
   return (
@@ -57,110 +39,31 @@ const LeftMenu: React.FC = () => {
         <div className="py-4 px-6">
           {/* Your menu items */}
           <ul>
-            <li className="text-white py-2">DashBoard</li>
-            <li className="text-white py-2 flex justify-between" onClick={toggleStudentsMenu}>
-              Students
-              {isStudentsOpen ? (
-                <FaChevronLeft className="text-white ml-2" onClick={toggleStudentsMenu} />
-              ) : (
-                <FaChevronRight className="text-white ml-2" onClick={toggleStudentsMenu} />
-              )}
-            </li>
-            {isStudentsOpen && (
-              <ul>
-                <li className="text-white py-2 pl-4">
-              {/* Link to ViewStudents */}
-              <Link to="/ViewStudents">View Students</Link>
-            </li>
-                <li className="text-white py-2 pl-4">Add Student</li>
-                {/* Add more student-related options as needed */}
-              </ul>
-            )}
-            <li className="text-white py-2 flex justify-between" onClick={toggleTeachersMenu}>
-              Teachers
-              {isTeachersOpen ? (
-                <FaChevronLeft className="text-white ml-2" onClick={toggleTeachersMenu} />
-              ) : (
-                <FaChevronRight className="text-white ml-2" onClick={toggleTeachersMenu} />
-              )}
-            </li>
-            {isTeachersOpen && (
-              <ul>
-                <li className="text-white py-2 pl-4">View Teachers</li>
-                <li className="text-white py-2 pl-4">Add Teacher</li>
-                {/* Add more teacher-related options as needed */}
-              </ul>
-            )}
-            <li className="text-white py-2 flex justify-between" onClick={toggleFinanceMenu}>
-              Finance
-              {isFinanceOpen ? (
-                <FaChevronLeft className="text-white ml-2" onClick={toggleFinanceMenu} />
-              ) : (
-                <FaChevronRight className="text-white ml-2" onClick={toggleFinanceMenu} />
-              )}
-            </li>
-            {isFinanceOpen && (
-              <ul>
-                <li className="text-white py-2 pl-4">Accounts</li>
-                <li className="text-white py-2 pl-4">Expenses</li>
-                {/* Add more finance-related options as needed */}
-              </ul>
-            )}
-            <li className="text-white py-2 flex justify-between" onClick={toggleReportsMenu}>
-              Reports
-              {isReportsOpen ? (
-                <FaChevronLeft className="text-white ml-2" onClick={toggleReportsMenu} />
-              ) : (
-                <FaChevronRight className="text-white ml-2" onClick={toggleReportsMenu} />
-              )}
-            </li>
-            {isReportsOpen && (
-              <ul>
-                <li className="text-white py-2 pl-4">Financial Reports</li>
-                <li className="text-white py-2 pl-4">Attendance Reports</li>
-                {/* Add more report-related options as needed */}
-              </ul>
-            )}
-            <li className="text-white py-2 flex justify-between" onClick={toggleParentsMenu}>
-              Parents
-              {isParentsOpen ? (
-                <FaChevronLeft className="text-white ml-2" onClick={toggleParentsMenu} />
-              ) : (
-                <FaChevronRight className="text-white ml-2" onClick={toggleParentsMenu} />
-              )}
-            </li>
-            {isParentsOpen && (
-              <ul>
-                <li className="text-white py-2 pl-4">View Parents</li>
-                <li className="text-white py-2 pl-4">Add Parent</li>
-                {/* Add more parent-related options as needed */}
-              </ul>
-            )}
-            <li className="text-white py-2 flex justify-between" onClick={toggleHeadTeacherMenu}>
-              Head Teacher
-              {isHeadTeacherOpen ? (
-                <FaChevronLeft className="text-white ml-2" onClick={toggleHeadTeacherMenu} />
-              ) : (
-                <FaChevronRight className="text-white ml-2" onClick={toggleHeadTeacherMenu} />
-              )}
-            </li>
-            {isHeadTeacherOpen && (
-              <ul>
-                <li className="text-white py-2 pl-4">View Head Teacher</li>
-                <li className="text-white py-2 pl-4">Assign Tasks</li>
-                {/* Add more head teacher-related options as needed */}
-              </ul>
-            )}
-            <li className="text-white py-2 flex justify-between" onClick={handleLogout}>
-        <Link to="/login" className="flex items-center">
-          Logout
-          <FaSignOutAlt className="text-white ml-2" />
-        </Link>
-      </li>
+            {menuItems.map((item, index) => (
+              <li key={index} className="text-white py-2">
+                <div className="flex justify-between items-center">
+                  <span>{item.name}</span>
+                  {item.submenus && (
+                    <button onClick={() => toggleSubmenu(item.name)} className="focus:outline-none">
+                      {activeMenu === item.name ? <FaChevronUp className="text-white" /> : <FaChevronDown className="text-white" />}
+                    </button>
+                  )}
+                </div>
+                {activeMenu === item.name && (
+                  <ul>
+                    {item.submenus.map((submenu, subIndex) => (
+                      <li key={subIndex} className="text-white py-2 pl-4">
+                        <Link to={`/reports/${submenu.toLowerCase().replace(/\s+/g, "-")}`}>{submenu}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
+            {/* Add more menu items as needed */}
           </ul>
         </div>
       </aside>
-
       {/* Toggle Button */}
       <div className="flex justify-start bg-gray-700 p-4">
         <button onClick={toggleMenu} className="text-white focus:outline-none">
