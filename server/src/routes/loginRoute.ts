@@ -14,6 +14,7 @@ loginRouter.post("/login", async (req: Request, res: Response) => {
     }
     if (!accountDetails) {
       throw Error("invaid username or password");
+      // res.send({success: true, accountDetails:{name:'user1',email:'user@example.com', role:'Teacher'}})
     } else {
       // const  {password, ...rest} = accountDetails
       // res.json({accountDetails:{...accountDetails,role: 'admin'}, success: true})
