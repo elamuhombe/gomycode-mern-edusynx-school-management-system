@@ -1,62 +1,32 @@
-import mongoose, { Document, Model } from 'mongoose';
+import mongoose, { Document, Model, Types } from "mongoose";
+// Import Subject interface
 
-// Enum to represent the possible genders
-enum Gender {
-  MALE = 'male',
-  FEMALE = 'female'
-}
 
 // Interface for the Teacher document
 interface ITeacher extends Document {
-  firstName: string;
-  lastName: string;
-  username: string;
-  email: string;
-  phoneNumber?: string;
-  gender: Gender;
-  isClassTeacher: boolean;
-  teachingSubjects: string[];
-  school: string;
+  user: Types.ObjectId[];
+  classrooms: Types.ObjectId[];
 }
 
 // Interface for the Teacher model
 interface ITeacherModel extends Model<ITeacher> {}
 
-// Define the schema
+
+
+// Define the schema for Teacher
 const teacherSchema = new mongoose.Schema<ITeacher>({
-  firstName: {
-    type: String,
-    required: true
+
+  classrooms: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "Class",
+    default: [],
   },
-  lastName: {
-    type: String,
-    required: true
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    lowercase: true
-  },
-  phoneNumber: {
-    type: String
-  },
-  gender: {
-    type: String,
-    enum: Object.values(Gender),
-    required: true
-  },
-  isClassTeacher: {
-    type: Boolean,
-    required: true
-  },
-  teachingSubjects: {
-    type: [String],
-    default: []
-  }
 });
 
-// Create a Mongoose model based on the schema
-const Teacher: Model<ITeacher> = mongoose.model<ITeacher, ITeacherModel>('Teacher', teacherSchema);
+// Create models
+const Teacher: Model<ITeacher> = mongoose.model<ITeacher, ITeacherModel>(
+  "Teacher",
+  teacherSchema
+);
 
-export { Teacher, ITeacher, Gender };
+export { Teacher, ITeacher };

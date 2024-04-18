@@ -1,16 +1,21 @@
 import express, { Request, Response } from "express";
 import { ISchool, School } from "../models/School";
+import { User } from "../models/User";
 
 const loginRouter = express.Router();
 
 loginRouter.post("/login", async (req: Request, res: Response) => {
   try {
-    let accountDetails:ISchool|{} = {};
-    const { username ="", password = "" } = req.body;
-    console.log({postData:req.body})
+    //let accountDetails:ISchool|{} = {};
+    let accountDetails: ISchool | null;
+
+    const { username = "", password = "" } = req.body;
+    console.log({ postData: req.body });
     if (username.includes("@")) {
+      accountDetails =
+        (await User.findOne({ email: username, password })) || null;
     } else {
-      accountDetails = await School.findOne({ username, password })|| {};
+      accountDetails = (await School.findOne({ username, password })) || null;
     }
     if (!accountDetails) {
       throw Error("invaid username or password");
@@ -18,8 +23,8 @@ loginRouter.post("/login", async (req: Request, res: Response) => {
     } else {
       // const  {password, ...rest} = accountDetails
       // res.json({accountDetails:{...accountDetails,role: 'admin'}, success: true})
-      
-      res.json({accountDetails, success: true})
+      //accountDetails['role'] = "Accountant"
+      res.json({ accountDetails, success: true });
     }
   } catch (error: any) {
     console.log({ loginError: error.message });

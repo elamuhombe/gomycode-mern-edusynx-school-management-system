@@ -12,7 +12,7 @@ const CTAButton = ({ text, to }:{text:string; to: string}) => {
     <Link
       to={to}
       onClick={handleClick}
-      className={`mt-4 inline-block ${clicked ? 'bg-gray-500' : 'bg-red-400'} hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full`}
+      className={`mt-4 inline-block ${clicked ? 'bg-red-200' : 'bg-red-400'} hover:bg-orange-400 text-white font-bold py-2 px-4 rounded-full`}
     >
       {text}
     </Link>

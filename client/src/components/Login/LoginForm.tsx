@@ -1,63 +1,79 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useGlobalState } from '../../hooks/useGlobalContext';
+
+
 
 
 
 const LoginForm: React.FC = () => {
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
- 
+ const {state, dispatch} = useGlobalState();
   const navigate = useNavigate();
 
 
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log({username, password})
-  fetch('http://localhost:5100/login', {
-    method: 'POST',
-    body: JSON.stringify({username, password})
-  }).then(res =>res.json())
-    .then(data =>{
-      console.log(data)
-    }).catch(error =>console.log(error.message))
-    return;
   
-   /*
+    console.log({ username, password });
+  
     try {
-      // Loop through users array to find matching username and password
-      const matchedUser = state.users.find(
-        user => user.email === username && user.password === password
-      );
+      const response = await fetch('http://localhost:5100/login', {
+        method: 'POST',
+        body: JSON.stringify({ username, password }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
   
+      if (!response.ok) {
+        throw new Error('Failed to log in');
+      }
+  
+      const data = await response.json();
+  
+      dispatch({
+        type: 'UPDATE_USER',
+        payload: {
+          ...state.loggedInUser,
+          ...data.accountDetails
+        }
+      });
+    
+  
+      // Navigation based on user's role
+      const matchedUser = data.matchedUser;
       if (matchedUser) {
         switch (matchedUser.role) {
-          case Role.Admin:
+          case 'admin':
             navigate('/dashboard/admin');
             break;
-          case Role.HeadTeacher:
+          case 'headteacher':
             navigate('/dashboard/headteacher');
             break;
-          case Role.Teacher:
+          case 'teacher':
             navigate('/dashboard/teacher');
             break;
-          case Role.Accountant:
+          case 'accountant':
             navigate('/dashboard/accountant');
             break;
-          case Role.EnrollmentOfficer:
+          case 'enrollment-officer':
             navigate('/dashboard/enrollment-officer');
             break;
           default:
-            setError('Invalid user role');
+            console.error('Invalid user role');
         }
       } else {
-        setError('Invalid username or password');
+        console.error('Invalid username or password');
       }
     } catch (error) {
       console.error('Login failed:', error);
-      setError('Login failed. Please try again.');
+      // Handle error, display message to user, etc.
     }
-    */
   };
+  
 
   const usernameEntered = username.trim() !== '';
   const passwordEntered = password.trim() !== '';

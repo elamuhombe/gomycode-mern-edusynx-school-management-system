@@ -22,15 +22,18 @@ export interface User {
   email: string;
   password?: string;
   role: Role;
+  _id?: string;
 }
 
 // Define GlobalState type
 export interface GlobalState {
+  userRole: Role; // Fix: Change 'any' to 'Role'
   users: User[];
   loggedInUser: User | null;
 }
 
 const initialState: GlobalState = {
+  userRole: Role.Admin, // Set initial userRole to Admin
   users: [],
   loggedInUser: null,
 };
@@ -51,7 +54,9 @@ const GlobalStateContext = createContext<
 export const useGlobalState = () => {
   const context = useContext(GlobalStateContext);
   if (!context) {
-    throw new Error("useGlobalState must be used within a GlobalStateProvider");
+    throw new Error(
+      "useGlobalState must be used within a GlobalStateProvider"
+    );
   }
   return context;
 };
@@ -100,24 +105,6 @@ export const GlobalStateProvider: React.FC<GlobalStateProviderProps> = ({
         password: "teacher123",
         role: Role.Teacher,
       },
-      {
-        name: "Parent User",
-        email: "parent@example.com",
-        password: "parent123",
-        role: Role.Parent,
-      },
-      {
-        name: "Sandra M",
-        email: "sandra@example.com",
-        password: "account123",
-        role: Role.Accountant,
-      },
-      {
-        name: "Ibrahim H",
-        email: "ibrahim@example.com",
-        password: "officer123",
-        role: Role.EnrollmentOfficer,
-      },
     ];
 
     dispatch({ type: "UPDATE_USERS", payload: dummyUserData });
@@ -126,7 +113,7 @@ export const GlobalStateProvider: React.FC<GlobalStateProviderProps> = ({
   // Function to get the user role
   const getUserRole = (state: GlobalState) => {
     // Assuming the first user in the state represents the current user
-    const currentUser = state.users[0];
+    const currentUser = state.loggedInUser;
     return currentUser ? currentUser.role : Role.Admin; // Default to Admin role if no user is available
   };
 

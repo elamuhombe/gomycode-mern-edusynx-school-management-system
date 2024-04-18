@@ -1,6 +1,6 @@
 import React from "react";
 
-const Accountant: React.FC = () => {
+const AccountantDashboard: React.FC = () => {
  
 
 
@@ -13,4 +13,4 @@ const Accountant: React.FC = () => {
   );
 };
 
-export default Accountant ;
+export default AccountantDashboard ;

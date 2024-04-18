@@ -10,7 +10,7 @@ const BackButton = () => {
   };
 
   return (
-    <button onClick={goBack} style={{ display: 'flex', alignItems: 'center' }}>
+    <button onClick={goBack} style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
       <FaArrowLeft style={{ marginRight: '5px' }} /> {/* Use the FaArrowLeft icon */}
       <span>Back</span>
     </button>

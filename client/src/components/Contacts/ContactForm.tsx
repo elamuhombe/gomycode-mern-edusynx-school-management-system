@@ -44,9 +44,10 @@ const ContactForm: React.FC = () => {
           <TextField id="email" label="Email Address" variant="standard" name="email" value={formData.email} onChange={handleChange} />
           <TextField id="message" label="Message" variant="standard" name="message" value={formData.message} onChange={handleChange} multiline rows={4} />
         </div>
-        <button className = 'bg-color-red-400 w-60' type="submit" >
-          'Get Started!j'
-        </button>
+        <button className=" bg-red-400 w-60 text-white font-bold py-2 px-4 rounded-full" type="submit">
+  Submit
+</button>
+
         {error && <p className="text-red-500">{error}</p>}
       </form>
     </div>

@@ -1,34 +1,31 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '../components/shared/Header/Header';
-import { useFetch } from '../hooks/useFetch'
-import { useGlobalState } from '../hooks/useGlobalContext'
+import { useFetch } from '../hooks/useFetch';
+import { useGlobalState } from '../hooks/useGlobalContext';
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-  const {handleLogin: handLogin} = useFetch('http://localhost:5100/schools');
-  const {state, dispatch} = useGlobalState()
+  const { handleLogin: handLogin } = useFetch('http://localhost:5100/schools');
+  const { state, dispatch } = useGlobalState();
+
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
     
     try {
       // Fetch data using useFetch hook
-      const data = await handLogin('http://localhost:5100/login', {username, password});
+      const data = await handLogin('http://localhost:5100/login', { username, password });
       
       // Handle response data
-      // console.log({ useFetchData: data });
-      if(data.accountDetails){
-        dispatch({type:"UPDATE_USER",payload:{
-          ...state.loggedInUser, ...data.accountDetails
-        }})
-     return navigate('/dashboard/admin')
+      if (data.accountDetails) {
+        dispatch({
+          type: "UPDATE_USER",
+          payload: { ...state.loggedInUser, ...data.accountDetails }
+        });
+        return navigate('/dashboard/admin');
       }
-
-
-     
-      
     } catch (error) {
       console.error('Error occurred:', error);
     }
@@ -42,10 +39,10 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col ">
       <Header />
-      <div className='flex flex-col my-auto'>
-        <form onSubmit={(e) => handleLogin(e)}>
+      <div className='flex flex-col items-center justify-center h-screen'>
+        <form onSubmit={(e) => handleLogin(e)} className="w-full max-w-sm">
           <div className="mb-4">
             <label htmlFor="username" className="block mb-2">Username:</label>
             <input

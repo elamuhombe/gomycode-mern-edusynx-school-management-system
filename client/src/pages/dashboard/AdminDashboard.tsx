@@ -2,7 +2,7 @@ import React from 'react'
 import LeftMenu from "../../components/dashboard/shared/LeftMenu";
 import Topbar from "../../components/shared/Topbar";
 import Card from "../../components/dashboard/shared/cards/Card";
-import GenderBarChart from "../../components/dashboard/admin/charts/GenderBarChart";
+// import GenderBarChart from "../../components/dashboard/admin/charts/GenderBarChart";
 import { useGlobalState } from '../../hooks/useGlobalContext';
 
 
@@ -28,7 +28,7 @@ const AdminDashboard: React.FC = () => {
           <Card title="Total Income" description="800,000" />
           <Card title="Students Gender Data" description="">
             {/* Pass the required props to GenderBarChart */}
-            <GenderBarChart girlsData={18000} boysData={12000} />
+            {/* <GenderBarChart />  */}
           </Card>
         </div>
       </div>
