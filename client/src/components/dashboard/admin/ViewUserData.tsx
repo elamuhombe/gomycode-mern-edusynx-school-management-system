@@ -4,6 +4,8 @@ import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import { IUser } from "../../../types";
 import AddStudentForm from "./AddStudentForm";
 import { useGlobalState } from "../../../hooks/useGlobalContext";
+import { useNavigate } from "react-router-dom";
+
 
 const ViewUserData: React.FC = () => {
   const [users, setUsers] = useState<IUser[]>([]);
@@ -13,11 +15,16 @@ const ViewUserData: React.FC = () => {
   const [showAddStudentForm, setShowAddStudentForm] = useState<boolean>(false);
   const [editingUserId, setEditingUserId] = useState<string | null>(null);
   const [editedUser, setEditedUser] = useState<IUser | null>(null);
+ 
   const { submitForm } = useSubmitForm();
+  const navigate = useNavigate();
+ 
+  const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
   const {
     state: { loggedInUser },
   } = useGlobalState();
-  useEffect(() => {
+
+useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       const path = "http://localhost:5100/user/";
@@ -166,7 +173,14 @@ const ViewUserData: React.FC = () => {
                     <td className="border px-4 py-2">
                       {user.role === "guardian" ? (
                         <button
-                          onClick={() => setShowAddStudentForm(true)}
+                          onClick={() => {
+                            setSelectedUser(user);
+                           
+                            navigate('/add/add-student',{state: {guardian:user} });
+                           
+
+                            setShowAddStudentForm(true);
+                          }}
                           className="text-blue-500 hover:underline focus:outline-none">
                           {user.role}
                         </button>
@@ -206,10 +220,17 @@ const ViewUserData: React.FC = () => {
       {showAddStudentForm && (
         <div>
           <h2 className="text-lg font-semibold mb-4">Add Student Form</h2>
-          <AddStudentForm
-            onClose={handleCloseAddStudentForm}
-            familyNumber={null}
-          />
+          {showAddStudentForm && (
+  <div>
+    <h2 className="text-lg font-semibold mb-4">Add Student Form</h2>
+    <AddStudentForm
+      onClose={handleCloseAddStudentForm}
+      familyNumber={0}
+      guardians={[]}
+    />
+  </div>
+)}
+
         </div>
       )}
     </div>

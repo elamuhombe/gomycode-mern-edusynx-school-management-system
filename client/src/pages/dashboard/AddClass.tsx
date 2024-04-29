@@ -1,6 +1,6 @@
 import React from "react";
 import LeftMenu from "../../components/dashboard/shared/LeftMenu";
-import Topbar from "../../components/shared/Topbar";
+import Topbar from "../../components/dashboard/shared/Topbar";
 import BackButton from "../../components/BackButton";
 import AddClassForm from "../../components/dashboard/admin/AddClassForm";
 

@@ -18,25 +18,46 @@ import {
   ViewClass,
   AddSubject,
   AddUser,
+  ViewSubject,
+  AddAttendance,
+  AddExam,
+  AddStudentMarks,
+  ViewExam,
+  ViewStudentTotalMarks,
+  ViewAttendance
 } from "./pages/index";
 
-import { GlobalStateProvider } from "./hooks/useGlobalContext";
 import ViewStudents from "./pages/Students/ViewStudents";
 import ViewUser from "./pages/dashboard/ViewUser";
+import GlobalStateProvider from "./hooks/useGlobalContext";
+import AddStudentForm from "./components/dashboard/admin/AddStudentForm";
+// import { configDotenv } from "dotenv";
+
 
 const App: React.FC = () => {
+  // configDotenv()
   return (
     <GlobalStateProvider>
       <Router>
         <div className="m-4 font-sans">
           <Routes>
+          <Route path="/view/view-subject" element={<ViewSubject />} />
             <Route path="/add/add-user" element={<AddUser />} />
+            <Route path="add/add-students-marks-entry" element={<AddStudentMarks />} />
+
+            <Route path="/add/add-attendance" element={<AddAttendance />} />
             <Route path="/add/add-subject" element={<AddSubject />} />
             <Route path="/view/view-class" element={<ViewClass />} />
-            <Route path="/add/add-student" element={<AddStudent />} />
+            <Route path="/add/add-student" element={<AddStudentForm onClose={function (): void {
+              throw new Error("Function not implemented.");
+            } } familyNumber={null} guardian={null} />} />
             <Route path="/add/add-class" element={<AddClass />} />
+            <Route path="/add/add-exam" element={<AddExam />} />
             <Route path="/view/view-users" element={<ViewUser />} />
             <Route path="/ViewStudents" element={<ViewStudents />} />
+            <Route path="/view/view-exam" element={<ViewExam />} />
+            <Route path="/view/view-attendance" element={<ViewAttendance />} />
+            <Route path="/view/view-student-total-marks" element={<ViewStudentTotalMarks />} />
 
             <Route
               path="/dashboard/accountant"

@@ -6,16 +6,16 @@ const userRouter = express.Router();
 
 // Validation middleware for creating or updating a user
 const validateUser = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-  const { firstName, lastName,gender, school, email,familyNumber, role, password } = req.body;
+  const { firstName, lastName,gender, school, email,familyNumber,teachingSubjects, className,isClassTeacher, role, password} = req.body;
 
   next();
 };
 
 // Create a user
 userRouter.post('/user', validateUser, async (req, res) => {
-  const {firstName, lastName,gender, school,familyNumber, email, role, password}=req.body
+  const {firstName, lastName,gender, school,familyNumber,teachingSubjects,isClassTeacher,className, email, role, password}=req.body
   try {
-    const user = new User({firstName, lastName,gender, familyNumber,school, email, role, password: password || "123456"}); // Create a new user instance
+    const user = new User({firstName, lastName,gender, isClassTeacher,className, teachingSubjects, familyNumber,school, email, role, password: password || "123456"}); // Create a new user instance
     let savedUser=await user.save(); // Save the user to the database
     console.log({savedUser})
     if(!savedUser) throw Error('error occured while creating user')
@@ -156,6 +156,28 @@ userRouter.delete('/user/:userId', async (req, res) => {
   } catch (error: any) {
     console.error('Error deleting user:', error.message);
     res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+});
+
+userRouter.get('/user/count/:userId', async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    // Validate userId
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ error: 'Invalid studentId' });
+    }
+
+    // Count the number of documents in the User collection
+    const documentCount = await User.countDocuments({});
+
+    // Send the count as a JSON response
+    res.json({ count: documentCount });
+  } catch (error) {
+    // If an error occurs during the counting process
+    console.error('Error counting documents:', error);
+    // Send a 500 status response with an error message
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 

@@ -1,24 +1,29 @@
-import mongoose, { Schema, Document, Types } from 'mongoose';
-import { IStudent } from "./../models/Student";
+import mongoose, { Schema, Document } from 'mongoose';
+import { IStudentAttendance } from './StudentAttendance';
 
 // Define interface for the document
 interface IAttendance extends Document {
-    date: Date;
-    remarks?: string;
-    status: 'Present' | 'Absent' | 'Late' | 'Leave';
-    student: Types.ObjectId | IStudent;
+    className: string;
+    date: string;
+    studentAttendances: IStudentAttendance[]; // Array of student attendance data
 }
 
 // Define the schema
 const AttendanceSchema: Schema = new Schema({
-    date: { type: Date, required: true },
-    remarks: { type: String },
-    status: { type: String, enum: ['Present', 'Absent', 'Late', 'Leave'], required: true },
-   student: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Student",
+    className: {
+        type: String,
+        ref: "Classes",
         required: true,
-      },
+    },
+    date: { type: Date, required: true },
+    studentAttendances: [{
+        studentName: {
+            type: String, // Store the student's name as a string
+            ref: "Student",
+            required: true
+          },
+        isPresent: { type: Boolean, required: true }
+    }]
 });
 
 // Define and export the model

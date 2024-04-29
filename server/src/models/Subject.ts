@@ -1,10 +1,11 @@
 import mongoose, { Document, Model, Types } from "mongoose";
+import { IUser } from "./User";
 
 // Interface for the Subject document
 interface ISubject extends Document {
   subject_name: string;
-  teachers: Types.ObjectId[];
-  classes: Types.ObjectId[];
+  department: string;
+  teacher: Types.ObjectId | IUser;
 }
 
 // Interface for the Subject model
@@ -12,19 +13,18 @@ interface ISubjectModel extends Model<ISubject> {}
 
 // Define the schema for Subject
 const subjectSchema = new mongoose.Schema<ISubject>({
+  teacher: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Teacher",
+    required: true,
+  },
   subject_name: {
     type: String,
     required: true,
   },
-  teachers: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: "Teacher",
-    default: [],
-  },
-  classes: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: "Class",
-    default: [],
+  department: {
+    type: String,
+    required: true,
   },
 });
 

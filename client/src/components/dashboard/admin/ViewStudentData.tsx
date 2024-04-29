@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import useSubmitForm from "./../../../hooks/useSubmitForm";
+import {useSubmitForm} from "./../../../hooks/hooks";
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 
 // Define interface for student object

@@ -5,6 +5,8 @@ import React, {
   ReactNode,
   useEffect,
 } from "react";
+import { ISchool, IUser } from "../types";
+import useUserAuth from "./useUserAuth";
 
 // Define enum for user roles
 export enum Role {
@@ -15,16 +17,19 @@ export enum Role {
   Accountant = "accountant",
   EnrollmentOfficer = "enrollment-officer",
 }
-
-// Define types
-export interface User {
-  name: string;
+/**
+ * export interface User {
+   name: string;
   email: string;
   password?: string;
   role: Role;
   _id?: string;
 }
+ 
+ */
 
+
+type User = ISchool 
 // Define GlobalState type
 export interface GlobalState {
   userRole: Role; // Fix: Change 'any' to 'Role'
@@ -45,7 +50,7 @@ const GlobalStateContext = createContext<
   | {
       state: GlobalState;
       dispatch: React.Dispatch<Action>;
-      getUserRole: (state: GlobalState) => Role;
+     // getUserRole: (state: GlobalState) => Role;
     }
   | undefined
 >(undefined);
@@ -54,9 +59,7 @@ const GlobalStateContext = createContext<
 export const useGlobalState = () => {
   const context = useContext(GlobalStateContext);
   if (!context) {
-    throw new Error(
-      "useGlobalState must be used within a GlobalStateProvider"
-    );
+    throw new Error("useGlobalState must be used within a GlobalStateProvider");
   }
   return context;
 };
@@ -78,38 +81,21 @@ interface GlobalStateProviderProps {
   children: ReactNode;
 }
 
-export const GlobalStateProvider: React.FC<GlobalStateProviderProps> = ({
+const GlobalStateProvider: React.FC<GlobalStateProviderProps> = ({
   children,
 }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const userAuth = useUserAuth();
 
   useEffect(() => {
-    // Simulate fetching user data by using the dummy data directly
-    // You can update all users here if needed
-    const dummyUserData: User[] = [
-      {
-        name: "Felix G",
-        email: "admin@example.com",
-        password: "admin123",
-        role: Role.Admin,
-      },
-      {
-        name: "Danny H",
-        email: "headteacher@example.com",
-        password: "headteacher123",
-        role: Role.HeadTeacher,
-      },
-      {
-        name: "Teacher User",
-        email: "teacher@example.com",
-        password: "teacher123",
-        role: Role.Teacher,
-      },
-    ];
-
-    dispatch({ type: "UPDATE_USERS", payload: dummyUserData });
-  }, []);
-
+    if (userAuth.isLoggedIn) {
+      dispatch({
+        type: 'UPDATE_USER',
+        payload: userAuth.savedUser
+      });
+    }
+  }, [userAuth.isLoggedIn, userAuth.savedUser]);
+  
   // Function to get the user role
   const getUserRole = (state: GlobalState) => {
     // Assuming the first user in the state represents the current user
@@ -118,8 +104,10 @@ export const GlobalStateProvider: React.FC<GlobalStateProviderProps> = ({
   };
 
   return (
-    <GlobalStateContext.Provider value={{ state, dispatch, getUserRole }}>
+    <GlobalStateContext.Provider value={{ state, dispatch}}>
       {children}
     </GlobalStateContext.Provider>
   );
 };
+
+export default GlobalStateProvider;

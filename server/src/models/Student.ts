@@ -1,21 +1,30 @@
 // Student.ts
-import mongoose, { Document, Model, Types } from "mongoose";
+import mongoose, { Document, Model, Schema, Types } from "mongoose";
 import { ISchool } from "./School";
-import { IGuardian } from "./Guardian";
+import { IUser } from "./User";
 import { IClass } from "./Classes";
 
+// Enum for student gender
+enum Gender {
+  BOY = 'boy',
+  GIRL = 'girl',
+}
 // Interface for the Student document
 interface IStudent extends Document {
-  firstName: string;
-  lastName: string;
-  gender: string;
-  school: Types.ObjectId | ISchool;
-  schoolClass: Types.ObjectId | IClass;
+  studentFirstName: string;
+  studentLastName: string;
+  studentGender: Gender;
+  school: string | ISchool;
+  student: string | IStudent;
+  className: Types.ObjectId | IClass;
   previousSchool: string;
   registrationDate: Date;
   dateOfBirth: Date;
-  guardianFamilyNumber: Number;
-  guardian: Types.ObjectId | IGuardian;
+  adm: number;
+  guardian: Types.ObjectId | IUser;
+  exam: Schema.Types.ObjectId;
+  studentId?: String;
+
 }
 
 // Interface for the Student model
@@ -23,21 +32,26 @@ interface IStudentModel extends Model<IStudent> {}
 
 // Define the schema for Student
 const studentSchema = new mongoose.Schema<IStudent>({
-  firstName: {
+  studentFirstName: {
     type: String,
     required: true,
   },
-  lastName: {
+  studentLastName: {
     type: String,
     required: true,
   },
-  gender: {
-    type: String,
+  adm: {
+    type: Number,
     required: true,
   },
-  schoolClass: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "schoolClass",
+  studentGender: {
+    type: String,
+    enum: Object.values(Gender), // Ensure only values from the enum are allowed
+    required: true,
+  },
+  className: {
+    type: String,
+    ref: "Class",
     required: true,
   },
   school: {
@@ -49,10 +63,6 @@ const studentSchema = new mongoose.Schema<IStudent>({
   guardian: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Guardian",
-    required: true,
-  },
-  guardianFamilyNumber: {
-    type: Number, 
     required: true,
   },
   previousSchool: {
@@ -67,6 +77,8 @@ const studentSchema = new mongoose.Schema<IStudent>({
     type: Date,
     required: true,
   },
+  exam: { type: Schema.Types.ObjectId, ref: 'Exam' },
+  studentId: { type: String }
 });
 
 // Create models

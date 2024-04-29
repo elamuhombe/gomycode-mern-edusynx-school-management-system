@@ -6,7 +6,7 @@ const ContactUs = () => {
     <div>
       <Header />
       <div className="flex justify-center">
-        {" "}
+   
         {/* Center horizontally */}
         <ContactForm/>
       </div>

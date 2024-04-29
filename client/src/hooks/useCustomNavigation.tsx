@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
 // Custom hook for navigation-related functions
-export function useCustomNavigation() {
+const useCustomNavigation = () => {
   // Access the navigation function from react-router-dom
   const navigate = useNavigate();
 
@@ -10,10 +10,11 @@ export function useCustomNavigation() {
     navigate('/register'); // Use the navigate function to go to the '/register' route
   };
 
-
   // Return an object containing the navigation functions
   return {
     goToRegisterPage, // Export the goToRegisterPage function
     // Add more functions as needed
   };
-}
+};
+
+export default useCustomNavigation;

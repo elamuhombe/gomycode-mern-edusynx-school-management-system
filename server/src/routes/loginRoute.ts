@@ -1,13 +1,13 @@
 import express, { Request, Response } from "express";
 import { ISchool, School } from "../models/School";
-import { User } from "../models/User";
+import { IUser, User } from "../models/User";
 
 const loginRouter = express.Router();
 
 loginRouter.post("/login", async (req: Request, res: Response) => {
   try {
     //let accountDetails:ISchool|{} = {};
-    let accountDetails: ISchool | null;
+    let accountDetails: ISchool| null;
 
     const { username = "", password = "" } = req.body;
     console.log({ postData: req.body });
@@ -16,6 +16,9 @@ loginRouter.post("/login", async (req: Request, res: Response) => {
         (await User.findOne({ email: username, password })) || null;
     } else {
       accountDetails = (await School.findOne({ username, password })) || null;
+      if(accountDetails){
+        accountDetails.school = accountDetails._id as string
+      }
     }
     if (!accountDetails) {
       throw Error("invaid username or password");

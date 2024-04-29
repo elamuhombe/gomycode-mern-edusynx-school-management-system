@@ -1,55 +1,43 @@
 import express, { Request, Response } from 'express';
-import { Guardian, IGuardian } from './../models/Guardian';
+import { User } from '../models/User'; // Import the User model
 
 const guardianRouter = express.Router();
 
+// Route to find guardians by family number
+guardianRouter.get('/guardians', async (req: Request, res: Response) => {
+  const { familyNumber } = req.query;
 
+  try {
+    // Find users with role 'guardian' and matching family number
+    const guardians = await User.find({ role: 'guardian', familyNumber });
 
-// Validation middleware for creating or updating a guardian
-const validateGuardian = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    const { name, contact_number, email, address, school, familyNumber } = req.body;
-    // console.log(req.body)
-  
-    // Check if required fields are provided
-    // if (!gender || !school || !studentClass || !previousSchool || !registrationDate || !dateOfBirth ) {
-      // return res.status(400).json({ message: 'All fields are required' });
-    // }
-  
-  
-  
-    // Continue to the next middleware if validation passes
-    next();
-  };
-// POST route to create a new guardian
-guardianRouter.post('/guardian', async (req: Request, res: Response) => {
-    // Your code to create a new guardian
-
-
-    const { ...others } = req.body;
-    
-        
-        try {
-            const guardian = new Guardian({ ...others }); // Create a new student instance
-            let savedGuardian = await guardian.save(); // Save the student to the database
-            console.log({ savedGuardian });
-            if (!savedGuardian) throw Error('error occurred while creating student');
-            res.status(201).json({ savedGuardian, success: true });
-          } catch (error: any) {
-            console.log({ guardianError: error.message });
-            res.status(400).send(error.message);
-          }
-        });
-
-// GET route to fetch all guardians
-guardianRouter.get('/guardian', async (req: Request, res: Response) => {
-    try {
-      // Fetch all guardians from the database
-      const guardian = await Guardian.find();
-      res.status(200).json(guardian);
-    } catch (error) {
-      console.error('Error fetching guardians:', error);
-      res.status(500).json({ message: 'Internal server error' });
+    if (guardians.length === 0) {
+      return res.status(404).json({ message: 'No guardians found for the provided family number.' });
     }
-  });
 
-export default guardianRouter;
+    res.status(200).json(guardians);
+  } catch (error) {
+    console.error('Error finding guardians:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Route to find all guardians
+guardianRouter.get('/guardian', async (req: Request, res: Response) => {
+  //const { familyNumber } = req.query;
+
+  try {
+    // Find users with role 'guardian' and matching family number
+    const guardians = await User.find({ role: 'guardian' });
+
+    if (guardians.length === 0) {
+      return res.status(404).json({ message: 'No guardians found for the provided family number.' });
+    }
+
+    res.status(200).json(guardians);
+  } catch (error) {
+    console.error('Error finding guardians:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+export { guardianRouter };

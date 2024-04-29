@@ -1,5 +1,5 @@
 import React from "react";
-import Topbar from "../../components/shared/Topbar";
+import Topbar from "../../components/dashboard/shared/Topbar";
 import LeftMenu from "../../components/dashboard/shared/LeftMenu";
 import BackButton from "../../components/BackButton";
 

@@ -1,16 +1,16 @@
-import React from 'react'
+import React from "react";
 import LeftMenu from "../../components/dashboard/shared/LeftMenu";
-import Topbar from "../../components/shared/Topbar";
+import Topbar from "../../components/dashboard/shared/Topbar";
 import Card from "../../components/dashboard/shared/cards/Card";
 // import GenderBarChart from "../../components/dashboard/admin/charts/GenderBarChart";
-import { useGlobalState } from '../../hooks/useGlobalContext';
+import { useGlobalState } from "../../hooks/useGlobalContext";
 
 const TeacherDashboard: React.FC = () => {
   const { state } = useGlobalState();
 
   return (
     <div className="bg-gray-200">
-      <h2>{state.loggedInUser?.name || 'no user'}</h2>
+      <h2>{state.loggedInUser?.name || "no user"}</h2>
       <div className="top-0 z-0">
         <Topbar title="TeacherDashboard" />
       </div>

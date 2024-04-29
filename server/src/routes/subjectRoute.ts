@@ -28,6 +28,45 @@ subjectRouter.post('/subject', validateSubject, async (req: Request, res: Respon
     }
 });
 
+// Update subject route
+subjectRouter.put('/subject/:subjectId', async (req, res) => {
+    const subjectId = req.params.subjectId;
+    const updatedSubjectData = req.body;
+  
+    try {
+      const subject = await Subject.findByIdAndUpdate(subjectId, updatedSubjectData, { new: true });
+  
+      if (!subject) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+  
+      res.json({ message: 'User updated successfully', subject });
+    } catch (error) {
+      console.error('Error:', error);
+      res.status(500).json({ error: 'Failed to update subject' });
+    }
+  });
+
+  // Delete a subject by ID
+subjectRouter.delete('/subject/:subjectId', async (req, res) => {
+    const _subjectId = req.params.subjectId; // Extract the user ID from the request parameters
+    try {
+      // Find the user by ID and delete it
+      const deletedSubject = await Subject.findByIdAndDelete(_subjectId);
+  
+      // Check if user exists
+      if (!deletedSubject) {
+        return res.status(404).json({ success: false, message: 'Subject not found' });
+      }
+  
+      // User successfully deleted
+      res.status(200).json({ success: true, message: 'User deleted successfully', deletedSubject });
+    } catch (error: any) {
+      console.error('Error deleting subject:', error.message);
+      res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+  });
+
 // GET route to fetch all subjects
 subjectRouter.get('/subject', async (req: Request, res: Response) => {
     try {

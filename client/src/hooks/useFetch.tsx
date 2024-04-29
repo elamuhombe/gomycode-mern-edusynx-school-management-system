@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { json } from "react-router-dom";
+//import { json } from "react-router-dom";
 
 const headers = { "Content-Type": "application/json" };
 
-export const useFetch = (
+const useFetch = (
   path: string,
   method: string = "GET",
   postData: any = null
@@ -14,6 +14,7 @@ export const useFetch = (
 
   useEffect(() => {
     async function getData() {
+      // alert(path)
       setIsLoading(true);
       try {
         let result = null;
@@ -57,11 +58,13 @@ export const useFetch = (
   }, [path, method, postData]);
 
   //   Handle Login
-  const handleLogin = async(
+  const handleLogin = async (
     path: string,
     data: { username: string; password: string }
   ) => {
-    return await (await fetch(path, { method: "POST", body: JSON.stringify(data), headers })).json();
+    return await (
+      await fetch(path, { method: "POST", body: JSON.stringify(data), headers })
+    ).json();
   };
   return {
     data,
@@ -70,3 +73,5 @@ export const useFetch = (
     handleLogin
   };
 };
+
+export default useFetch;

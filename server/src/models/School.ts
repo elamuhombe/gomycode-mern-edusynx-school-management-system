@@ -2,11 +2,13 @@ import mongoose, { Document, Model } from 'mongoose';
 
 // Interface for the School document
 interface ISchool  {
+  _id?:string,
   name: string,
   email: string,
   username: string,
   city: string,
   password: string;
+  school: string | ISchool
   role: string;
 status: { type: String, default: 'inactive' } // Default status is 'inactive'
 paymentID: String, // New field for payment ID

@@ -1,51 +1,21 @@
-import express, {Request, Response } from 'express';
-import { User } from '../models/User';
-
+import express, { Request, Response } from "express";
+import { User } from "../models/User"; // Import the User model
 
 const teacherRouter = express.Router();
+// Route to find all teachers
+teacherRouter.get("/teacher", async (req: Request, res: Response) => {
+  try {
+    // Find users with role 'teachers'
+    const teachers = await User.find({ role: "teacher" });
 
-// Import the User model
-
-
-// Route to get all teachers
-teacherRouter.get('/teacher', async (req: Request, res: Response) => {
-    try {
-        // Find all users with role 'teacher'
-        const teachers = await User.find({ role: 'teacher' });
-
-        res.json(teachers);
-    } catch (err) {
-        console.error('Error getting teachers:', err);
-        res.status(500).json({ message: 'Server Error' });
+    if (teachers.length === 0) {
+      return res.status(404).json({ message: "No teachers found." });
     }
+
+    res.status(200).json(teachers);
+  } catch (error) {
+    console.error("Error finding teachers", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 });
-
-// Route to add a new teacher
-teacherRouter.post('/teacher', async (req: Request, res: Response) => {
-    const { username, email, firstname, lastname, gender, school, teachingSubjects, isClassTeacher } = req.body;
-
-    try {
-        // Create a new teacher
-        const newTeacher = new User({
-            username,
-            email,
-            firstname,
-            lastname,
-            gender,
-            school,
-            role: 'teacher',
-            teachingSubjects,
-            isClassTeacher
-        });
-
-        // Save the new teacher to the database
-        await newTeacher.save();
-
-        res.status(201).json(newTeacher);
-    } catch (err) {
-        console.error('Error adding teacher:', err);
-        res.status(500).json({ message: 'Server Error' });
-    }
-});
-
-export{teacherRouter};
+export { teacherRouter };

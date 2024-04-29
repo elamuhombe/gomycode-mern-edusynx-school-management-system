@@ -1,101 +1,111 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { ISubject } from "../../../types";
+import { useGlobalState } from "../../../hooks/useGlobalContext";
+import useSubmitForm from "../../../hooks/useSubmitForm";
 
-interface AddSubjectFormProps {
-  onSubmit: (subjectData: any) => void;
-  teachers: { _id: string; name: string }[]; // Array of teachers
-  classes: { _id: string; name: string }[]; // Array of classes
-  streams:{_id: string; name: string}[];
-}
+// Define the structure of form data based on ISubject type
+type FormData = ISubject;
 
-const AddSubjectForm: React.FC<AddSubjectFormProps> = ({ onSubmit, teachers, classes, streams }) => {
-  const [subjectName, setSubjectName] = useState('');
-  const [selectedTeacher, setSelectedTeacher] = useState('');
-  const [selectedClass, setSelectedClass] = useState('');
-  const [selectedStream, setSelectedStream] = useState('');
+// Component for adding a new subject
+const AddSubjectForm: React.FC = () => {
+  const { state } = useGlobalState();
+  const { submitForm } = useSubmitForm();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Create subject data object
-    const subjectData = {
-      subject_name: subjectName,
-      teacher: selectedTeacher,
-      class: selectedClass,
-      stream: selectedStream
-    };
-    // Call onSubmit function passed from parent component
-    onSubmit(subjectData);
-    // Reset form fields after submission
-    setSubjectName('');
-    setSelectedTeacher('');
-    setSelectedClass('');
-    setSelectedStream('');
-  
+  // Initialize form data state
+  const [formData, setFormData] = useState<FormData>({
+    id: undefined,
+    _id: undefined,
+    subject_name: "",
+    schoolClass: "",
+    department: "",
+    school: state.loggedInUser ? state.loggedInUser._id || "" : "",
+  });
+
+  // Handler for input changes
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  // Handler for form submission
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    try {
+      // Submit form data to the server
+      const result = await submitForm("http://localhost:5100/subject", "POST", {
+        ...formData,
+        school: state.loggedInUser?._id,
+      });
+      if (result && result.message) {
+        console.error("Error:", result.message);
+      } else {
+        console.log("Successfully created subject:", result);
+        // Reset form data to default values
+        setFormData({
+          id: "",
+          _id: "",
+          subject_name: "",
+          department: "",
+          schoolClass: "",
+          school: state.loggedInUser ? state.loggedInUser._id || "" : "",
+        });
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-md mx-auto">
+    <form onSubmit={handleSubmit} className="max-w-xs mx-auto">
+      <h2 className="text-2xl font-bold mb-4">Add Subject</h2>
+
       <div className="mb-4">
-        <label htmlFor="subjectName" className="block font-medium text-gray-700">Subject Name:</label>
+        <label
+          htmlFor="subject_name"
+          className="block text-gray-700 text-sm font-bold mb-2">
+          Subject Name:
+        </label>
         <input
           type="text"
-          id="subjectName"
-          value={subjectName}
-          onChange={(e) => setSubjectName(e.target.value)}
-          className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+          id="subject_name"
+          name="subject_name"
+          value={formData.subject_name}
+          onChange={handleChange}
           required
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
-      <div className="mb-4">
-        <label htmlFor="teacher" className="block font-medium text-gray-700">Select Teacher:</label>
-        <select
-          id="teacher"
-          value={selectedTeacher}
-          onChange={(e) => setSelectedTeacher(e.target.value)}
-          className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-          required
-        >
-          <option value="" disabled>Select a teacher</option>
-          {teachers && teachers.map((teacher) => (
-  <option key={teacher._id} value={teacher._id}>{teacher.name}</option>
-))}
 
-        </select>
-      </div>
       <div className="mb-4">
-        <label htmlFor="class" className="block font-medium text-gray-700">Select Class:</label>
-        <select
-          id="class"
-          value={selectedClass}
-          onChange={(e) => setSelectedClass(e.target.value)}
-          className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-          required
-        >
-          <option value="" disabled>Select a class</option>
-          {classes.map((classItem) => (
-            <option key={classItem._id} value={classItem._id}>{classItem.name}</option>
-          ))}
-        </select>
+        <label
+          htmlFor="department"
+          className="block text-gray-700 text-sm font-bold mb-2">
+          Department:
+        </label>
+        <textarea
+          id="department"
+          name="department"
+          value={formData.department}
+          onChange={handleChange}
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+        />
       </div>
-      <div className="mb-4">
-        <label htmlFor="stream" className="block font-medium text-gray-700">Select Stream:</label>
-        <select
-  id="stream"
-  value={selectedStream}
-  onChange={(e) => setSelectedStream(e.target.value)}
-  className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-  required
->
-  <option value="" disabled>Select a Stream</option>
-  {streams && streams.map((stream) => (
-    <option key={stream._id} value={stream._id}>{stream.name}</option>
-  ))}
-</select>
 
+      <div className="mb-4">
+        <button
+          type="submit"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+          Add Subject
+        </button>
       </div>
-      <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">Add Subject</button>
     </form>
   );
- 
 };
 
 export default AddSubjectForm;

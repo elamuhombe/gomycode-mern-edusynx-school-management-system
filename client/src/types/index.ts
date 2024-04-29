@@ -1,17 +1,19 @@
-// Interface for the Guardian document
-export interface IGuardian {
-  name: string;
-  contact_number: string;
-  email: string;
-  address: string;
-  school: string | ISchool;
-  familyNumber: number;
-}
+// // Interface for the Guardian document
+// export interface IGuardian {
+//   name: string;
+//   contact_number: string;
+//   email: string;
+//   address: string;
+//   school: string | ISchool;
+//   familyNumber: number;
+// }
 
 // Interface for the School document
 export interface ISchool {
+  _id: string;
   name: string;
   email: string;
+  school: string | ISchool,
   username: string;
   city: string;
   password: string;
@@ -23,15 +25,16 @@ export interface ISchool {
 
 // Interface for the Student document
 export interface IStudent {
-  firstName: string;
-  lastName: string;
-  gender: string;
+  studentFirstName: string;
+  studentLastName: string;
+  studentGender: string;
   school: string | ISchool;
-  schoolClass: string | IClass;
+  className: string | IClass;
   previousSchool: string;
-  registrationDate: Date;
   dateOfBirth: Date;
-  guardians: string[] | IGuardian;
+  guardians: string[] | IUser;
+  id: string;
+  _id: string;
  
 }
 
@@ -41,22 +44,64 @@ export interface IClass {
   school: string | ISchool;
   className: string;
   year: number;
-
+  classId?: string;
 }
 
+// Interface for Attendance document
+export interface IAttendance {
+  className: string;
+  date: string;
+  studentAttendances: IStudentAttendance[]; // Array of student attendance data
+}
+
+// Interface for student attendance data
+export interface IStudentAttendance {
+  //studentName: string;
+  isPresent: boolean;
+  student: IStudent 
+}
+export interface IExam {
+  examName: string;
+  examDate: string;
+}
+
+
 export interface IUser {
-  id: void;
-  _id: any;
-  school: string | ISchool;
+  id: string;
+  _id: string;
+  school: ISchool | string;
   firstName: string;
   lastName: string;
   gender: string;
-  // username: string;
   email: string;
   role: string;
   password?: string;
-  familyNumber?: number | ""
-
+  familyNumber:string;
+  className: string | IClass;
+  subject_name: string |ISubject;
   teachingSubjects?: string[]; // Optional array of teaching subjects
   isClassTeacher?: boolean; // Optional boolean indicating whether the teacher is a class teacher
 }
+export interface ISubject {
+  _id: any;
+  id: any;
+  subject_name: string;
+  department: string;
+  school: ISchool | string;
+  schoolClass: string | IClass;
+}
+
+export interface ISubjectMarks {
+  subjectName: string;
+  marks: number;
+}
+// Interface for the StudentMarks document
+export interface IStudentMarks{
+  studentId: IStudent;
+  examId: IExam;
+  subjectMarks: {
+    subjectName: string;
+    marks: number;
+  }[];
+}
+
