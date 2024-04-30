@@ -5,6 +5,8 @@ import React, {
   ReactNode,
   useEffect,
 } from "react";
+import { ISchool, IUser } from "../types";
+import useUserAuth from "./useUserAuth";
 
 // Define enum for user roles
 export enum Role {
@@ -15,22 +17,28 @@ export enum Role {
   Accountant = "accountant",
   EnrollmentOfficer = "enrollment-officer",
 }
-
-// Define types
-export interface User {
-  name: string;
+/**
+ * export interface User {
+   name: string;
   email: string;
   password?: string;
   role: Role;
+  _id?: string;
 }
+ 
+ */
 
+
+type User = ISchool 
 // Define GlobalState type
 export interface GlobalState {
+  userRole: Role; // Fix: Change 'any' to 'Role'
   users: User[];
   loggedInUser: User | null;
 }
 
 const initialState: GlobalState = {
+  userRole: Role.Admin, // Set initial userRole to Admin
   users: [],
   loggedInUser: null,
 };
@@ -42,7 +50,7 @@ const GlobalStateContext = createContext<
   | {
       state: GlobalState;
       dispatch: React.Dispatch<Action>;
-      getUserRole: (state: GlobalState) => Role;
+     // getUserRole: (state: GlobalState) => Role;
     }
   | undefined
 >(undefined);
@@ -73,66 +81,33 @@ interface GlobalStateProviderProps {
   children: ReactNode;
 }
 
-export const GlobalStateProvider: React.FC<GlobalStateProviderProps> = ({
+const GlobalStateProvider: React.FC<GlobalStateProviderProps> = ({
   children,
 }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const userAuth = useUserAuth();
 
   useEffect(() => {
-    // Simulate fetching user data by using the dummy data directly
-    // You can update all users here if needed
-    const dummyUserData: User[] = [
-      {
-        name: "Felix G",
-        email: "admin@example.com",
-        password: "admin123",
-        role: Role.Admin,
-      },
-      {
-        name: "Danny H",
-        email: "headteacher@example.com",
-        password: "headteacher123",
-        role: Role.HeadTeacher,
-      },
-      {
-        name: "Teacher User",
-        email: "teacher@example.com",
-        password: "teacher123",
-        role: Role.Teacher,
-      },
-      {
-        name: "Parent User",
-        email: "parent@example.com",
-        password: "parent123",
-        role: Role.Parent,
-      },
-      {
-        name: "Sandra M",
-        email: "sandra@example.com",
-        password: "account123",
-        role: Role.Accountant,
-      },
-      {
-        name: "Ibrahim H",
-        email: "ibrahim@example.com",
-        password: "officer123",
-        role: Role.EnrollmentOfficer,
-      },
-    ];
-
-    dispatch({ type: "UPDATE_USERS", payload: dummyUserData });
-  }, []);
-
+    if (userAuth.isLoggedIn) {
+      dispatch({
+        type: 'UPDATE_USER',
+        payload: userAuth.savedUser
+      });
+    }
+  }, [userAuth.isLoggedIn, userAuth.savedUser]);
+  
   // Function to get the user role
   const getUserRole = (state: GlobalState) => {
     // Assuming the first user in the state represents the current user
-    const currentUser = state.users[0];
+    const currentUser = state.loggedInUser;
     return currentUser ? currentUser.role : Role.Admin; // Default to Admin role if no user is available
   };
 
   return (
-    <GlobalStateContext.Provider value={{ state, dispatch, getUserRole }}>
+    <GlobalStateContext.Provider value={{ state, dispatch}}>
       {children}
     </GlobalStateContext.Provider>
   );
 };
+
+export default GlobalStateProvider;

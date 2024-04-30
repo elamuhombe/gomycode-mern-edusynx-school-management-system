@@ -1,36 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent, FormEvent } from "react";
 import { TextField } from "@mui/material";
-import useSubmitForm from "./../../hooks/useSubmitForm"
+import useSubmitForm from "./../../hooks/useSubmitForm";
 
-const defaultFormData = {
+interface FormData {
+  names: string;
+  phoneNumber: string;
+  email: string;
+  message: string;
+}
+
+const defaultFormData: FormData = {
   names: "",
   phoneNumber: "",
   email: "",
   message: ""
 };
-const ContactForm: React.FC = () => {
-  const [formData, setFormData] = useState(defaultFormData);
-  
 
+const ContactForm: React.FC = () => {
+  const [formData, setFormData] = useState<FormData>(defaultFormData);
   const { error, submitForm } = useSubmitForm();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      console.log("Form Data:", formData); // Log formData object
+      console.log("Form Data:", formData);
       const result = await submitForm("http://localhost:5100/sendEmail", "POST", formData);
       console.log("Result:", result);
-      // Reset form data after successful submission if needed
       setFormData(defaultFormData);
     } catch (error) {
       console.error("Error:", error);
     }
   };
-  
-  
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
   };
 
   return (
@@ -44,8 +51,8 @@ const ContactForm: React.FC = () => {
           <TextField id="email" label="Email Address" variant="standard" name="email" value={formData.email} onChange={handleChange} />
           <TextField id="message" label="Message" variant="standard" name="message" value={formData.message} onChange={handleChange} multiline rows={4} />
         </div>
-        <button className = 'bg-color-red-400 w-60' type="submit" >
-          'Get Started!j'
+        <button className="bg-red-400 w-60 text-white font-bold py-2 px-4 rounded-full" type="submit">
+          Submit
         </button>
         {error && <p className="text-red-500">{error}</p>}
       </form>

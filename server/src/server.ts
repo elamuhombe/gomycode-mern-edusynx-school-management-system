@@ -5,6 +5,20 @@ import cors from "cors";
 import sendEmail from "./services/sendEmail"; // Import the sendEmail function
 import { schoolRouter } from "./routes/schoolRoute";
 import { loginRouter } from "./routes/loginRoute"
+import {studentRouter} from "./routes/studentRoute";
+import {teacherRouter} from "./routes/teacherRoute";
+import {userRouter} from "./routes/userRoute";
+import {guardianRouter} from "./routes/guardianRoute";
+import classRouter from "./routes/classRoute";
+import subjectRouter from "./routes/subjectRoute";
+import countStudentGenderRouter from "./routes/countStudentGenderDataRoute";
+import { User } from "./models/User";
+import { Student } from "./models/Student";
+import attendanceRouter from "./routes/attendanceRouter";
+import examMarksEntryRouter from "./routes/examMarksEntryRoute";
+import examRouter from "./routes/examRoute";
+import studentMarksRouter from "./routes/studentMarksRoute";
+
 // import { teacherRouter } from "./routes/teacherRoute";
 
 require('dotenv').config();
@@ -31,12 +45,54 @@ app.use(cors());
 // Mount School route
 app.use(schoolRouter)
 
+// Mount User route
+app.use(userRouter)
+
 // Mount Login route
 app.use(loginRouter)
 
-// Mount Login route
-// app.use(teacherRouter)
+// Mount Class route
+app.use(classRouter)
+// Mount Student route
+app.use(studentRouter)
 
+// Mount Guardian route
+app.use(guardianRouter)
+
+// Mount Teacher route
+app.use(teacherRouter)
+
+// Mount Subjectroute
+app.use(subjectRouter)
+
+//Mount Guardian route
+app.use(guardianRouter)
+
+//Mount countStudentGenderRoute
+app.use(countStudentGenderRouter)
+
+//Mount Attendance route
+app.use(attendanceRouter)
+
+//Mount exam  entry route
+app.use(examRouter)
+
+//Mount exam marks entry route
+app.use(examMarksEntryRouter)
+
+//Mount student marks entry route
+app.use(studentMarksRouter)
+
+// Dashboard details
+app.get('/api/dashboard/:id', async(req:Request, res:Response)=>{
+  const [numTeachers, numStudents, numGuardians] = await Promise.all([
+    User.countDocuments({ school: req.params.id, role: 'teacher' }),
+    Student.countDocuments({ school: req.params.id }),
+    User.countDocuments({ school: req.params.id, role: 'guardian' })
+  ]);
+  
+  res.send({numTeachers, numStudents,numGuardians})
+})
 // Route handler for signup form submissions
 app.use('/sendEmail', async (req, res) => {
   // Assuming you extract necessary data from the signup form

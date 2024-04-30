@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import SearchBar from "../../components/dashboard/shared/SearchBar"; // Assuming SearchBar.tsx is in the same directory
 import LeftMenu from "../../components/dashboard/shared/LeftMenu";
-import Topbar from "../../components/shared/Topbar";
+import Topbar from "../../components/dashboard/shared/Topbar";
 import Pagination from "../../components/pagination/Pagination";
 import BackButton from "../../components/BackButton";
 
@@ -63,7 +63,7 @@ const ViewStudents: React.FC = () => {
     setSearchQuery(""); // Clear search query state
     setSearchResults(students);
     setCurrentPage(1); // Reset to first page when clearing search
-    console.log('cleared')
+    console.log("cleared");
   };
 
   // Function to handle page change
@@ -90,10 +90,7 @@ const ViewStudents: React.FC = () => {
         <div className="flex flex-col ml-48 items-center">
           {" "}
           {/* Center the search items */}
-          <SearchBar
-            onClear={handleClearSearch}
-            onSearch={handleSearch}
-          />
+          <SearchBar onClear={handleClearSearch} onSearch={handleSearch} />
           {/** <button onClick={handleClearSearch} className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"> 
             Clear Search
           </button>
