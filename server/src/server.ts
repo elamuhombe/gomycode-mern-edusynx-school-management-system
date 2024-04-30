@@ -42,6 +42,10 @@ mongoose.connect(uri)
 
 app.use(cors());
 
+app.use((req,res) =>{
+  res.send('API is running')
+})
+
 // Mount School route
 app.use(schoolRouter)
 
