@@ -6,8 +6,8 @@ import { IClass } from "./Classes";
 
 // Enum for student gender
 enum Gender {
-  BOY = 'boy',
-  GIRL = 'girl',
+  BOY = "boy",
+  GIRL = "girl",
 }
 // Interface for the Student document
 interface IStudent extends Document {
@@ -24,7 +24,6 @@ interface IStudent extends Document {
   guardian: Types.ObjectId | IUser;
   exam: Schema.Types.ObjectId;
   studentId?: String;
-
 }
 
 // Interface for the Student model
@@ -77,8 +76,8 @@ const studentSchema = new mongoose.Schema<IStudent>({
     type: Date,
     required: true,
   },
-  exam: { type: Schema.Types.ObjectId, ref: 'Exam' },
-  studentId: { type: String }
+  exam: { type: Schema.Types.ObjectId, ref: "Exam" },
+  studentId: { type: String },
 });
 
 // Create models

@@ -69,7 +69,7 @@ const AddStudentMarksTotal: React.FC = () => {
   return (
     <div className="container mx-auto">
       <h2 className="text-2xl font-bold mb-4">Student Marks</h2>
-      <button onClick={generatePDF} className="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      <button onClick={generatePDF} className="mb-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
         Download PDF
       </button>
       <table id="student-marks-table" className="w-full table-auto border-collapse border border-gray-400">

@@ -15,7 +15,10 @@ const ViewStudent: React.FC = () => {
         <LeftMenu />
         <div className="mx-auto">
           <BackButton />
+         
           <ViewStudentData />{" "}
+        
+        
         </div>
       </div>
     </div>

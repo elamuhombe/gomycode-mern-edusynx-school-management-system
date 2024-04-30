@@ -1,6 +1,6 @@
-import mongoose, { Document, Model, ObjectId, Schema, Types } from 'mongoose';
-import {  ISchool } from './School';
-import { ISubject } from './Subject';
+import mongoose, { Document, Model, ObjectId, Schema, Types } from "mongoose";
+import { ISchool } from "./School";
+import { ISubject } from "./Subject";
 
 // Interface for the Exam document
 interface IExam extends Document {
@@ -16,21 +16,23 @@ interface IExamModel extends Model<IExam> {}
 const examSchema = new mongoose.Schema<IExam>({
   examName: {
     type: String,
-    required: true
+    required: true,
   },
   examDate: {
     type: String,
-    required: true
+    required: true,
   },
-//   subject: {
-//     type: Schema.Types.ObjectId,
-//     ref: "Subject", // Reference to the Subject model
-//     required: true
-// },
-
+  //   subject: {
+  //     type: Schema.Types.ObjectId,
+  //     ref: "Subject", // Reference to the Subject model
+  //     required: true
+  // },
 });
 
 // Create a Mongoose model based on the schema
-const Exam: Model<IExam> = mongoose.model<IExam, IExamModel>('Exam', examSchema);
+const Exam: Model<IExam> = mongoose.model<IExam, IExamModel>(
+  "Exam",
+  examSchema
+);
 
 export { Exam, IExam };

@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { School } from "../models/School";
 
-const  schoolRouter= express.Router();
+const schoolRouter = express.Router();
 
 // Create a new school
 schoolRouter.post("/schools", async (req: Request, res: Response) => {
@@ -41,9 +41,6 @@ schoolRouter.get("/schools/:id", async (req: Request, res: Response) => {
 
 // Update a school by ID
 schoolRouter.put("/schools/:id", async (req: Request, res: Response) => {
-
-
-
   try {
     const school = await School.findOneAndUpdate(
       { _id: req.params.id },
@@ -72,4 +69,4 @@ schoolRouter.delete("/schools/:id", async (req: Request, res: Response) => {
   }
 });
 
-export {schoolRouter};
+export { schoolRouter };
