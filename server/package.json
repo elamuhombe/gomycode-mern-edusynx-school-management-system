@@ -2,7 +2,6 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "start": "npm i && concurrently \"npm run run-app\" \"npm run run-server\"",
     "run-app": "cd client && npm run dev",
