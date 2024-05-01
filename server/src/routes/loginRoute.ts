@@ -35,4 +35,16 @@ loginRouter.post("/login", async (req: Request, res: Response) => {
   }
 });
 
+loginRouter.get("/login", async (req: Request, res: Response) => {
+  try{
+    const users=await School.find()
+  res.send(users)
+
+  }catch(error: any)
+  {
+    res.send({msg:'Something went wrong' + error.message})
+  }
+  
+})
+
 export { loginRouter };

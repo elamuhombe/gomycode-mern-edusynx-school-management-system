@@ -9,6 +9,7 @@ interface PaginationProps {
 
 const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
   const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
+    event.preventDefault()
     onPageChange(page);
   };
 

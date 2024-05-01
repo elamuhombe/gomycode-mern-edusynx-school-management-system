@@ -1,7 +1,7 @@
 // Importing necessary modules from React and react-icons, and react-router-dom
 import React, { useState } from "react";
 import { FaBell, FaUser } from "react-icons/fa";
-import { useGlobalState } from "../../../hooks/useGlobalContext";
+// import { useGlobalState } from "../../../hooks/useGlobalContext";
 import useUserAuth from "../../../hooks/useUserAuth";
 import { useNavigate } from "react-router-dom";
 
@@ -13,11 +13,11 @@ interface TopbarProps {
 // Topbar component
 const Topbar: React.FC<TopbarProps> = ({ title }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false); // State to manage dropdown menu visibility
-  const { state } = useGlobalState();
-  const { users } = state;
+  // const { state } = useGlobalState();
+  // const { users } = state;
 
   // Fetching logged-in user from global state based on email
-  const loggedInUser = users.find((user) => user.email === "admin@example.com"); // Change email to match logged-in user
+  // const loggedInUser = users.find((user) => user.email === "admin@example.com"); // Change email to match logged-in user
 
   // Function to toggle dropdown menu visibility
   const toggleDropdown = () => {

@@ -34,41 +34,42 @@ export interface IStudent {
   dateOfBirth: Date;
   guardians: string[] | IUser;
   id: string;
-  _id: string;
+  _id?: string;
  
 }
 
 // Interface for the Class document
 
 export interface IClass {
+  _id?: string;
   school: string | ISchool;
   className: string;
   year: number;
-  classId?: string;
 }
 
 // Interface for Attendance document
 export interface IAttendance {
-  className: string;
+  class: string | IClass;
   date: string;
   studentAttendances: IStudentAttendance[]; // Array of student attendance data
 }
 
 // Interface for student attendance data
 export interface IStudentAttendance {
-  //studentName: string;
+  // studentName: string;
   isPresent: boolean;
-  student: IStudent 
+  student: string | IStudent; 
 }
 export interface IExam {
   examName: string;
   examDate: string;
+  _id?: string;
 }
 
 
 export interface IUser {
-  id: string;
-  _id: string;
+  id?: string;
+  _id?: string;
   school: ISchool | string;
   firstName: string;
   lastName: string;
@@ -76,10 +77,10 @@ export interface IUser {
   email: string;
   role: string;
   password?: string;
-  familyNumber:string;
-  className: string | IClass;
-  subject_name: string |ISubject;
-  teachingSubjects?: string[]; // Optional array of teaching subjects
+  familyNumber?:string | '';
+  className?: string | IClass;
+  subject_name?: string |ISubject;
+  teachingSubjects?: (string |ISubject)[]; // Optional array of teaching subjects
   isClassTeacher?: boolean; // Optional boolean indicating whether the teacher is a class teacher
 }
 export interface ISubject {

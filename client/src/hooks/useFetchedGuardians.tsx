@@ -1,7 +1,7 @@
 import { useState } from "react";
 // Function to fetch all guardians
 const useFetchedGuardians = async () => {
-    const [error, setError] = useState<string | null>(null);
+    const [,setError] = useState<string | null>(null);
     try {
       // Make GET request to fetch all guardians
       const response = await fetch('/guardians');

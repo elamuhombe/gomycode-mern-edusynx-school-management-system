@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   IAttendance,
   IStudent,
@@ -8,8 +8,8 @@ import {
 import useSubmitForm from "./../../../hooks/useSubmitForm";
 
 interface Props {
-  classes: IClass[];
-  students: IStudent[];
+  classes: IClass[] | [];
+  students: IStudent[] | [];
 }
 const AddAttendanceForm: React.FC<Props> = ({ classes, students }) => {
   const [classId, setClassId] = useState("");
@@ -17,7 +17,7 @@ const AddAttendanceForm: React.FC<Props> = ({ classes, students }) => {
   const [studentAttendances, setStudentAttendances] = useState<
     IStudentAttendance[]
   >([]); // Use IStudentAttendance interface
-  const { isLoading, error, submitForm } = useSubmitForm();
+  const { isLoading, error } = useSubmitForm();
 
   // Function to handle class selection
   const handleClassSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -26,24 +26,26 @@ const AddAttendanceForm: React.FC<Props> = ({ classes, students }) => {
 
   // Function to add or toggle student attendance
   const handleAddStudentAttendance = (student: IStudent) => {
-    console.log(
-      "Adding attendance for student:",
-      student.studentFirstName,
-      student.studentLastName
-    );
-
+    // console.log(
+    //   "Adding attendance for student:",
+    //   student.studentFirstName,
+    //   student.studentLastName
+    // );
+    console.log({student})
+    return 
     // Check if the student's attendance already exists
     const existingIndex = studentAttendances.findIndex(
       (item) =>
-        item.studentName ===
-        `${student.studentFirstName} ${student.studentLastName}`
+        (item.student as IStudent)._id as string == student._id as string
     );
     if (existingIndex !== -1) {
       // If attendance exists, toggle the isPresent value
       const updatedAttendances = [...studentAttendances];
       updatedAttendances[existingIndex] = {
-        studentName: `${student.studentFirstName} ${student.studentLastName}`,
+        // studentName: `${student.studentFirstName} ${student.studentLastName}`,
+        student:student,
         isPresent: !updatedAttendances[existingIndex].isPresent,
+
       };
 
       setStudentAttendances(updatedAttendances);
@@ -54,7 +56,7 @@ const AddAttendanceForm: React.FC<Props> = ({ classes, students }) => {
         isPresent: true,
       };
 
-      setStudentAttendances((prevState) => [...prevState, newAttendance]);
+      setStudentAttendances((prevState: any) => [...prevState, newAttendance]);
     }
   };
 
@@ -64,7 +66,7 @@ const AddAttendanceForm: React.FC<Props> = ({ classes, students }) => {
 
     // Prepare attendance data to be submitted
     const attendanceData: IAttendance = {
-      className: classId,
+      class: classId,
       date,
       studentAttendances,
     };
@@ -110,7 +112,7 @@ const AddAttendanceForm: React.FC<Props> = ({ classes, students }) => {
             className="w-full px-4 py-2 border rounded-md">
             <option value="">Select a class</option>
             {classes.map((cls) => (
-              <option key={cls.classId} value={cls.classId}>
+              <option key={cls._id} value={cls._id}>
                 {cls.className}
               </option>
             ))}
@@ -151,8 +153,8 @@ const AddAttendanceForm: React.FC<Props> = ({ classes, students }) => {
                           type="checkbox"
                           checked={studentAttendances.some(
                             (item) =>
-                              item.studentName ===
-                                `${student.studentFirstName} ${student.studentLastName}` &&
+                              (item.student as IStudent)._id ===
+                                student._id &&
                               item.isPresent
                           )}
                           onChange={() => handleAddStudentAttendance(student)}

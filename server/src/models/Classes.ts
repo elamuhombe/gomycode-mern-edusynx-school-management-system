@@ -6,7 +6,6 @@ interface IClass extends Document {
   school: Types.ObjectId | ISchool; // Reference to the class's school
   className: string; // Name of the class
   year: number; // Year of the class
-  classId: string | IClass; // Reference to the class ID
 }
 
 // Define the schema for the Class collection in MongoDB
@@ -17,7 +16,6 @@ const ClassSchema = new Schema<IClass>({
     required: true, // School field is required
   },
   className: { type: String, required: true }, // Class name is required
-  classId: { type: String }, // Class ID is optional
   year: { type: Number, required: true }, // Year of the class is required
 });
 

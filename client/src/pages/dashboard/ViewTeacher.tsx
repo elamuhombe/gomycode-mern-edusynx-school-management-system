@@ -4,7 +4,7 @@ import Topbar from "../../components/dashboard/shared/Topbar";
 import LeftMenu from "../../components/dashboard/shared/LeftMenu";
 import BackButton from "../../components/BackButton";
 
-import ViewTeacherData from "../../components/dashboard/admin/ViewTeacherData";
+// import ViewTeacherData from "../../components/dashboard/admin/ViewTeacherData";
 
 const ViewTeacher: React.FC = () => {
   return (
@@ -16,7 +16,7 @@ const ViewTeacher: React.FC = () => {
         <LeftMenu />
         <div className="mx-auto">
           <BackButton />
-          <ViewTeacherData />{" "}
+          {/* <ViewTeacherData />{" "} */}
         </div>
       </div>
     </div>

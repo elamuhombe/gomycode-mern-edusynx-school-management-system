@@ -5,7 +5,7 @@ import React, {
   ReactNode,
   useEffect,
 } from "react";
-import { ISchool, IUser } from "../types";
+import { ISchool } from "../types";
 import useUserAuth from "./useUserAuth";
 
 // Define enum for user roles
@@ -98,12 +98,12 @@ const GlobalStateProvider: React.FC<GlobalStateProviderProps> = ({
     }
   }, [userAuth.isLoggedIn, userAuth.savedUser]);
   
-  // Function to get the user role
-  const getUserRole = (state: GlobalState) => {
-    // Assuming the first user in the state represents the current user
-    const currentUser = state.loggedInUser;
-    return currentUser ? currentUser.role : Role.Admin; // Default to Admin role if no user is available
-  };
+  // // Function to get the user role
+  // const getUserRole = (state: GlobalState) => {
+  //   // Assuming the first user in the state represents the current user
+  //   const currentUser = state.loggedInUser;
+  //   return currentUser ? currentUser.role : Role.Admin; // Default to Admin role if no user is available
+  // };
 
   return (
     <GlobalStateContext.Provider value={{ state, dispatch}}>

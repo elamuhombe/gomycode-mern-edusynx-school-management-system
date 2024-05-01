@@ -10,10 +10,7 @@ const AddStudentsMarksEntry: React.FC = () => {
     [studentId: string]: { [subject: string]: number };
   }>({});
   const [selectedExam, setSelectedExam] = useState<string>("");
-  const [showForm, setShowForm] = useState<boolean>(false);
-  const [selectedStudent, setSelectedStudent] = useState<string>("");
-  const [selectedSubject, setSelectedSubject] = useState<string>("");
-  const [marksInput, setMarksInput] = useState<string>("");
+  const [selectedSubject] = useState<string>("");
 
   const [exams, setExams] = useState<IExam[]>([]); // Adjust the type to IExam[]
   const [isEditing, setIsEditing] = useState<boolean>(false); // State to track edit mode
@@ -161,7 +158,7 @@ const AddStudentsMarksEntry: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {students.map((student, index) => (
+          {students.map((student:IStudent, index) => (
             <tr key={index}>
               <td className="border px-4 py-2">{index + 1}</td>
               <td className="border px-4 py-2">
@@ -172,17 +169,17 @@ const AddStudentsMarksEntry: React.FC = () => {
                   <input
                     type="text"
                     value={
-                      marks[student._id] &&
-                      marks[student._id][subject.subject_name] !== undefined
-                        ? marks[student._id][subject.subject_name]
+                      marks[student._id as string] &&
+                      marks[student._id as string][subject.subject_name] !== undefined
+                        ? marks[student._id as string][subject.subject_name]
                         : ""
                     }
                     onChange={(e) => {
                       const inputValue = e.target.value;
                       const numericValue = inputValue.replace(/[^\d.]/g, ""); // Filter out non-numeric characters
                       const newMarks = { ...marks };
-                      if (!newMarks[student._id]) newMarks[student._id] = {};
-                      newMarks[student._id][subject.subject_name] =
+                      if (!newMarks[student._id as string]) newMarks[student._id as string] = {};
+                      newMarks[student._id as string][subject.subject_name] =
                         parseFloat(numericValue);
                       setMarks(newMarks);
                       console.log("Marks:", newMarks);
@@ -197,7 +194,7 @@ const AddStudentsMarksEntry: React.FC = () => {
               ))}
               <td className="border px-4 py-2">
                 <button
-                  onClick={() => handleSaveMarks(student._id, selectedSubject)} // Use selectedSubject instead of subject
+                  onClick={() => handleSaveMarks(student._id as string, selectedSubject)} // Use selectedSubject instead of subject
                   className={`bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded ${
                     isEditing ? "" : "hidden"
                   }`}>

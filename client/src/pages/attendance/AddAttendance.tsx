@@ -16,7 +16,7 @@ const AddAttendance: React.FC = () => {
           <BackButton />
           <h1 className="text-2xl font-bold mb-5">Add Attendance</h1>
           {/* Uncomment the following line to include the AddStudentForm component */}
-          <AttendanceForm students={[]} />
+          <AttendanceForm students={[]} classes={[]} />
         </div>
       </div>
     </div>

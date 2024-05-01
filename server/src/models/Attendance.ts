@@ -1,16 +1,17 @@
 import mongoose, { Schema, Document } from 'mongoose';
 import { IStudentAttendance } from './StudentAttendance';
+import { IClass } from './Classes';
 
 // Define interface for the Attendance document
 interface IAttendance extends Document {
-    className: string; // Name of the class for which attendance is being recorded
+    class: IClass; // Name of the class for which attendance is being recorded
     date: string; // Date of the attendance record
     studentAttendances: IStudentAttendance[]; // Array of student attendance data
 }
 
 // Define the schema for the Attendance collection
 const AttendanceSchema: Schema = new Schema({
-    className: {
+    class: {
         type: String,
         ref: "Classes", // Reference to the Classes model
         required: true, // Class name is required

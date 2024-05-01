@@ -1,10 +1,11 @@
 // StudentAttendance.ts
 
 import mongoose, { Document, Model, Schema, Types, model } from "mongoose";
+import { IStudent } from "./Student";
 
 // Interface for Student Attendance document
 interface IStudentAttendance extends Document {
-  student: Types.ObjectId; // Assuming studentId is stored as ObjectId
+  student: string | IStudent; // Assuming studentId is stored as ObjectId
   isPresent: boolean;
 }
 
@@ -19,7 +20,7 @@ const StudentAttendanceSchema: Schema = new Schema({
 
 // Define the interface using Model<T>
 interface IStudentAttendance extends Document {
-  student: Types.ObjectId;
+  student: string | IStudent;
   isPresent: boolean;
 }
 

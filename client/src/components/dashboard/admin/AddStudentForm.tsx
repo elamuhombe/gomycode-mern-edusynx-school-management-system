@@ -1,23 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { IClass, IStudent } from "../../../types";
+import { IClass } from "../../../types";
 import { useGlobalState } from "../../../hooks/useGlobalContext";
 import { useSubmitForm } from "../../../hooks/hooks";
 import { useLocation } from "react-router-dom";
 import LeftMenu from "../shared/LeftMenu";
 import Swal from "sweetalert2";
 
-interface AddStudentFormProps {
-  onClose: () => void; // onClose performs an action but doesn't return any specific value
-  familyNumber: number;
-  guardians: string[];
-}
-
 // Define the functional component
-const AddStudentForm: React.FC<AddStudentFormProps> = ({
-  onClose,
-  familyNumber,
-  guardians,
-}) => {
+const AddStudentForm: React.FC = () => {
   // State and logic here
   const { state } = useGlobalState();
   const { submitForm } = useSubmitForm();
@@ -63,7 +53,7 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({
   let location = useLocation();
   console.log({ "location is": location });
 
-  guardians = location.state && location.state.guardian;
+  let guardians = location.state && location.state.guardian;
   // Access familyNumber from guardian object
   const extractedFamilyNumber = guardians?.familyNumber ?? null;
   console.log(extractedFamilyNumber);
@@ -148,40 +138,37 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({
         Swal.fire("student created successfully");
         console.log("Successfully created student:", result);
         // Reset form data to default values
-        const setSelectedFormData = {
-          studentFirstName: "",
-          studentLastName: "",
-          dateOfBirth: "",
-          studentGender: "",
-          previousSchool: "",
-          className: "",
-          guardians: [], // Provide an appropriate value for guardians
-          familyNumber:
-            extractedFamilyNumber !== null
-              ? extractedFamilyNumber.toString()
-              : undefined,
-          schoolClass: "",
-          school: "", // Provide a value for school
-        };
+        // const setSelectedFormData = {
+        //   studentFirstName: "",
+        //   studentLastName: "",
+        //   dateOfBirth: "",
+        //   studentGender: "",
+        //   previousSchool: "",
+        //   className: "",
+        //   guardians: [], // Provide an appropriate value for guardians
+        //   familyNumber:
+        //     extractedFamilyNumber !== null
+        //       ? extractedFamilyNumber.toString()
+        //       : undefined,
+        //   schoolClass: "",
+        //   school: "", // Provide a value for school
+        // };
       }
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
-  const handleDateChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    field: keyof IStudent
-  ) => {
-    setFormData({
-      ...formData,
-      [field]: new Date(e.target.value),
-    });
-  };
+  // const handleDateChange = (
+  //   e: React.ChangeEvent<HTMLInputElement>,
+  //   field: keyof IStudent
+  // ) => {
+  //   setFormData({
+  //     ...formData,
+  //     [field]: new Date(e.target.value),
+  //   });
+  // };
 
-  const handleClose = () => {
-    onClose();
-  };
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -306,12 +293,6 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({
             Submit
           </button>
           {/* Close button */}
-          <button
-            type="button"
-            onClick={handleClose}
-            className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
-            Close
-          </button>
         </div>
       </form>
     </div>

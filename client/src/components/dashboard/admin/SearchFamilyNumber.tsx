@@ -57,7 +57,7 @@ const SearchFamilyNumber = () => {
             <span className="font-normal">{guardianData.familyNumber}</span>
           </p>
           {/* AddStudentForm component */}
-          <AddStudentForm familyNumber={0} />
+          <AddStudentForm />
         </div>
       );
     }

@@ -3,7 +3,7 @@ import useSubmitForm from "../../../hooks/useSubmitForm";
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import { ISubject } from "../../../types";
 
-import { useGlobalState } from "../../../hooks/useGlobalContext";
+// import { useGlobalState } from "../../../hooks/useGlobalContext";
 import Swal from "sweetalert2";
 
 const ViewSubjectData: React.FC = () => {
@@ -14,9 +14,9 @@ const ViewSubjectData: React.FC = () => {
   const [editedSubject, setEditedSubject] = useState<ISubject | null>(null);
   const { submitForm } = useSubmitForm();
 
-  const {
-    state: { loggedInUser },
-  } = useGlobalState(); //Get loggedInUser from global state
+  // const {
+  //   state: { loggedInUser },
+  // } = useGlobalState(); //Get loggedInUser from global state
 
   // Fetch subjects data from the server
   useEffect(() => {

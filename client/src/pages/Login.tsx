@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Header from "../components/shared/Header/Header";
 import { useUserAuth } from "./../hooks/hooks"; // Import useGlobalState
 import { useGlobalState } from "../hooks/useGlobalContext";
-import { ISchool, IUser } from "../types";
+import { ISchool } from "../types";
 import Swal from "sweetalert2";
 
 const userDashboard = [

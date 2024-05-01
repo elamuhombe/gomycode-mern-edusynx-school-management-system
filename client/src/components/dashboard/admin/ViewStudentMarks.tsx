@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import { ISubject } from "../../../types";
 
 const AddStudentMarksTotal: React.FC = () => {
   const [studentMarksList, setStudentMarksList] = useState<any[]>([]);
@@ -67,7 +68,7 @@ const AddStudentMarksTotal: React.FC = () => {
   const subjects = [
     ...new Set(
       studentMarksList.flatMap((student) =>
-        student.subjectMarks.map((subject) => subject.subjectName)
+        student.subjectMarks.map((subject: any) => subject.subjectName)
       )
     ),
   ];
@@ -111,7 +112,7 @@ const AddStudentMarksTotal: React.FC = () => {
               </td>
               {subjects.map((subject, subjectIndex) => {
                 const marks = studentMark.subjectMarks.find(
-                  (item) => item.subjectName === subject
+                  (item:ISubject) => item.subject_name === subject
                 );
                 return (
                   <td key={subjectIndex} className="border px-4 py-2">

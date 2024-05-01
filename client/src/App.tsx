@@ -15,7 +15,6 @@ import {
   HeadTeacherDashboard,
   TeacherDashboard,
   AddClass,
-  AddStudent,
   ViewClass,
   AddSubject,
   AddUser,
@@ -32,15 +31,11 @@ import ViewStudents from "./pages/Students/ViewStudents";
 import ViewUser from "./pages/dashboard/ViewUser";
 import GlobalStateProvider from "./hooks/useGlobalContext";
 import AddStudentForm from "./components/dashboard/admin/AddStudentForm";
-import { GLOBAL_API_URL } from "./constants";
 // import { configDotenv } from "dotenv";
 
 
 const App: React.FC = () => { 
-  const API_URL=import.meta.env.VITE_API_URL;
-  console.log({GLOBAL_API_URL})
-  console.log({API_URL})
-  // configDotenv()
+  
   return (
 
     <GlobalStateProvider>
@@ -55,9 +50,7 @@ const App: React.FC = () => {
             <Route path="/add/add-attendance" element={<AddAttendance />} />
             <Route path="/add/add-subject" element={<AddSubject />} />
             <Route path="/view/view-class" element={<ViewClass />} />
-            <Route path="/add/add-student" element={<AddStudentForm onClose={function (): void {
-              throw new Error("Function not implemented.");
-            } } familyNumber={null} guardian={null} />} />
+            <Route path="/add/add-student" element={<AddStudentForm  />} />
             <Route path="/add/add-class" element={<AddClass />} />
             <Route path="/add/add-exam" element={<AddExam />} />
             <Route path="/view/view-users" element={<ViewUser />} />

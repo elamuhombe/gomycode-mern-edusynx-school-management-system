@@ -18,7 +18,7 @@ const ViewUserData: React.FC = () => {
   const { submitForm } = useSubmitForm();
   const navigate = useNavigate();
 
-  const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
+  const [, setSelectedUser] = useState<IUser | null>(null);
   const {
     state: { loggedInUser },
   } = useGlobalState();
@@ -73,7 +73,7 @@ const ViewUserData: React.FC = () => {
   const roles = Array.from(new Set(users.map((user) => user.role)));
 
   const handleEditUser = (user: IUser) => {
-    setEditingUserId(user._id);
+    setEditingUserId(user._id as string);
     setEditedUser(user);
   };
 
@@ -101,10 +101,6 @@ const ViewUserData: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleCloseAddStudentForm = () => {
-    setShowAddStudentForm(false);
   };
 
   return (
@@ -223,11 +219,9 @@ const ViewUserData: React.FC = () => {
           {showAddStudentForm && (
             <div>
               <h2 className="text-lg font-semibold mb-4">Add Student Form</h2>
-              <AddStudentForm
-                onClose={handleCloseAddStudentForm}
-                familyNumber={0}
-                guardians={[]}
-              />
+              <AddStudentForm />
+    
+               
             </div>
           )}
         </div>

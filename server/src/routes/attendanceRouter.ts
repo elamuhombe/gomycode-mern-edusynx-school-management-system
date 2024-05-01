@@ -11,15 +11,19 @@ interface IExtendedAttendance extends IAttendance, Document {
 }
 
 const attendanceRouter: Router = express.Router();
+attendanceRouter.get("/attendance", async (req: Request, res: Response) => {
+  const attendances = await Attendance.find()
+  res.json(attendances)
 
+})
 attendanceRouter.post("/attendance", async (req: Request, res: Response) => {
   try {
-    const { className, date, studentAttendances } = req.body;
+    const { classId, date, studentAttendances } = req.body;
   
 
     // Validate request data
     if (
-      !className ||
+      !classId ||
       !date ||
       !studentAttendances ||
       !Array.isArray(studentAttendances)
@@ -27,16 +31,16 @@ attendanceRouter.post("/attendance", async (req: Request, res: Response) => {
       return res.status(400).json({ error: "Invalid request data" });
     }
 
-    const classDocument = await Classes.findOne({ className });
+    const classDocument = await Classes.findOne({ _id: classId });
 
     if (!classDocument) {
       return res
         .status(404)
-        .json({ error: `Class with name ${className} not found` });
+        .json({ error: `Class with name not found` });
     }
 
     const errors: string[] = [];
-    const studentsInClass = await Student.find({ className: className });
+    const studentsInClass = await Student.find({ _id: classId  });
 
     const attendancePromises = studentsInClass.map(async (student: any) => {
       const studentName = `${student.studentFirstName} ${student.studentLastName}`;
@@ -46,14 +50,14 @@ attendanceRouter.post("/attendance", async (req: Request, res: Response) => {
 
       // Construct studentAttendanceData object
       const studentAttendanceData = {
-        studentName: studentName,
+        student: student,
         isPresent: isPresent,
       };
 
       console.log("student attendance data", studentAttendanceData);
 
       const attendance = new Attendance({
-        className: classDocument.className,
+        class: classDocument._id,
         date,
         studentAttendances: [studentAttendanceData],
       });
@@ -73,6 +77,8 @@ attendanceRouter.post("/attendance", async (req: Request, res: Response) => {
 });
 
 attendanceRouter.get("/attendance/view-attendance", async (req: Request, res: Response) => {
+  // const data=await Attendance.find()
+  // return res.json(data)
   try {
       const className = req.query.className as string | undefined;
       const date = req.query.date as string | undefined;
@@ -80,22 +86,24 @@ attendanceRouter.get("/attendance/view-attendance", async (req: Request, res: Re
       let attendanceRecords: IAttendance[];
 
       if (className && date) {
-          attendanceRecords = await Attendance.find({ className, date }).populate({
-              path: 'studentAttendances', // Populate the studentAttendances field
-              populate: { path: 'student', model: 'Student' } // Populate the student field inside studentAttendances
-          });
-      } else {
-          attendanceRecords = await Attendance.find().populate({
-              path: 'studentAttendances', // Populate the studentAttendances field
-              populate: { path: 'student', model: 'Student' } // Populate the student field inside studentAttendances
-          });
+          attendanceRecords = await Attendance.find().populate("student")} else {
+          attendanceRecords = await Attendance.find().populate("student")
+              // path: 'studentAttendances', // Populate the studentAttendances field
+              // populate: { path: 'student', model: 'Student' } // Populate the student field inside studentAttendances
+          
       }
 
       res.status(200).json(attendanceRecords);
-  } catch (error) {
+  } catch (error: any) {
       console.error("Error retrieving attendance records:", error);
+      console.log(error.message)
       res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+attendanceRouter.delete("/attendance/all",async (req: Request, res: Response) => {
+  const attendances = await Attendance.deleteMany()
+  res.send(attendances)
+})
 
 export default attendanceRouter;

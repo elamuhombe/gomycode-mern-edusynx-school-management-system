@@ -42,7 +42,7 @@ const students = [
 // ViewStudents component
 const ViewStudents: React.FC = () => {
   const [searchResults, setSearchResults] = useState(students); // Initialize with all students
-  const [searchQuery, setSearchQuery] = useState(""); // State to store search query
+  const [, setSearchQuery] = useState(""); // State to store search query
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);

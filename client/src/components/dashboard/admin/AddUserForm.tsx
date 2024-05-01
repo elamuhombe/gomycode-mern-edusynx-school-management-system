@@ -1,23 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { IUser, IClass, ISubject } from "../../../types";
+import React, {useState } from "react";
+import { IUser } from "../../../types";
 import { useGlobalState } from "../../../hooks/useGlobalContext";
 import { useSubmitForm } from "../../../hooks/hooks";
 
-type FormData = IUser & IClass;
 
 const AddUserForm: React.FC = () => {
   const { submitForm } = useSubmitForm();
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked] = useState(false);
 
-  const [classes, setClasses] = useState<IClass[]>([]);
-  const [subjects, setSubjects] = useState<ISubject[]>([]);
-  const [selectedSubject, setSelectedSubject] = useState<string>("");
-  const [selectedClass, setSelectedClass] = useState<string>("");
-  const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
 
-  useEffect(() => {
-    fetchData(); // Fetch classes when component mounts
-  }, []);
+
 
   // const {
   //   state: { loggedInUser },
@@ -26,18 +18,14 @@ const AddUserForm: React.FC = () => {
   const { state } = useGlobalState(); // Destructure state directly
   const loggedInUser = state.loggedInUser; // Extract loggedInUser
 
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<IUser>({
     firstName: "",
     lastName: "",
     gender: "",
     email: "",
     role: "",
-    familyNumber: null,
-    isClassTeacher: false,
-    className: "",
-    subject_name: "",
+    familyNumber: "",
     school: loggedInUser?._id || "",
-    teachingSubjects: [],
   });
 
   // Select only the properties you need
@@ -48,55 +36,11 @@ const AddUserForm: React.FC = () => {
     email: formData.email,
     role: formData.role,
     familyNumber: formData.familyNumber,
-    isClassTeacher: formData.isClassTeacher,
-    className: formData.className,
     //schoolClass: formData.schoolClass,
     school: loggedInUser?._id,
-    subject_name: formData.subject_name,
-    teachingSubjects: formData.teachingSubjects,
   };
-  useEffect(() => {
-    fetchData();
-    fetchSubjects();
-  }, []);
-
-  const fetchSubjects = async () => {
-    try {
-      // fetch subject from backend
-      const subjectsResponse = await fetch(
-        `${import.meta.env.VITE_API_URL}/subject`
-      );
-
-      if (!subjectsResponse.ok) {
-        throw new Error("Failed to fetch subjects");
-      }
-
-      const subjectsData = await subjectsResponse.json();
-      console.log("Fetched subjects:", subjectsData); // Log fetched subjects data
-
-      setSubjects(subjectsData);
-    } catch (error) {
-      console.error("Error fetching subjects:", error);
-    }
-  };
-
-  const fetchData = async () => {
-    try {
-      const classesResponse = await fetch(
-        `${import.meta.env.VITE_API_URL}/class`
-      );
-
-      if (!classesResponse.ok) {
-        throw new Error("Failed to fetch data");
-      }
-
-      const classesData = await classesResponse.json();
-
-      setClasses(classesData);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+ 
+ 
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -144,39 +88,26 @@ const AddUserForm: React.FC = () => {
   //   }));
   // };
 
-  const handleSubjectsSelectChange = (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const selectedSubjectName = e.target.value;
-    setSelectedSubject(selectedSubjectName);
-  };
-
-  const addSubject = () => {
-    if (selectedSubject && !selectedSubjects.includes(selectedSubject)) {
-      setSelectedSubjects([...selectedSubjects, selectedSubject]);
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        teachingSubjects: [...prevFormData.teachingSubjects, selectedSubject],
-      }));
-    }
-  };
+  // const addSubject = () => {
+  //   if (selectedSubject && !selectedSubjects.includes(selectedSubject)) {
+  //     setSelectedSubjects([...selectedSubjects, selectedSubject]);
+  //     setFormData((prevFormData) => ({
+  //       ...prevFormData,
+  //       teachingSubjects: [...prevFormData.teachingSubjects, selectedSubject],
+  //     }));
+  //   }
+  // };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(formData);
 
     try {
-      // Include selected subjects in teachingSubjects array
-      const updatedFormData = {
-        ...formData,
-        teachingSubjects: selectedSubjects,
-      };
-
       const result = await submitForm(
         `${import.meta.env.VITE_API_URL}/user`,
         "POST",
         {
-          ...updatedFormData,
+          ...formData,
           school: state?.loggedInUser?._id || "",
         }
       );
@@ -192,41 +123,16 @@ const AddUserForm: React.FC = () => {
           email: "",
           role: "",
           school: "",
-          familyNumber: null,
+          familyNumber: "",
           className: "",
           isClassTeacher: false,
         });
-        setSelectedSubjects([]); // Reset selected subjects
       }
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
-    setFormData((prevState) => ({
-      ...prevState,
-      isClassTeacher: !isChecked,
-    }));
-  };
-
-  // const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  //   const { name, value } = e.target;
-  //   setFormData({
-  //     ...formData,
-  //     [name]: value,
-  //   });
-  // };
-
-  const handleClassSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedClassName = e.target.value;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      className: selectedClassName,
-    }));
-    setSelectedClass(selectedClassName);
-  };
 
   console.log(formData);
   return (
@@ -325,83 +231,6 @@ const AddUserForm: React.FC = () => {
               onChange={handleChange}
               className="w-full px-4 py-2 border rounded-md"
             />
-          </div>
-        )}
-
-        {/* Conditionally render isClassTeacher checkbox if role is "Teacher" */}
-        {selectedFormData.role === "teacher" && (
-          <div className="mb-16">
-            <label className="block mb-1">Is Class Teacher?</label>
-            <label className="inline-flex items-center">
-              <input
-                type="checkbox"
-                className="form-checkbox"
-                checked={isChecked}
-                onChange={handleCheckboxChange}
-              />
-              <span className="ml-2">Yes</span>
-            </label>
-
-            {/* Render drop-down menu when checkbox is checked */}
-            {isChecked && (
-              <div className="mb-4 flex-end">
-                <label
-                  htmlFor="schoolClass"
-                  className="block text-gray-700 text-sm font-bold mb-2">
-                  School Class:
-                </label>
-                <select
-                  value={selectedClass}
-                  onChange={handleClassSelectChange}
-                  className="w-full px-4 py-2 border rounded-md">
-                  <option value="">Select a Class</option>
-                  {classes.map((classItem) => (
-                    <option
-                      key={classItem.className}
-                      value={classItem.className}>
-                      {classItem.className}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            )}
-            <div className="mb-4">
-              {/* Render dropdown for subjects */}
-              <label htmlFor="teachingSubjects" className="block mb-1">
-                Teaching Subjects:
-              </label>
-              <div>
-                <select
-                  value={selectedSubject}
-                  onChange={handleSubjectsSelectChange}
-                  className="w-full px-4 py-2 border rounded-md">
-                  <option value="">Select a Subject</option>
-                  {subjects.map((subjectItem) => (
-                    <option
-                      key={subjectItem.subject_name}
-                      value={subjectItem.subject_name}>
-                      {subjectItem.subject_name}
-                    </option>
-                  ))}
-                </select>
-                <button
-                  onClick={addSubject}
-                  className="mt-2 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-                  Add Subject
-                </button>
-              </div>
-              <div>
-                {selectedSubjects.map((subject, index) => (
-                  <input
-                    key={index}
-                    type="text"
-                    value={subject}
-                    readOnly={true}
-                    className="w-full px-4 py-2 border rounded-md mb-2"
-                  />
-                ))}
-              </div>
-            </div>
           </div>
         )}
 

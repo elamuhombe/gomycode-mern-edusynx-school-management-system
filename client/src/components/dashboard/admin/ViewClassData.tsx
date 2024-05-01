@@ -49,7 +49,7 @@ const ViewClassData: React.FC = () => {
   };
   // Function to handle editing a student
   const handleEditStudent = (student: IStudent) => {
-    setEditingStudentId(student._id);
+    setEditingStudentId(student._id as string) ;
     setEditedStudent(student);
   };
 

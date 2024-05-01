@@ -50,7 +50,7 @@ const Hero: React.FC = () => {
             </div>
           </div>
           <Link to="/register">
-            <CTAButton text="Get Started" />
+            <CTAButton text="Get Started" to="" />
           </Link>
         </div>
         <div className="flex-1 flex justify-center">

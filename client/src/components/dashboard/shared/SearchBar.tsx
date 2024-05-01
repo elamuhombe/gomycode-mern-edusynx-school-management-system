@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TextField, IconButton, Button } from '@mui/material';
-import { Search, Clear } from '@mui/icons-material';
+import { Search } from '@mui/icons-material';
 
 // Interface for props
 interface SearchBarProps {

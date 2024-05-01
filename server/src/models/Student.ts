@@ -24,6 +24,7 @@ interface IStudent extends Document {
   guardian: Types.ObjectId | IUser;
   exam: Schema.Types.ObjectId;
   studentId?: String;
+  
 }
 
 // Interface for the Student model

@@ -26,8 +26,8 @@ const AddAttendance: React.FC = () => {
         const classesData = await classesResponse.json();
         const studentsData = await studentsResponse.json();
 
-        setClasses(classesData);
-        setStudents(studentsData);
+        setClasses(classesData || []);
+        setStudents(studentsData || []);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -53,7 +53,6 @@ const AddAttendance: React.FC = () => {
             <AddAttendanceForm
               classes={classes}
               students={students}
-              attendance={null}
             />
           )}
         </div>

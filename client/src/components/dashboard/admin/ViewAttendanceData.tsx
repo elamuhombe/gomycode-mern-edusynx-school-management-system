@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { IAttendance, IStudentAttendance } from "../../../types/index";
-import { stringify } from "csv-stringify";
+import { IAttendance, IClass, IStudent } from "../../../types/index";
 import Papa from "papaparse";
 
 const ViewAttendanceData: React.FC = () => {
@@ -13,13 +12,13 @@ const ViewAttendanceData: React.FC = () => {
 
   // Extract unique class names from attendance records
   const classNames = Array.from(
-    new Set(attendanceRecords.map((record) => record.className))
+    new Set(attendanceRecords.map((record) => (record.class as IClass).className))
   );
 
   const filteredRecords = filterClassName
     ? attendanceRecords.filter(
         (record) =>
-          record.className.toLowerCase() === filterClassName.toLowerCase()
+          (record.class as IClass).className.toLowerCase() === filterClassName.toLowerCase()
       )
     : attendanceRecords;
 
@@ -64,9 +63,9 @@ const ViewAttendanceData: React.FC = () => {
     filteredRecords.forEach((record) => {
       record.studentAttendances.forEach((attendance) => {
         csvData.push([
-          record.className,
+          (record.class as IClass).className,
           record.date,
-          attendance.studentName,
+          attendance.student,
           attendance.isPresent ? "Present" : "Absent",
         ]);
       });
@@ -138,13 +137,13 @@ const ViewAttendanceData: React.FC = () => {
                     {index + currentPage * itemsPerPage}
                   </td>
                   <td style={{ border: "1px solid black", padding: "8px" }}>
-                    {record.className}
+                    {  (record.class as IClass).className}
                   </td>
                   <td style={{ border: "1px solid black", padding: "8px" }}>
                     {record.date}
                   </td>
                   <td style={{ border: "1px solid black", padding: "8px" }}>
-                    {attendance.studentName}
+                    {`${(attendance.student as IStudent).studentFirstName} ${(attendance.student as IStudent).studentLastName}`}
                   </td>
                   <td style={{ border: "1px solid black", padding: "8px" }}>
                     {attendance.isPresent ? "Present" : "Absent"}
