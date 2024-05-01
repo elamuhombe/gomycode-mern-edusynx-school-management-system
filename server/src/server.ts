@@ -24,7 +24,7 @@ import studentMarksRouter from "./routes/studentMarksRoute";
 require('dotenv').config();
 
 const app = express();
-const port = 5100;
+const port = process.env.PORT || 5100;
 
 app.use(express.json());
 
