@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "npm i && concurrently \"npm run run-app\" \"npm run run-server\"",
+    "start:dev": "npm i && concurrently \"npm run run-app\" \"npm run run-server\"",
+    "start": "nodemon src/server.ts",
     "run-app": "cd client && npm run dev",
     "dev": "nodemon src/server.ts",
     "run-server": "cd server && npm run dev",
