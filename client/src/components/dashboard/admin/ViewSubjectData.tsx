@@ -22,7 +22,7 @@ const ViewSubjectData: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const path = "http://localhost:5100/subject/";
+      const path = `${import.meta.env.VITE_API_URL}/subject/`;
       const method = "GET";
       try {
         const result = await submitForm(path, method, {});
@@ -66,7 +66,7 @@ const ViewSubjectData: React.FC = () => {
         setSubjects(updatedSubjects);
 
         // Send a DELETE request to the server to delete the subject
-        const path = `http://localhost:5100/subject/${subjectId}`;
+        const path = `${import.meta.env.VITE_API_URL}/subject/${subjectId}`;
         const method = "DELETE";
         await submitForm(path, method, {});
 
@@ -115,7 +115,7 @@ const ViewSubjectData: React.FC = () => {
       setEditedSubject(null);
 
       // Save the edited subject data to the server
-      const path = `http://localhost:5100/subject/${editingSubjectId}`;
+      const path = `${import.meta.env.VITE_API_URL}/subject/${editingSubjectId}`;
       const method = "PUT";
       await submitForm(path, method, editedSubject);
 

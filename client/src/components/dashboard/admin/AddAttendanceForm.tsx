@@ -71,13 +71,16 @@ const AddAttendanceForm: React.FC<Props> = ({ classes, students }) => {
 
     try {
       // Send attendance data to the server
-      const response = await fetch("http://localhost:5100/attendance", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(attendanceData),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/attendance`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(attendanceData),
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`Failed to submit attendance: ${response.status}`);

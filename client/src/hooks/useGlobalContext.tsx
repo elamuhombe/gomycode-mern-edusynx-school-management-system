@@ -35,12 +35,14 @@ export interface GlobalState {
   userRole: Role; // Fix: Change 'any' to 'Role'
   users: User[];
   loggedInUser: User | null;
+  API_URL:string;
 }
 
 const initialState: GlobalState = {
   userRole: Role.Admin, // Set initial userRole to Admin
   users: [],
   loggedInUser: null,
+  API_URL:'https://mern-edusynx-school-management-system.onrender.com'
 };
 
 type Action = { type: "UPDATE_USERS" | "UPDATE_USER"; payload: any };

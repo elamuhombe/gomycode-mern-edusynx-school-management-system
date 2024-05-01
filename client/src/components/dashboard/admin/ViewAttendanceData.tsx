@@ -28,7 +28,7 @@ const ViewAttendanceData: React.FC = () => {
     const fetchAttendanceRecords = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5100/attendance/view-attendance"
+          `${import.meta.env.VITE_API_URL}/attendance/view-attendance`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch attendance records");

@@ -14,7 +14,7 @@ const SearchFamilyNumber = () => {
     try {
       // Fetch guardian data based on family number
       const response = await fetch(
-        `http://localhost:5100/guardian?familyNumber=${familyNumber}`
+        `${import.meta.env.VITE_API_URL}/guardian?familyNumber=${familyNumber}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch data");

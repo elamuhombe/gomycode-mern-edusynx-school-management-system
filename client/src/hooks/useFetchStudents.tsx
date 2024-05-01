@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import useSubmitForm from "./useSubmitForm"
+import useSubmitForm from "./useSubmitForm";
 import { IStudent } from "../types";
 
 const useFetchStudents = () => {
@@ -11,7 +11,7 @@ const useFetchStudents = () => {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const path = "http://localhost:5100/student/";
+      const path = `${import.meta.env.VITE_API_URL}/student/`;
       const method = "GET";
       try {
         const result = await submitForm(path, method, {});

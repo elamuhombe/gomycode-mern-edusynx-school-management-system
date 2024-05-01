@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {useSubmitForm} from "./../../../hooks/hooks";
+import { useSubmitForm } from "./../../../hooks/hooks";
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 
 // Define interface for student object
@@ -33,7 +33,7 @@ const ViewStudentData: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const path = "http://localhost:5100/student/";
+      const path = `${import.meta.env.VITE_API_URL}/student/`;
       const method = "GET";
       try {
         const result = await submitForm(path, method, {});
@@ -41,7 +41,7 @@ const ViewStudentData: React.FC = () => {
       } catch (error) {
         console.error("Error:", error);
         setError("Failed to fetch student data. Please try again.");
-      }finally {
+      } finally {
         setLoading(false);
       }
     };
@@ -95,7 +95,7 @@ const ViewStudentData: React.FC = () => {
 
       try {
         console.log("Submitting form data:", postData);
-        const apiUrl = `http://localhost:5100/student/${studentId}`;
+        const apiUrl = `${import.meta.env.VITE_API_URL}/student/${studentId}`;
         const method = "PUT";
         const result = await submitForm(apiUrl, method, postData);
 

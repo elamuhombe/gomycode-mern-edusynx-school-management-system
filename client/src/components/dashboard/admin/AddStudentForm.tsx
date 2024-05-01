@@ -90,7 +90,9 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({
 
   const fetchData = async () => {
     try {
-      const classesResponse = await fetch("http://localhost:5100/class");
+      const classesResponse = await fetch(
+        `${import.meta.env.VITE_API_URL}/class`
+      );
 
       if (!classesResponse.ok) {
         throw new Error("Failed to fetch data");
@@ -130,10 +132,14 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({
     e.preventDefault();
 
     try {
-      const result = await submitForm("http://localhost:5100/student", "POST", {
-        ...selectedFormData,
-        school: state.loggedInUser?._id,
-      });
+      const result = await submitForm(
+        `${import.meta.env.VITE_API_URL}/student`,
+        "POST",
+        {
+          ...selectedFormData,
+          school: state.loggedInUser?._id,
+        }
+      );
 
       if (result && result.message) {
         Swal.fire(result.message);

@@ -7,11 +7,11 @@ import { ISchool, IUser } from "../types";
 import Swal from "sweetalert2";
 
 const userDashboard = [
-   {role: 'admin',path: "/dashboard/admin"},
-  {role:'enrollmentOfficer', path: "/dashboard/enrollment-officer"},
-  {role: 'accountant',path: "/dashboard/accountant"},
-  {role: 'headteacher', path: "/dashboard/headteacher"},
-  {role:'teacher',path:"/dashboard/teacher"},
+  { role: "admin", path: "/dashboard/admin" },
+  { role: "enrollmentOfficer", path: "/dashboard/enrollment-officer" },
+  { role: "accountant", path: "/dashboard/accountant" },
+  { role: "headteacher", path: "/dashboard/headteacher" },
+  { role: "teacher", path: "/dashboard/teacher" },
 ];
 
 const Login: React.FC = () => {
@@ -22,7 +22,7 @@ const Login: React.FC = () => {
   const userAuth = useUserAuth();
 
   const { dispatch, state } = useGlobalState(); // Destructure dispatch and state from useGlobalState
-  let loggedInUser = userAuth.savedUser as ISchool
+  let loggedInUser = userAuth.savedUser as ISchool;
 
   useEffect(() => {
     if (userAuth.isLoggedIn) {
@@ -31,7 +31,10 @@ const Login: React.FC = () => {
       } else {
         //navigate("/");
       }
-      navigate(userDashboard.find(val=>val.role===loggedInUser.role as string)?.path as string);
+      navigate(
+        userDashboard.find((val) => val.role === (loggedInUser.role as string))
+          ?.path as string
+      );
     }
   }, [userAuth.isLoggedIn, location.state, navigate]);
 
@@ -41,7 +44,7 @@ const Login: React.FC = () => {
     console.log({ username, password });
 
     try {
-      const response = await fetch("http://localhost:5100/login", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
         method: "POST",
         body: JSON.stringify({ username, password }),
         headers: {
@@ -54,9 +57,12 @@ const Login: React.FC = () => {
       }
 
       const data = await response.json();
-      let userData = data.accountDetails.school?data.accountDetails:{...data.accountDetails, school:data.accountDetails._id}
+      let userData = data.accountDetails.school
+        ? data.accountDetails
+        : { ...data.accountDetails, school: data.accountDetails._id };
       // Update user in global state
-      if(!data.accountDetails || !userData) throw Error('An error has occcured')
+      if (!data.accountDetails || !userData)
+        throw Error("An error has occcured");
       dispatch({
         type: "UPDATE_USER",
         payload: {
@@ -65,14 +71,16 @@ const Login: React.FC = () => {
         },
       });
       userAuth.loginUser(userData);
-      Swal.fire('Logged in successfully')
+      Swal.fire("Logged in successfully");
 
       // Redirect to admin dashboard
       //navigate("/dashboard/admin");
-      navigate(userDashboard.find(val=>val.role===userData.role as string)?.path as string);
-
+      navigate(
+        userDashboard.find((val) => val.role === (userData.role as string))
+          ?.path as string
+      );
     } catch (error) {
-      Swal.fire('Invalid login details')
+      Swal.fire("Invalid login details");
       console.error("Error occurred:", error);
     }
   };
@@ -83,7 +91,6 @@ const Login: React.FC = () => {
   const handleResetPassword = () => {
     navigate("/reset-password");
   };
-  
 
   return (
     <div className="flex flex-col ">

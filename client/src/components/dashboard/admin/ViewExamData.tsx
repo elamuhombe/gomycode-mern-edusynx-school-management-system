@@ -12,7 +12,7 @@ const ViewExamData: React.FC = () => {
   const fetchExams = async () => {
     try {
       // Attempt to fetch exams data
-      const response = await fetch("http://localhost:5100/exam", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/exam`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
 const GuardiansCards: React.FC = () => {
   const [guardians, setGuardians] = useState<string[]>([]);
@@ -9,11 +9,13 @@ const GuardiansCards: React.FC = () => {
     const fetchData = async () => {
       try {
         // Make GET request to fetch all guardians
-        const response = await fetch('http://localhost:5100/guardian');
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/guardian`
+        );
 
         // Check if request was not successful
         if (!response.ok) {
-          setError('Failed to fetch guardians');
+          setError("Failed to fetch guardians");
           return;
         }
 
@@ -22,7 +24,7 @@ const GuardiansCards: React.FC = () => {
         setGuardians(data);
       } catch (error) {
         // Handle any errors
-        setError('Error fetching guardians:');
+        setError("Error fetching guardians:");
         throw error;
       } finally {
         setLoading(false);
@@ -39,8 +41,8 @@ const GuardiansCards: React.FC = () => {
   if (loading) {
     return <div>Loading...</div>;
   }
- 
-  const description = guardians.length
+
+  const description = guardians.length;
 
   return (
     <div>

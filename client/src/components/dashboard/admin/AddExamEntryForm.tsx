@@ -24,7 +24,7 @@ const AddExamEntryForm: React.FC = () => {
 
     try {
       // Send POST request to add exam in backend
-      const response = await fetch("http://localhost:5100/exam", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/exam`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

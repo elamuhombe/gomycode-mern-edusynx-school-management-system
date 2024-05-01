@@ -12,7 +12,7 @@ import StudentCards from "../../components/dashboard/shared/cards/StudentCard";
 import useFetch from "../../hooks/useFetch";
 
 const AdminDashboard: React.FC = () => {
-  const API_URL = import.meta.env.API_URL || "http://localhost:5100";
+  const API_URL = import.meta.env.VITE_API_URL || "import.meta.env.VITE_API_URL";
   const { state } = useGlobalState();
   const userAuth = useUserAuth();
   const [dashboardData, setDashboardData] = useState({

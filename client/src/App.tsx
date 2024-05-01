@@ -1,4 +1,5 @@
 import React from "react";
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import {
   Home,
@@ -31,13 +32,19 @@ import ViewStudents from "./pages/Students/ViewStudents";
 import ViewUser from "./pages/dashboard/ViewUser";
 import GlobalStateProvider from "./hooks/useGlobalContext";
 import AddStudentForm from "./components/dashboard/admin/AddStudentForm";
+import { GLOBAL_API_URL } from "./constants";
 // import { configDotenv } from "dotenv";
 
 
-const App: React.FC = () => {
+const App: React.FC = () => { 
+  const API_URL=import.meta.env.VITE_API_URL;
+  console.log({GLOBAL_API_URL})
+  console.log({API_URL})
   // configDotenv()
   return (
+
     <GlobalStateProvider>
+
       <Router>
         <div className="m-4 font-sans">
           <Routes>

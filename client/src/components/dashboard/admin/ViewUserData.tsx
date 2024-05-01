@@ -6,7 +6,6 @@ import AddStudentForm from "./AddStudentForm";
 import { useGlobalState } from "../../../hooks/useGlobalContext";
 import { useNavigate } from "react-router-dom";
 
-
 const ViewUserData: React.FC = () => {
   const [users, setUsers] = useState<IUser[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -15,19 +14,19 @@ const ViewUserData: React.FC = () => {
   const [showAddStudentForm, setShowAddStudentForm] = useState<boolean>(false);
   const [editingUserId, setEditingUserId] = useState<string | null>(null);
   const [editedUser, setEditedUser] = useState<IUser | null>(null);
- 
+
   const { submitForm } = useSubmitForm();
   const navigate = useNavigate();
- 
+
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
   const {
     state: { loggedInUser },
   } = useGlobalState();
 
-useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const path = "http://localhost:5100/user/";
+      const path = `${import.meta.env.VITE_API_URL}/user/`;
       const method = "GET";
       try {
         const result = await submitForm(path, method, {});
@@ -57,7 +56,7 @@ useEffect(() => {
       setUsers(updatedUsers);
 
       // Send a DELETE request to the server to delete the user
-      const path = `http://localhost:5100/user/${userId}`;
+      const path = `${import.meta.env.VITE_API_URL}/user/${userId}`;
       const method = "DELETE";
       await submitForm(path, method, {});
 
@@ -92,7 +91,7 @@ useEffect(() => {
       setEditedUser(null);
 
       // Add logic to save the edited user data to the server
-      const path = `http://localhost:5100/user/${editingUserId}`;
+      const path = `${import.meta.env.VITE_API_URL}/user/${editingUserId}`;
       const method = "PUT";
       await submitForm(path, method, editedUser);
     } catch (error) {
@@ -175,9 +174,10 @@ useEffect(() => {
                         <button
                           onClick={() => {
                             setSelectedUser(user);
-                           
-                            navigate('/add/add-student',{state: {guardian:user} });
-                           
+
+                            navigate("/add/add-student", {
+                              state: { guardian: user },
+                            });
 
                             setShowAddStudentForm(true);
                           }}
@@ -221,16 +221,15 @@ useEffect(() => {
         <div>
           <h2 className="text-lg font-semibold mb-4">Add Student Form</h2>
           {showAddStudentForm && (
-  <div>
-    <h2 className="text-lg font-semibold mb-4">Add Student Form</h2>
-    <AddStudentForm
-      onClose={handleCloseAddStudentForm}
-      familyNumber={0}
-      guardians={[]}
-    />
-  </div>
-)}
-
+            <div>
+              <h2 className="text-lg font-semibold mb-4">Add Student Form</h2>
+              <AddStudentForm
+                onClose={handleCloseAddStudentForm}
+                familyNumber={0}
+                guardians={[]}
+              />
+            </div>
+          )}
         </div>
       )}
     </div>

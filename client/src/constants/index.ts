@@ -1,0 +1,1 @@
+export const GLOBAL_API_URL=import.meta.VITE_API_URL as string;

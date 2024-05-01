@@ -26,7 +26,7 @@ const AddClassForm: React.FC = () => {
     try {
       // Submit form data
       const result = await submitForm(
-        "http://localhost:5100/class",
+        `${import.meta.env.VITE_API_URL}/class`,
         "POST",
         { ...formData, school: state.loggedInUser?._id } // Include logged in user's id in form data
       );

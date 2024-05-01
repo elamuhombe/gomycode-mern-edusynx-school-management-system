@@ -63,7 +63,9 @@ const AddUserForm: React.FC = () => {
   const fetchSubjects = async () => {
     try {
       // fetch subject from backend
-      const subjectsResponse = await fetch("http://localhost:5100/subject");
+      const subjectsResponse = await fetch(
+        `${import.meta.env.VITE_API_URL}/subject`
+      );
 
       if (!subjectsResponse.ok) {
         throw new Error("Failed to fetch subjects");
@@ -80,7 +82,9 @@ const AddUserForm: React.FC = () => {
 
   const fetchData = async () => {
     try {
-      const classesResponse = await fetch("http://localhost:5100/class");
+      const classesResponse = await fetch(
+        `${import.meta.env.VITE_API_URL}/class`
+      );
 
       if (!classesResponse.ok) {
         throw new Error("Failed to fetch data");
@@ -168,10 +172,14 @@ const AddUserForm: React.FC = () => {
         teachingSubjects: selectedSubjects,
       };
 
-      const result = await submitForm("http://localhost:5100/user", "POST", {
-        ...updatedFormData,
-        school: state?.loggedInUser?._id || "",
-      });
+      const result = await submitForm(
+        `${import.meta.env.VITE_API_URL}/user`,
+        "POST",
+        {
+          ...updatedFormData,
+          school: state?.loggedInUser?._id || "",
+        }
+      );
       if (result && result.message) {
         console.error("Error:", result.message);
       } else {

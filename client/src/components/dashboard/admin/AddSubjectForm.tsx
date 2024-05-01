@@ -38,10 +38,14 @@ const AddSubjectForm: React.FC = () => {
 
     try {
       // Submit form data to the server
-      const result = await submitForm("http://localhost:5100/subject", "POST", {
-        ...formData,
-        school: state.loggedInUser?._id,
-      });
+      const result = await submitForm(
+        `${import.meta.env.VITE_API_URL}/subject`,
+        "POST",
+        {
+          ...formData,
+          school: state.loggedInUser?._id,
+        }
+      );
       if (result && result.message) {
         console.error("Error:", result.message);
       } else {

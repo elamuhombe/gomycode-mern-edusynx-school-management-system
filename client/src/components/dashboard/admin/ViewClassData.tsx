@@ -35,7 +35,7 @@ const ViewClassData: React.FC = () => {
       setStudents(updatedStudents);
 
       // Send a DELETE request to the server to delete the student
-      const path = `http://localhost:5100/student/${studentId}`;
+      const path = `${import.meta.env.VITE_API_URL}/student/${studentId}`;
       const method = "DELETE";
       await submitForm(path, method, {});
 
@@ -53,41 +53,40 @@ const ViewClassData: React.FC = () => {
     setEditedStudent(student);
   };
 
-
-
-// Function to save changes made to a student
-const handleSave = async () => {
-  try {
-    setLoading(true);
-    const path = `http://localhost:5100/student/${editingStudentId}`;
-    const method = "PUT"; // Assuming you are using a PUT request to update the student data
-    await submitForm(path, method, editedStudent);
-    // Refetch the data after saving to update the UI
-    const result = await submitForm(
-      "http://localhost:5100/student/",
-      "GET",
-      {}
-    );
-    setStudents(result);
-    // Show success message
-    Swal.fire({
-      icon: 'success',
-      title: 'Success',
-      text: `Student with ID ${editingStudentId} updated successfully.`,
-    });
-  } catch (error) {
-    setError("Failed to save student data. Please try again.");
-    // Show error message
-    Swal.fire({
-      icon: 'error',
-      title: 'Error',
-      text: 'Failed to save student data. Please try again.',
-    });
-  } finally {
-    setLoading(false);
-  }
-};
-
+  // Function to save changes made to a student
+  const handleSave = async () => {
+    try {
+      setLoading(true);
+      const path = `${
+        import.meta.env.VITE_API_URL
+      }/student/${editingStudentId}`;
+      const method = "PUT"; // Assuming you are using a PUT request to update the student data
+      await submitForm(path, method, editedStudent);
+      // Refetch the data after saving to update the UI
+      const result = await submitForm(
+        `${import.meta.env.VITE_API_URL}/student/`,
+        "GET",
+        {}
+      );
+      setStudents(result);
+      // Show success message
+      Swal.fire({
+        icon: "success",
+        title: "Success",
+        text: `Student with ID ${editingStudentId} updated successfully.`,
+      });
+    } catch (error) {
+      setError("Failed to save student data. Please try again.");
+      // Show error message
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Failed to save student data. Please try again.",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const classes = [
     "All",

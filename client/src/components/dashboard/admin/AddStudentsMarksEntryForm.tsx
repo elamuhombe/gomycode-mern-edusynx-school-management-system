@@ -28,7 +28,7 @@ const AddStudentsMarksEntry: React.FC = () => {
   // Fetch available exams from the server
   const fetchAvailableExams = async () => {
     try {
-      const response = await fetch("http://localhost:5100/exam");
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/exam`);
       const data: IExam[] = await response.json();
       console.log("Data received from API:", data);
       setExams(data); // Set the entire array of IExam objects to state
@@ -39,7 +39,7 @@ const AddStudentsMarksEntry: React.FC = () => {
   // Fetch available student data from the server
   const fetchStudents = async () => {
     try {
-      const response = await fetch("http://localhost:5100/student");
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/student`);
       const data = await response.json();
       console.log("Students data received from API:", data);
       setStudents(data);
@@ -52,7 +52,7 @@ const AddStudentsMarksEntry: React.FC = () => {
   // Fetch subject data from the server
   const fetchSubjects = async () => {
     try {
-      const response = await fetch("http://localhost:5100/subject");
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/subject`);
       const data = await response.json();
       console.log("Subjects data received from API:", data);
       setSubjects(data); // Assuming data is an array of subject names
@@ -94,13 +94,16 @@ const AddStudentsMarksEntry: React.FC = () => {
       };
 
       // Send an HTTP POST request to the server
-      const response = await fetch("http://localhost:5100/saveStudentMarks", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/saveStudentMarks`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to save marks");

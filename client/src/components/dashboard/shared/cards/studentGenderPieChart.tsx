@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react';
-import Chart from 'chart.js/auto';
+import React, { useEffect, useState, useRef } from "react";
+import Chart from "chart.js/auto";
 
 const StudentGenderPieChart: React.FC = () => {
   const [boysCount, setBoysCount] = useState<number>(0);
@@ -10,13 +10,15 @@ const StudentGenderPieChart: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:5100/students/countStudentsByGender');
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/students/countStudentsByGender`
+        );
         const data = await response.json();
         setBoysCount(data.boys);
         setGirlsCount(data.girls);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
         setLoading(false);
       }
     };
@@ -28,22 +30,24 @@ const StudentGenderPieChart: React.FC = () => {
     if (!loading && chartRef.current) {
       const ctx = chartRef.current;
       const chart = new Chart(ctx, {
-        type: 'pie',
+        type: "pie",
         data: {
-          labels: ['Boys', 'Girls'],
-          datasets: [{
-            data: [boysCount, girlsCount],
-            backgroundColor: ['blue', 'pink'],
-          }]
+          labels: ["Boys", "Girls"],
+          datasets: [
+            {
+              data: [boysCount, girlsCount],
+              backgroundColor: ["blue", "pink"],
+            },
+          ],
         },
         options: {
           responsive: true,
           plugins: {
             legend: {
-              position: 'bottom',
-            }
-          }
-        }
+              position: "bottom",
+            },
+          },
+        },
       });
 
       return () => {
@@ -53,10 +57,16 @@ const StudentGenderPieChart: React.FC = () => {
   }, [boysCount, girlsCount, loading]);
 
   return (
-    <div id="chartContainer" style={{ maxWidth: '400px', margin: 'auto' }}>
-      {loading ? <p>Loading...</p> :
-        <canvas id="myPieChart" width="400" height="400" ref={chartRef}></canvas>
-      }
+    <div id="chartContainer" style={{ maxWidth: "400px", margin: "auto" }}>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <canvas
+          id="myPieChart"
+          width="400"
+          height="400"
+          ref={chartRef}></canvas>
+      )}
     </div>
   );
 };
