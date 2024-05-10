@@ -106,7 +106,9 @@ app.use('/sendEmail', async (req, res) => {
   if (!email) {
     return res.status(400).json({ error: 'Email is required' });
   }
-  
+  app.get("/", async(req:Request, res:Response)=>{
+    res.send("Welcome to backend")
+  })
 
   // Prepare email parameters
   const emailParams = {
