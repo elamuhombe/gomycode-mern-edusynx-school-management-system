@@ -8,7 +8,9 @@
     "run-app": "cd client && npm run dev",
     "dev": "nodemon src/server.ts",
     "run-server": "cd server && npm run dev",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "vercel-build": "echo 'hello'"
   },
   "keywords": [],
   "author": "",
