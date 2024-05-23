@@ -13,7 +13,6 @@ const ViewAttendanceData: React.FC = () => {
     students: IStudent[];
     classes: IClass[];
   }>({ students: [], classes: [] });
-  const [classId, setClassId] = useState<string | null>(null);
   const [createdAttendanceData, setCreatedAttendanceData] = useState<any[]>([]);
   const [selectedClass, setSelectedClass] = useState<IClass | null>(null);
   // Extract unique class names from attendance records
@@ -34,7 +33,7 @@ const ViewAttendanceData: React.FC = () => {
           isPresent: false,
         };
       });
-    setCreatedAttendanceData(attendances);
+      setCreatedAttendanceData(attendances)
   };
   const filteredRecords = filterClassName
     ? attendanceRecords.filter(
@@ -44,9 +43,6 @@ const ViewAttendanceData: React.FC = () => {
       )
     : attendanceRecords;
 
-    // useEffect(()=>{
-    //   console.log(createdAttendanceData[0])
-    // },[createdAttendanceData])
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -81,14 +77,10 @@ const ViewAttendanceData: React.FC = () => {
     };
 
     fetchData();
-  }, [createdAttendanceData]);
-
- 
+  }, []);
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setFilterClassName(event.target.value);
-    setClassId(event.target.value)
-    handleClassSelect(event.target.value)
     setCurrentPage(0); // Reset to first page when filter changes
   };
 
@@ -143,7 +135,7 @@ const ViewAttendanceData: React.FC = () => {
           onChange={handleFilterChange}>
           <option value="">All Classes</option>
           {classStudentsData?.classes.map((_class, index) => (
-            <option key={index} value={_class?._id}>
+            <option key={index} value={_class.className}>
               {_class.className}
             </option>
           ))}
@@ -173,39 +165,31 @@ const ViewAttendanceData: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {createdAttendanceData
+          {filteredRecords
             .slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
-            .map((record, index) => (
-              <tr key={`${index}`}>
-                <td style={{ border: "1px solid black", padding: "8px" }}>
-                  {index + 1 + currentPage * itemsPerPage}
-                </td>
-                <td style={{ border: "1px solid black", padding: "8px" }}>
-                  {selectedClass?.className}
-                </td>
-                <td style={{ border: "1px solid black", padding: "8px" }}>
-                  {Date.now()}
-                </td>
-                <td style={{ border: "1px solid black", padding: "8px" }}>
-                  {`${(record.student as IStudent).studentFirstName} ${
-                    (record.student as IStudent).studentLastName
-                  }`}
-                </td>
-                <td style={{ border: "1px solid black", padding: "8px" }} >
-                  <button onClick ={()=>{
-                  setCreatedAttendanceData(prev=>{
-                    let updated = prev
-                    updated[index].isPresent = !prev[index].isPresent
-                    console.log({updated})
-                    return updated
-                  })
-                }}>
-                    {record.isPresent ? "Present" : "Absent"}
-                  </button>
-                
-                </td>
-              </tr>
-            ))}
+            .map((record, index) =>
+              record.studentAttendances.map((attendance, attendanceIndex) => (
+                <tr key={`${index}-${attendanceIndex}`}>
+                  <td style={{ border: "1px solid black", padding: "8px" }}>
+                    {index + currentPage * itemsPerPage}
+                  </td>
+                  <td style={{ border: "1px solid black", padding: "8px" }}>
+                    {(record.class as IClass).className}
+                  </td>
+                  <td style={{ border: "1px solid black", padding: "8px" }}>
+                    {record.date}
+                  </td>
+                  <td style={{ border: "1px solid black", padding: "8px" }}>
+                    {`${(attendance.student as IStudent).studentFirstName} ${
+                      (attendance.student as IStudent).studentLastName
+                    }`}
+                  </td>
+                  <td style={{ border: "1px solid black", padding: "8px" }}>
+                    {attendance.isPresent ? "Present" : "Absent"}
+                  </td>
+                </tr>
+              ))
+            )}
         </tbody>
       </table>
       <div className="mt-4">
