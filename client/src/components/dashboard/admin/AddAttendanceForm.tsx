@@ -143,7 +143,7 @@ const AddAttendanceForm: React.FC<Props> = ({ classes, students }) => {
               </thead>
               <tbody>
                 {students
-                  .filter((student) => student.className === classId)
+                  .filter((student) => student.clas === classId)
                   .map((student, index) => (
                     <tr key={student._id}>
                       <td className="border px-4 py-2">{index + 1}</td>

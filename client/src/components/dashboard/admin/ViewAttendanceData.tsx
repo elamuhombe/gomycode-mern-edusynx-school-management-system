@@ -1,27 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { IAttendance, IClass, IStudent } from "../../../types/index";
 import Papa from "papaparse";
+import Swal from "sweetalert2";
 
 const ViewAttendanceData: React.FC = () => {
   // State variables
-  const [attendanceRecords, setAttendanceRecords] = useState<IAttendance[]>([]);
+  const [attendanceRecords] = useState<IAttendance[]>([]);
   const itemsPerPage = 10; // Define items per page here
   const [currentPage, setCurrentPage] = useState(0);
   const totalPages = Math.ceil(attendanceRecords.length / itemsPerPage);
   const [filterClassName, setFilterClassName] = useState("");
+  // const {data:fetchedClassesAndStudents} = useFetch(`${
+  //   import.meta.env.VITE_API_URL
+  // }/classes/students/66102f52be0ff3f4365350c5`)
   const [classStudentsData, setClassStudentsData] = useState<{
     students: IStudent[];
     classes: IClass[];
   }>({ students: [], classes: [] });
+
   const [classId, setClassId] = useState<string | null>(null);
   const [createdAttendanceData, setCreatedAttendanceData] = useState<any[]>([]);
   const [selectedClass, setSelectedClass] = useState<IClass | null>(null);
-  // Extract unique class names from attendance records
-  const classNames = Array.from(
-    new Set(
-      attendanceRecords.map((record) => (record.class as IClass).className)
-    )
-  );
+
+const  date = new Date().toLocaleDateString("en-US",{ year: 'numeric', month: 'long', day: 'numeric' });
+
   const handleClassSelect = (clas: string) => {
     setSelectedClass(
       classStudentsData?.classes.find((c) => c._id === clas) || null
@@ -44,6 +46,11 @@ const ViewAttendanceData: React.FC = () => {
       )
     : attendanceRecords;
 
+
+   
+  //  if (data){
+  //   setClassStudentsData(data)
+  //  }
     // useEffect(()=>{
     //   console.log(createdAttendanceData[0])
     // },[createdAttendanceData])
@@ -64,24 +71,10 @@ const ViewAttendanceData: React.FC = () => {
         console.error("Error fetching attendance records:", error);
       }
     };
-    //Fetch attendance records from the backend API
-    const fetchAttendanceRecords = async () => {
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/attendance/view-attendance`
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch attendance records");
-        }
-        const data = await response.json();
-        setAttendanceRecords(data);
-      } catch (error) {
-        console.error("Error fetching attendance records:", error);
-      }
-    };
+    
 
     fetchData();
-  }, [createdAttendanceData]);
+  }, [classStudentsData]);
 
  
 
@@ -127,6 +120,26 @@ const ViewAttendanceData: React.FC = () => {
     document.body.removeChild(link);
   };
 
+  const handleAttendanceSubmit = async(event: React.MouseEvent<HTMLButtonElement>)=>{
+    const postData = {classId, date, studentAttendances:createdAttendanceData}
+   event.preventDefault()
+   
+    const request = await fetch(`${
+        import.meta.env.VITE_API_URL
+      }/attendance`,{
+        method: 'POST',
+        body: JSON.stringify(postData),
+        headers:{
+          "content-type": "application/json"
+        }
+      })
+      if(!request.ok){
+          return Swal.fire("error","could not save the attendance")
+      }
+      let data = await request.json()
+      console.log({data})
+  }
+
   return (
     <div>
       <h2 className="text-2xl font-bold mb-4 text-center">
@@ -154,6 +167,11 @@ const ViewAttendanceData: React.FC = () => {
           className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
           onClick={exportToCSV}>
           Export to CSV
+        </button>
+        <button
+          className="ml-4 bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 rounded"
+          onClick={handleAttendanceSubmit}>
+         Update Attendance
         </button>
       </div>
       <table style={{ border: "1px solid black", borderCollapse: "collapse" }}>
@@ -184,7 +202,7 @@ const ViewAttendanceData: React.FC = () => {
                   {selectedClass?.className}
                 </td>
                 <td style={{ border: "1px solid black", padding: "8px" }}>
-                  {Date.now()}
+                  {date}
                 </td>
                 <td style={{ border: "1px solid black", padding: "8px" }}>
                   {`${(record.student as IStudent).studentFirstName} ${
@@ -192,7 +210,7 @@ const ViewAttendanceData: React.FC = () => {
                   }`}
                 </td>
                 <td style={{ border: "1px solid black", padding: "8px" }} >
-                  <button onClick ={()=>{
+                  <button onClick ={(e:React.MouseEvent<HTMLButtonElement>)=>{
                   setCreatedAttendanceData(prev=>{
                     let updated = prev
                     updated[index].isPresent = !prev[index].isPresent
