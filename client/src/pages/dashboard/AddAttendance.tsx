@@ -12,6 +12,9 @@ const AddAttendance: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const fetchData = await fetch(
+          `${import.meta.env.VITE_API_URL}/classes/students/66102f52be0ff3f4365350c5`
+        ); 
         const classesResponse = await fetch(
           `${import.meta.env.VITE_API_URL}/class`
         ); // Adjust URL as per your backend API
@@ -19,17 +22,19 @@ const AddAttendance: React.FC = () => {
           `${import.meta.env.VITE_API_URL}/student`
         ); // Adjust URL as per your backend API
 
-        if (!classesResponse.ok || !studentsResponse.ok) {
+        if (!fetchData.ok) {
           throw new Error("Failed to fetch data");
         }
 
         const classesData = await classesResponse.json();
         const studentsData = await studentsResponse.json();
-
-        setClasses(classesData || []);
-        setStudents(studentsData || []);
+        const {classes, students} = await fetchData.json();
+        setClasses(classes|| []);
+        setStudents(students || []);
+        console.log({classes, students})
         setLoading(false);
       } catch (error) {
+        alert('error occured')
         console.error("Error fetching data:", error);
       }
     };
@@ -46,7 +51,7 @@ const AddAttendance: React.FC = () => {
         <LeftMenu />
         <div className="mx-auto">
           <BackButton />
-          <h2 className="font-bold">Add Attendance</h2>
+          <h2 className="font-bold">Add Attendances</h2>
           {loading ? (
             <p>Loading...</p>
           ) : (

@@ -29,7 +29,7 @@ export interface IStudent {
   studentLastName: string;
   studentGender: string;
   school: string | ISchool;
-  className: string | IClass;
+  clas: string | IClass;
   previousSchool: string;
   dateOfBirth: Date;
   guardians: string[] | IUser;

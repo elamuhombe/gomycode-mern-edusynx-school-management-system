@@ -18,8 +18,9 @@ attendanceRouter.get("/attendance", async (req: Request, res: Response) => {
 })
 attendanceRouter.post("/attendance", async (req: Request, res: Response) => {
   try {
-    const { classId, date, studentAttendances } = req.body;
-  
+    const { classId, ...others } = req.body,
+    {date, studentAttendances}=others;
+
 
     // Validate request data
     if (
@@ -56,15 +57,17 @@ attendanceRouter.post("/attendance", async (req: Request, res: Response) => {
 
       console.log("student attendance data", studentAttendanceData);
 
-      const attendance = new Attendance({
-        class: classDocument._id,
-        date,
-        studentAttendances: [studentAttendanceData],
-      });
+      // const attendance = new Attendance({
+      //   clas: classId,
+      //   date,
+      //   studentAttendances: [studentAttendanceData],
+      // });
+      const attendance = new Attendance({...others, clas:classId});
 
       console.log("attendance is", attendance);
 
-      return attendance.save(); // Return the promise
+     let saved = await attendance.save(); // Return the promise
+      return res.send(saved)
     });
 
     const savedAttendance = await Promise.all(attendancePromises);
@@ -76,21 +79,25 @@ attendanceRouter.post("/attendance", async (req: Request, res: Response) => {
   }
 });
 
+// GET endpoint to retrieve all attendance records
+
 attendanceRouter.get("/attendance/view-attendance", async (req: Request, res: Response) => {
   // const data=await Attendance.find()
   // return res.json(data)
+
+  
   try {
-      const className = req.query.className as string | undefined;
+      const clas = req.query.clas as string | undefined;
       const date = req.query.date as string | undefined;
 
       let attendanceRecords: IAttendance[];
 
-      if (className && date) {
-          attendanceRecords = await Attendance.find().populate("student")} else {
-          attendanceRecords = await Attendance.find().populate("student")
+      if (clas && date) {
+          attendanceRecords = await Attendance.find({clas, date}).populate("student")} else {
+         
               // path: 'studentAttendances', // Populate the studentAttendances field
               // populate: { path: 'student', model: 'Student' } // Populate the student field inside studentAttendances
-          
+          attendanceRecords = []
       }
 
       res.status(200).json(attendanceRecords);
