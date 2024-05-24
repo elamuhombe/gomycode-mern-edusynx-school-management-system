@@ -16,7 +16,7 @@ interface IStudent extends Document {
   studentGender: Gender;
   school: string | ISchool;
   student: string | IStudent;
-  className: Types.ObjectId | IClass;
+  clas: Types.ObjectId | IClass;
   previousSchool: string;
   registrationDate: Date;
   dateOfBirth: Date;
@@ -49,7 +49,7 @@ const studentSchema = new mongoose.Schema<IStudent>({
     enum: Object.values(Gender), // Ensure only values from the enum are allowed
     required: true,
   },
-  className: {
+  clas: {
     type: String,
     ref: "Class",
     required: true,
