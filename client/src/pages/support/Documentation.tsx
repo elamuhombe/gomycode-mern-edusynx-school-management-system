@@ -6,9 +6,9 @@ const Documentation: React.FC = () => {
     <div>
       <Header />
       <div className="ml-4">
-      <h1 className='text-center'>School Management System - Documentation</h1>
-
-      <h2>1. Introduction</h2>
+      <h1 className='text-3xl text-center'>School Management System - Documentation</h1>
+      <div className='text-center'>
+      <h2 className='mt-4 text-2xl font-semibold mb-4'>1. Introduction</h2>
       <p>
         The School Management System is a comprehensive software solution
         designed to streamline administrative tasks, manage student
@@ -16,7 +16,7 @@ const Documentation: React.FC = () => {
         decision-making processes within educational institutions.
       </p>
 
-      <h2>2. Features</h2>
+      <h2 className='mt-4 text-2xl font-semibold mb-4'>2. Features</h2>
       <p>
         The system offers the following key features:
         <ul>
@@ -30,7 +30,7 @@ const Documentation: React.FC = () => {
         </ul>
       </p>
 
-      <h2>3. User Roles</h2>
+      <h2 className='mt-4 text-2xl font-semibold mb-4'>3. User Roles</h2>
       <p>
         The School Management System supports multiple user roles with specific
         permissions tailored to their responsibilities within the system:
@@ -43,7 +43,7 @@ const Documentation: React.FC = () => {
         </ul>
       </p>
 
-      <h2>4. Technology Stack</h2>
+      <h2 className='mt-4 text-2xl font-semibold mb-4'>4. Technology Stack</h2>
       <p>
         The system is built using modern web technologies:
         <ul>
@@ -53,7 +53,7 @@ const Documentation: React.FC = () => {
         </ul>
       </p>
 
-      <h2>5. Installation</h2>
+      <h2 className='mt-4 text-2xl font-semibold mb-4'>5. Installation</h2>
       <p>
         To install the School Management System, follow these steps:
         <ol>
@@ -65,24 +65,27 @@ const Documentation: React.FC = () => {
         </ol>
       </p>
 
-      <h2>6. Usage</h2>
+      <h2 className='mt-4 text-2xl font-semibold mb-4'>6. Usage</h2>
       <p>
         Once the application is running, users can access the system using
         their credentials. The dashboard provides access to various modules and
         functionalities based on the user's role and permissions.
       </p>
 
-      <h2>7. Support</h2>
+      <h2 className='mt-4 text-2xl font-semibold mb-4'>7. Support</h2>
       <p>
         For any questions, issues, or assistance, please contact our support
         team at emuhombe@gmail.com.
       </p>
 
-      <h2>8. License</h2>
+      <h2 className='mt-4 text-2xl font-semibold mb-4'>8. License</h2>
       <p>
         This project is licensed under the Edusynx License - see the LICENSE file
         for details.
       </p>
+      </div>
+
+     
 
       </div>
       
