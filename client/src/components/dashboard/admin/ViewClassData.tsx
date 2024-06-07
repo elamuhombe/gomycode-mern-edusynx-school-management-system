@@ -127,10 +127,10 @@ const ViewClassData: React.FC = () => {
           onChange={(e) => setFilterClass(e.target.value)}
           className="border rounded px-2 py-1">
           {classes.map(
-            (className, index) =>
-              typeof className === "string" && (
-                <option key={index} value={className}>
-                  {className}
+            (clas, index) =>
+              typeof clas === "string" && (
+                <option key={index} value={clas}>
+                  {clas}
                 </option>
               )
           )}
