@@ -22,7 +22,7 @@ const ViewClassData: React.FC = () => {
 
   // Count the number of students based on the filter
   const numberOfStudents = students.filter(
-    (student) => filterClass === "All" || student.className === filterClass
+    (student) => filterClass === "All" || student.clas === filterClass
   ).length;
 
   const handleDelete = async (studentId: string) => {
@@ -90,7 +90,7 @@ const ViewClassData: React.FC = () => {
 
   const classes = [
     "All",
-    ...new Set(students.map((student) => student.className)),
+    ...new Set(students.map((student) => student.clas)),
   ];
   // Function to export data as CSV
   const exportCSV = () => {
@@ -98,8 +98,8 @@ const ViewClassData: React.FC = () => {
       "data:text/csv;charset=utf-8," +
       students
         .map((student) => {
-          const { _id, studentFirstName, studentLastName, className } = student;
-          return `${_id},${studentFirstName},${studentLastName},${className}`;
+          const { _id, studentFirstName, studentLastName, clas } = student;
+          return `${_id},${studentFirstName},${studentLastName},${clas}`;
         })
         .join("\n");
     const encodedUri = encodeURI(csvContent);
@@ -127,10 +127,10 @@ const ViewClassData: React.FC = () => {
           onChange={(e) => setFilterClass(e.target.value)}
           className="border rounded px-2 py-1">
           {classes.map(
-            (className, index) =>
-              typeof className === "string" && (
-                <option key={index} value={className}>
-                  {className}
+            (clas, index) =>
+              typeof clas === "string" && (
+                <option key={index} value={clas}>
+                  {clas}
                 </option>
               )
           )}
@@ -162,7 +162,7 @@ const ViewClassData: React.FC = () => {
             {students
               .filter(
                 (student) =>
-                  filterClass === "All" || student.className === filterClass
+                  filterClass === "All" || student.clas === filterClass
               )
               .map((student, index) => (
                 <tr key={index}>
@@ -200,8 +200,8 @@ const ViewClassData: React.FC = () => {
                     )}
                   </td>
                   <td className="border px-4 py-2">
-                    {typeof student.className === "string"
-                      ? student.className
+                    {typeof student.clas === "string"
+                      ? student.clas
                       : ""}
                   </td>
                   <td className="border px-4 py-2">

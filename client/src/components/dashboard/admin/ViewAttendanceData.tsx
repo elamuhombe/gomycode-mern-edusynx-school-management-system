@@ -169,10 +169,17 @@ const  date = new Date().toLocaleDateString("en-US",{ year: 'numeric', month: 'l
           Export to CSV
         </button>
         <button
-          className="ml-4 bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 rounded"
-          onClick={handleAttendanceSubmit}>
-         Update Attendance
-        </button>
+  className={`ml-4 ${
+    createdAttendanceData.length === 0
+      ? 'bg-gray-400 text-gray-700 cursor-not-allowed'
+      : 'bg-red-500 hover:bg-red-400 text-white'
+  } font-bold py-2 px-4 rounded`}
+  onClick={handleAttendanceSubmit}
+  disabled={createdAttendanceData.length === 0}
+>
+  Update Attendance
+</button>
+
       </div>
       <table style={{ border: "1px solid black", borderCollapse: "collapse" }}>
         <thead>
@@ -210,7 +217,7 @@ const  date = new Date().toLocaleDateString("en-US",{ year: 'numeric', month: 'l
                   }`}
                 </td>
                 <td style={{ border: "1px solid black", padding: "8px" }} >
-                  <button onClick ={(e:React.MouseEvent<HTMLButtonElement>)=>{
+                  <button onClick ={(_e:React.MouseEvent<HTMLButtonElement>)=>{
                   setCreatedAttendanceData(prev=>{
                     let updated = prev
                     updated[index].isPresent = !prev[index].isPresent

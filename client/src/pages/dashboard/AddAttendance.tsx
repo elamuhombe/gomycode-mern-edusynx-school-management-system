@@ -29,8 +29,8 @@ const AddAttendance: React.FC = () => {
         const classesData = await classesResponse.json();
         const studentsData = await studentsResponse.json();
         const {classes, students} = await fetchData.json();
-        setClasses(classes|| []);
-        setStudents(students || []);
+        setClasses(classesData|| []);
+        setStudents(studentsData || []);
         console.log({classes, students})
         setLoading(false);
       } catch (error) {
