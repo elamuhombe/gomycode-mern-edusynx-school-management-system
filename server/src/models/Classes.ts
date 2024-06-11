@@ -6,6 +6,7 @@ interface IClass extends Document {
   school: Types.ObjectId | ISchool; // Reference to the class's school
   className: string; // Name of the class
   year: number; // Year of the class
+
 }
 
 // Define the schema for the Class collection in MongoDB

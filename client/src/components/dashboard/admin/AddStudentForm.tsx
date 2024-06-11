@@ -6,24 +6,16 @@ import { useLocation } from "react-router-dom";
 import LeftMenu from "../shared/LeftMenu";
 import Swal from "sweetalert2";
 
-// Define the functional component
 const AddStudentForm: React.FC = () => {
-  // State and logic here
   const { state } = useGlobalState();
   const { submitForm } = useSubmitForm();
-  // Update the initial state for birthDate
   const [birthDate, setBirthDate] = useState(() => {
-    // Create a new Date object with the current date
     const currentDate = new Date();
-    // Format the date as "yyyy-MM-dd"
     const formattedDate = currentDate.toISOString().split("T")[0];
-    // Return the formatted date as the initial state
     return formattedDate;
   });
   const [selectedClass, setSelectedClass] = useState<string>("");
-
   const [formData, setFormData] = useState({
-    // IUser Interface
     id: "",
     _id: "",
     school: "",
@@ -32,42 +24,32 @@ const AddStudentForm: React.FC = () => {
     gender: "",
     email: "",
     role: "",
+    clas: "",
     password: "",
     familyNumber: "",
     schoolClass: "",
     teachingSubjects: [],
     isClassTeacher: false,
-
-    //IStudent
     studentFirstName: "",
     studentLastName: "",
     studentGender: "",
     previousSchool: "",
     dateOfBirth: "",
     guardians: [],
-
-    //IClass Interface
     className: "",
     year: undefined,
   });
   let location = useLocation();
-  console.log({ "location is": location });
-
   let guardians = location.state && location.state.guardian;
-  // Access familyNumber from guardian object
   const extractedFamilyNumber = guardians?.familyNumber ?? null;
   console.log(extractedFamilyNumber);
 
   useEffect(() => {
     fetchData();
     if (guardians) {
-      // Extract guardian data and set to form state
       setFormData({
         ...formData,
         guardians: [],
-        // Populate familyNumber if available
-        //familyNumber: initialFamilyNumber !== null ? initialFamilyNumber.toString() : "",
-        // Other fields can be set based on guardianData
       });
     }
   }, [guardians]);
@@ -96,7 +78,6 @@ const AddStudentForm: React.FC = () => {
     }
   };
 
-  // Select only the properties you need
   const selectedFormData = {
     studentFirstName: formData.studentFirstName,
     studentLastName: formData.studentLastName,
@@ -111,6 +92,7 @@ const AddStudentForm: React.FC = () => {
         : undefined,
     school: state.loggedInUser?._id,
   };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
@@ -121,54 +103,37 @@ const AddStudentForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const selectedClassObject = classes.find(
+      (classObj) => classObj.className === selectedClass
+    );
+
+    if (!selectedClassObject) {
+      Swal.fire("Selected class not found");
+      return;
+    }
+
+    const studentData = {
+      ...selectedFormData,
+      clas: selectedClassObject._id,
+    };
+
     try {
       const result = await submitForm(
         `${import.meta.env.VITE_API_URL}/student`,
         "POST",
-        {
-          ...selectedFormData,
-          school: state.loggedInUser?._id,
-        }
+        studentData
       );
 
       if (result && result.message) {
         Swal.fire(result.message);
-        //console.error("Error:", result.message);
       } else {
-        Swal.fire("student created successfully");
+        Swal.fire("Student created successfully");
         console.log("Successfully created student:", result);
-        // Reset form data to default values
-        // const setSelectedFormData = {
-        //   studentFirstName: "",
-        //   studentLastName: "",
-        //   dateOfBirth: "",
-        //   studentGender: "",
-        //   previousSchool: "",
-        //   className: "",
-        //   guardians: [], // Provide an appropriate value for guardians
-        //   familyNumber:
-        //     extractedFamilyNumber !== null
-        //       ? extractedFamilyNumber.toString()
-        //       : undefined,
-        //   schoolClass: "",
-        //   school: "", // Provide a value for school
-        // };
       }
     } catch (error) {
       console.error("Error:", error);
     }
   };
-
-  // const handleDateChange = (
-  //   e: React.ChangeEvent<HTMLInputElement>,
-  //   field: keyof IStudent
-  // ) => {
-  //   setFormData({
-  //     ...formData,
-  //     [field]: new Date(e.target.value),
-  //   });
-  // };
-
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -177,6 +142,7 @@ const AddStudentForm: React.FC = () => {
       [name]: value,
     });
   };
+
   const handleClassSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedClassName = e.target.value;
     setFormData((prevFormData) => ({
@@ -185,6 +151,7 @@ const AddStudentForm: React.FC = () => {
     }));
     setSelectedClass(selectedClassName);
   };
+
 
   return (
     <div className="flex  items-center h-screen mt-12">
@@ -247,7 +214,7 @@ const AddStudentForm: React.FC = () => {
             value={selectedFormData.studentGender}
             onChange={handleSelectChange}
             className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-lg w-full">
-            <option value="">Select Gender</option>
+                      <option value="">Select Gender</option>
             <option value="boy">Boy</option>
             <option value="girl">Girl</option>
           </select>
@@ -297,7 +264,7 @@ const AddStudentForm: React.FC = () => {
       </form>
     </div>
   );
-
-  return null;
 };
+
 export default AddStudentForm;
+

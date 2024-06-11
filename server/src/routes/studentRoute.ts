@@ -1,6 +1,7 @@
 import express from "express";
-import { Student } from "./../models/Student";
+import { IStudent, Student } from "./../models/Student";
 import { User } from "./../models/User";
+import { Classes, IClass } from "../models/Classes";
 
 import mongoose from "mongoose";
 
@@ -16,12 +17,12 @@ const validateStudent = (
     studentFirstName,
     studentLastName,
     studentGender,
-    className,
+    clas,
     familyNumber,
     previousSchool,
     dateOfBirth,
   } = req.body;
-  // console.log(req.body)
+  console.log(req.body)
 
   // Check if required fields are provided
   // if (!gender || !school || !studentClass || !previousSchool || !registrationDate || !dateOfBirth ) {
@@ -40,7 +41,7 @@ studentRouter.post("/student", validateStudent, async (req, res) => {
     studentFirstName,
     studentLastName,
     studentGender,
-    className,
+    clas,
     previousSchool,
     dateOfBirth,
     familyNumber,
@@ -72,13 +73,21 @@ studentRouter.post("/student", validateStudent, async (req, res) => {
     }
 
     if (!createdAdm) return res.send({ msg: "An error has occured" });
+
+      // Find the class by ID to ensure it exists
+      const classObj = await Classes.findById(clas);
+      console.log("class is",classObj)
+      if (!classObj) {
+        throw new Error('Class not found');
+      }
+      
     // Create a new student instance and associate it with the found guardian
     const student = new Student({
       studentFirstName,
       studentLastName,
       studentGender,
       school: guardian.school._id,
-      className,
+      clas,
       previousSchool,
       registrationDate: Date.now(),
       dateOfBirth,
@@ -124,18 +133,29 @@ studentRouter.get("/student", async (req, res) => {
     res.status(500).send(error);
   }
 });
-// Get a single student by ID
-studentRouter.get("/student/:id", async (req, res) => {
+
+// Define the route handler to get student by className
+studentRouter.get('/students/:className', async (req, res) => {
+  const className = req.params.className;
+
   try {
-    const student = await Student.findById(req.params.id);
-    if (!student) {
-      return res.status(404).json({ message: "Student not found" });
+    // Query the Classes collection to find the ObjectId of the class by its name
+    const classObj = await Classes.findOne({ className });
+
+    if (!classObj) {
+      return res.status(404).json({ message: 'Class not found' });
     }
-    res.json(student);
+
+    // Use the ObjectId of the class to query the Student collection
+    const students = await Student.find({ clas: classObj._id }).populate("school");
+
+    res.json(students);
   } catch (error) {
-    res.status(500).send(error);
+    console.error("Error fetching students by class name:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
+
 // Get a single student by ID with populated guardian field
 studentRouter.get("/student/:id", async (req, res) => {
   try {
@@ -148,6 +168,7 @@ studentRouter.get("/student/:id", async (req, res) => {
     res.status(500).send(error);
   }
 });
+
 // Get a single student name by ID
 studentRouter.get("/student/:_id/name", async (req, res) => {
   const studentId = req.params._id; // Extract the student ID from the request parameters
@@ -209,6 +230,7 @@ studentRouter.put("/student/:id", async (req, res) => {
     studentClass,
     previousSchool,
   } = req.body;
+  console.log(req.body)
 
   try {
     const updatedStudent = await Student.findByIdAndUpdate(

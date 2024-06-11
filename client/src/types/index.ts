@@ -29,9 +29,9 @@ export interface IStudent {
   studentLastName: string;
   studentGender: string;
   school: string | ISchool;
-  clas: string | IClass;
   previousSchool: string;
   dateOfBirth: Date;
+  clas: string;
   guardians: string[] | IUser;
   id: string;
   _id?: string;
