@@ -42,6 +42,24 @@ classRouter.get('/class', async (req: Request, res: Response) => {
     }
 });
 
+// Define the route to fetch all classes
+classRouter.get('/classes', async (req, res) => {
+    try {
+      // Query the database to get all classes
+      const classes = await Classes.find();
+  
+      // Extract class names from the classes
+      const classNames = classes.map(cls => cls.className);
+  console.log(classNames)
+      res.json(classNames);
+    } catch (error) {
+      console.error('Error fetching classes:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+  
+
+
 classRouter.get('/classes/students/:schoolId', async (req: Request, res: Response) => {
     try {
         const {schoolId} = req.params

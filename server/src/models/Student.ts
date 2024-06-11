@@ -50,8 +50,8 @@ const studentSchema = new mongoose.Schema<IStudent>({
     required: true,
   },
   clas: {
-    type: String,
-    ref: "Class",
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Classes",
     required: true,
   },
   school: {

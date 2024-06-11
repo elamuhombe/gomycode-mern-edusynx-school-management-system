@@ -26,11 +26,11 @@ const AddAttendance: React.FC = () => {
           throw new Error("Failed to fetch data");
         }
 
-        const classesData = await classesResponse.json();
-        const studentsData = await studentsResponse.json();
+        // const classesData = await classesResponse.json();
+        // const studentsData = await studentsResponse.json();
         const {classes, students} = await fetchData.json();
-        setClasses(classesData|| []);
-        setStudents(studentsData || []);
+        setClasses(classes|| []);
+        setStudents(students || []);
         console.log({classes, students})
         setLoading(false);
       } catch (error) {

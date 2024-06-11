@@ -1,34 +1,40 @@
-import { useState, useEffect } from "react";
-import useSubmitForm from "./useSubmitForm";
-import { IStudent } from "../types";
+import { useState, useEffect } from 'react';
 
 const useFetchStudents = () => {
-  const [students, setStudents] = useState<IStudent[]>([]);
+  const [studentsByClass, setStudentsByClass] = useState<{ [key: string]: any[] }>({});
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const { submitForm } = useSubmitForm(); // Assuming you have a custom hook for form submission
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const path = `${import.meta.env.VITE_API_URL}/student/`;
-      const method = "GET";
       try {
-        const result = await submitForm(path, method, {});
-        setStudents(result);
-        setError(null); // Reset error state on successful fetch
+        // Fetch students data from the API
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/student/populated`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch students');
+        }
+        const data = await response.json();
+        // Organize students by class
+        const studentsByClassObject: { [key: string]: any[] } = {};
+        data.forEach((student: any) => {
+          if (!studentsByClassObject[student.clas.className]) {
+            studentsByClassObject[student.clas.className] = [];
+          }
+          studentsByClassObject[student.clas.className].push(student);
+        });
+        setStudentsByClass(studentsByClassObject);
       } catch (error) {
-        console.error("Error:", error);
-        setError("Failed to fetch student data. Please try again.");
+        setError('Failed to fetch students');
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
-  }, []); // Fetch data only once when the component mounts
+  }, []);
 
-  return { students, loading, error, setLoading, setStudents, setError };
+  return { studentsByClass, loading, setLoading, setError, error, setStudentsByClass };
 };
 
 export default useFetchStudents;

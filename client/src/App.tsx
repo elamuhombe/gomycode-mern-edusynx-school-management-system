@@ -27,7 +27,7 @@ import {
   ViewAttendance
 } from "./pages/index";
 
-import ViewStudents from "./pages/Students/ViewStudents";
+import ViewStudent from "./pages/dashboard/ViewStudent";
 import ViewUser from "./pages/dashboard/ViewUser";
 import GlobalStateProvider from "./hooks/useGlobalContext";
 import AddStudentForm from "./components/dashboard/admin/AddStudentForm";
@@ -54,7 +54,7 @@ const App: React.FC = () => {
             <Route path="/add/add-class" element={<AddClass />} />
             <Route path="/add/add-exam" element={<AddExam />} />
             <Route path="/view/view-users" element={<ViewUser />} />
-            <Route path="/view/view-student" element={<ViewStudents />} />
+            <Route path="/view/view-student" element={<ViewStudent />} />
             <Route path="/view/view-exam" element={<ViewExam />} />
             <Route path="/view/view-attendance" element={<ViewAttendance />} />
             <Route path="/view/view-student-total-marks" element={<ViewStudentTotalMarks />} />

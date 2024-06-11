@@ -1,231 +1,78 @@
-import React, { useState, useEffect } from "react";
-import { useSubmitForm } from "./../../../hooks/hooks";
-import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
-
-// Define interface for student object
-interface Student {
-  _id?: string; // Assuming _id is of type string
-  id?: string | null;
-  firstName: string;
-  lastName: string;
-  gender: string;
-  studentClass: string;
-  previousSchool: string;
-}
+import React, { useState, useEffect } from 'react';
 
 const ViewStudentData: React.FC = () => {
-  const [formData, setFormData] = useState<Student>({
-    id: undefined,
-    firstName: "",
-    lastName: "",
-    gender: "",
-    studentClass: "",
-    previousSchool: "",
-  });
-
-  const [students, setStudents] = useState<Student[]>([]);
-  const [editableIndex, setEditableIndex] = useState<number | null>(null);
-
-  const { submitForm } = useSubmitForm();
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const [students, setStudents] = useState<any[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const studentsPerPage = 10;
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      const path = `${import.meta.env.VITE_API_URL}/student/`;
-      const method = "GET";
-      try {
-        const result = await submitForm(path, method, {});
-        setStudents(result);
-      } catch (error) {
-        console.error("Error:", error);
-        setError("Failed to fetch student data. Please try again.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
+    // Fetch all students
+    fetch(`${import.meta.env.VITE_API_URL}/student`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch students');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Student data:', data); // Log the data received
+        setStudents(data);
+      })
+      .catch(error => {
+        console.error('Error fetching students:', error);
+      });
   }, []);
 
-  const handleEditClick = (index: number) => {
-    const { _id, firstName, lastName, gender, studentClass, previousSchool } =
-      students[index];
-    setEditableIndex(index);
-    setFormData({
-      id: _id, // Assigning _id to id
-      firstName,
-      lastName,
-      gender,
-      studentClass,
-      previousSchool,
-    });
-  };
+  // Calculate the indexes of the first and last student on the current page
+  const indexOfLastStudent = currentPage * studentsPerPage;
+  const indexOfFirstStudent = indexOfLastStudent - studentsPerPage;
+  const currentStudents = students.slice(indexOfFirstStudent, indexOfLastStudent);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-
-    console.log("Updated form data:");
-
-    if (formData) {
-      setFormData(
-        (prevState) =>
-          ({
-            ...prevState,
-            [name]: value,
-          } as Student)
-      );
-    }
-  };
-
-  const handleSaveClick = async () => {
-    console.log("Save button clicked");
-    if (formData) {
-      const studentId = formData.id !== undefined ? formData.id : ""; // Assuming a default value of empty string
-      if (!studentId) {
-        // Handle the case where id is null or undefined (e.g., display error)
-        console.error("Student ID is null or undefined");
-        return;
-      }
-      const postData = {
-        ...formData,
-        id: studentId,
-      };
-
-      try {
-        console.log("Submitting form data:", postData);
-        const apiUrl = `${import.meta.env.VITE_API_URL}/student/${studentId}`;
-        const method = "PUT";
-        const result = await submitForm(apiUrl, method, postData);
-
-        // Assuming result contains the updated student data
-        const updatedStudent = result as Student;
-        const updatedStudents = students.map((student) =>
-          student.id === updatedStudent.id ? updatedStudent : student
-        );
-        setStudents(updatedStudents);
-        setEditableIndex(null); // Reset editableIndex after saving
-      } catch (error) {
-        // Handle errors
-        console.error("Error updating student:", error);
-      }
-    } else {
-      // Handle the case where formData is null (e.g., display an error message)
-    }
-  };
-
-  console.log("Before Save Button JSX");
+  // Change page
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   return (
-    <div className="p-6">
-      <h1 className="text-xl font-bold mb-4">Student Data</h1>
-      {loading && <p>Loading...</p>}
-      {error && <p className="text-red-500">{error}</p>}
-      <table className="w-full border-collapse border">
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="border p-3">#</th>
-            <th className="border p-3">First Name</th>
-            <th className="border p-3">Last Name</th>
-            <th className="border p-3">Gender</th>
-            <th className="border p-3">Grade</th>
-            <th className="border p-3">Previous School</th>
-            <th className="border p-3">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {students.map((student, index) => (
-            <tr
-              key={index}
-              className={index % 2 === 0 ? "bg-gray-100" : "bg-white"}>
-              <td className="border p-3">{index + 1}</td>
-              <td className="border p-3">
-                {editableIndex === index ? (
-                  <input
-                    type="text"
-                    name="firstName"
-                    value={formData?.firstName || ""}
-                    onChange={handleInputChange}
-                  />
-                ) : (
-                  student.firstName
-                )}
-              </td>
-              <td className="border p-3">
-                {editableIndex === index ? (
-                  <input
-                    type="text"
-                    name="lastName"
-                    value={formData?.lastName || ""}
-                    onChange={handleInputChange}
-                  />
-                ) : (
-                  student.lastName
-                )}
-              </td>
-              <td className="border p-3">
-                {editableIndex === index ? (
-                  <input
-                    type="text"
-                    name="gender"
-                    value={formData?.gender || ""}
-                    onChange={handleInputChange}
-                  />
-                ) : (
-                  student.gender
-                )}
-              </td>
-              <td className="border p-3">
-                {editableIndex === index ? (
-                  <input
-                    type="text"
-                    name="studentClass"
-                    value={formData?.studentClass || ""}
-                    onChange={handleInputChange}
-                  />
-                ) : (
-                  student.studentClass
-                )}
-              </td>
-              <td className="border p-3">
-                {editableIndex === index ? (
-                  <input
-                    type="text"
-                    name="previousSchool"
-                    value={formData?.previousSchool || ""}
-                    onChange={handleInputChange}
-                  />
-                ) : (
-                  student.previousSchool
-                )}
-              </td>
-              <td className="border p-3">
-                {editableIndex === index ? (
-                  <button
-                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"
-                    onClick={handleSaveClick}>
-                    Save
-                  </button>
-                ) : (
-                  <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                    onClick={() => handleEditClick(index)}>
-                    <AiOutlineEdit />
-                  </button>
-                )}
-
-                <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                  <AiOutlineDelete />
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="container mx-auto px-4 py-8">
+      <h2 className="text-2xl font-semibold mb-4">Student Data</h2>
+      {students.length > 0 ? (
+        <div className="overflow-x-auto">
+          <table className="table-auto border-collapse border w-full">
+            <thead>
+              <tr>
+                <th className="border p-2">#</th>
+                <th className="border p-2">Student Name</th>
+                <th className="border p-2">Gender</th>
+                <th className="border p-2">Date of Birth</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentStudents.map((student, index) => (
+                <tr key={student._id}>
+                  <td className="border p-2">{indexOfFirstStudent + index + 1}</td>
+                  <td className="border p-2">{student.studentFirstName} {student.studentLastName}</td>
+                  <td className="border p-2">{student.studentGender}</td>
+                  <td className="border p-2">{new Date(student.dateOfBirth).toLocaleDateString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className="flex justify-center mt-4">
+            {Array.from({ length: Math.ceil(students.length / studentsPerPage) }, (_, i) => (
+              <button
+                key={i + 1}
+                onClick={() => paginate(i + 1)}
+                className={`px-4 py-2 mx-1 border rounded ${currentPage === i + 1 ? 'bg-blue-500 text-white' : 'bg-white'}`}
+              >
+                {i + 1}
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <p>No students found.</p>
+      )}
     </div>
   );
-  console.log("After Save Button JSX");
 };
 
 export default ViewStudentData;
