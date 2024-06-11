@@ -15,6 +15,9 @@ const ViewUserData: React.FC = () => {
   const [editingUserId, setEditingUserId] = useState<string | null>(null);
   const [editedUser, setEditedUser] = useState<IUser | null>(null);
 
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const itemsPerPage = 10;
+
   const { submitForm } = useSubmitForm();
   const navigate = useNavigate();
 
@@ -51,11 +54,9 @@ const ViewUserData: React.FC = () => {
   const handleDelete = async (userId: string) => {
     try {
       setLoading(true);
-      // Filter out the user to be deleted from the local state
       const updatedUsers = users.filter((user) => user._id !== userId);
       setUsers(updatedUsers);
 
-      // Send a DELETE request to the server to delete the user
       const path = `${import.meta.env.VITE_API_URL}/user/${userId}`;
       const method = "DELETE";
       await submitForm(path, method, {});
@@ -63,11 +64,14 @@ const ViewUserData: React.FC = () => {
       console.log(`User with ID ${userId} deleted successfully.`);
     } catch (error) {
       console.error("Error deleting user:", error);
-      // Handle error deleting user
       setError("Failed to delete user. Please try again.");
     } finally {
       setLoading(false);
     }
+  };
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
   };
 
   const roles = Array.from(new Set(users.map((user) => user.role)));
@@ -90,18 +94,25 @@ const ViewUserData: React.FC = () => {
       setEditingUserId(null);
       setEditedUser(null);
 
-      // Add logic to save the edited user data to the server
       const path = `${import.meta.env.VITE_API_URL}/user/${editingUserId}`;
       const method = "PUT";
       await submitForm(path, method, editedUser);
     } catch (error) {
       console.error("Error saving edited user:", error);
-      // Handle error saving edited user data
       setError("Failed to save edited user data. Please try again.");
     } finally {
       setLoading(false);
     }
   };
+
+  const displayedUsers = users.filter(
+    (user) => !filterRole || user.role === filterRole
+  );
+  const totalPages = Math.ceil(displayedUsers.length / itemsPerPage);
+  const currentUsers = displayedUsers.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <div className="mt-16 ml-8">
@@ -128,102 +139,110 @@ const ViewUserData: React.FC = () => {
       ) : error ? (
         <p>{error}</p>
       ) : (
-        <table className="table-auto border-collapse border">
-          <thead>
-            <tr>
-              <th className="px-4 py-2">No.</th>
-              <th className="px-4 py-2 border-r">First Name</th>
-              <th className="px-4 py-2 border-r">Last Name</th>
-              <th className="px-4 py-2 border-r">Gender</th>
-              <th className="px-4 py-2 border-r">Role</th>
-              <th className="px-4 py-2 border-r">Email</th>
-              <th className="px-4 py-2 border-r">Edit</th>
-              <th className="px-4 py-2 border-r">Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map(
-              (user, index) =>
-                (!filterRole || user.role === filterRole) && (
-                  <tr key={index}>
-                    <td className="border px-4 py-2">{index + 1}</td>
-                    <td className="border px-4 py-2">
-                      {editingUserId === user._id ? (
-                        <input
-                          type="text"
-                          value={editedUser?.firstName || ""}
-                          onChange={(e) =>
-                            setEditedUser({
-                              ...editedUser!,
-                              firstName: e.target.value,
-                            })
-                          }
-                        />
-                      ) : (
-                        user.firstName
-                      )}
-                    </td>
-                    <td className="border px-4 py-2">{user.lastName}</td>
-                    <td className="border px-4 py-2">{user.gender}</td>
-                    <td className="border px-4 py-2">
-                      {user.role === "guardian" ? (
-                        <button
-                          onClick={() => {
-                            setSelectedUser(user);
-
-                            navigate("/add/add-student", {
-                              state: { guardian: user },
-                            });
-
-                            setShowAddStudentForm(true);
-                          }}
-                          className="text-blue-500 hover:underline focus:outline-none">
-                          {user.role}
-                        </button>
-                      ) : (
-                        user.role
-                      )}
-                    </td>
-                    <td className="border px-4 py-2">{user.email}</td>
-                    <td className="border px-4 py-2">
-                      {editingUserId === user._id ? (
-                        <button
-                          onClick={handleSaveEdit}
-                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                          Save
-                        </button>
-                      ) : (
-                        <button
-                          onClick={() => handleEditUser(user)}
-                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                          <AiOutlineEdit />
-                        </button>
-                      )}
-                    </td>
-                    <td className="border px-4 py-2">
+        <>
+          <table className="table-auto border-collapse border">
+            <thead>
+              <tr>
+                <th className="px-4 py-2">No.</th>
+                <th className="px-4 py-2 border-r">First Name</th>
+                <th className="px-4 py-2 border-r">Last Name</th>
+                <th className="px-4 py-2 border-r">Gender</th>
+                <th className="px-4 py-2 border-r">Role</th>
+                <th className="px-4 py-2 border-r">Email</th>
+                <th className="px-4 py-2 border-r">Edit</th>
+                <th className="px-4 py-2 border-r">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentUsers.map((user, index) => (
+                <tr key={user._id}>
+                  <td className="border px-4 py-2">
+                    {(currentPage - 1) * itemsPerPage + index + 1}
+                  </td>
+                  <td className="border px-4 py-2">
+                    {editingUserId === user._id ? (
+                      <input
+                        type="text"
+                        value={editedUser?.firstName || ""}
+                        onChange={(e) =>
+                          setEditedUser({
+                            ...editedUser!,
+                            firstName: e.target.value,
+                          })
+                        }
+                      />
+                    ) : (
+                      user.firstName
+                    )}
+                  </td>
+                  <td className="border px-4 py-2">{user.lastName}</td>
+                  <td className="border px-4 py-2">{user.gender}</td>
+                  <td className="border px-4 py-2">
+                    {user.role === "guardian" ? (
                       <button
-                        onClick={() => user._id && handleDelete(user._id)}
-                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                        <AiOutlineDelete />
+                        onClick={() => {
+                          setSelectedUser(user);
+
+                          navigate("/add/add-student", {
+                            state: { guardian: user },
+                          });
+
+                          setShowAddStudentForm(true);
+                        }}
+                        className="text-blue-500 hover:underline focus:outline-none">
+                        {user.role}
                       </button>
-                    </td>
-                  </tr>
-                )
-            )}
-          </tbody>
-        </table>
+                    ) : (
+                      user.role
+                    )}
+                  </td>
+                  <td className="border px-4 py-2">{user.email}</td>
+                  <td className="border px-4 py-2">
+                    {editingUserId === user._id ? (
+                      <button
+                        onClick={handleSaveEdit}
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Save
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handleEditUser(user)}
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        <AiOutlineEdit />
+                      </button>
+                    )}
+                  </td>
+                  <td className="border px-4 py-2">
+                    <button
+                      onClick={() => user._id && handleDelete(user._id)}
+                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                      <AiOutlineDelete />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {totalPages > 1 && (
+            <div className="mt-4">
+              {Array.from({ length: totalPages }, (_, index) => (
+                <button
+                  key={index}
+                  onClick={() => handlePageChange(index + 1)}
+                  className={`px-3 py-1 mx-1 border rounded ${
+                    currentPage === index + 1 ? "bg-blue-500 text-white" : ""
+                  }`}>
+                  {index + 1}
+                </button>
+              ))}
+            </div>
+          )}
+        </>
       )}
       {showAddStudentForm && (
         <div>
           <h2 className="text-lg font-semibold mb-4">Add Student Form</h2>
-          {showAddStudentForm && (
-            <div>
-              <h2 className="text-lg font-semibold mb-4">Add Student Form</h2>
-              <AddStudentForm />
-    
-               
-            </div>
-          )}
+          <AddStudentForm />
         </div>
       )}
     </div>
