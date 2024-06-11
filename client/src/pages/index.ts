@@ -18,7 +18,6 @@ export { default as AddClass } from "./dashboard/AddClass";
 export { default as ViewClass } from "./dashboard/ViewClass";
 export { default as AddSubject } from "./dashboard/AddSubject";
 export { default as ViewSubject } from "./dashboard/ViewSubject.tsx"
-export { default as AddAttendance } from "./dashboard/AddAttendance.tsx"
 export { default as AddExam } from "./dashboard/AddExam.tsx"
 export { default as AddStudentMarks } from "./dashboard/AddStudentsMarks.tsx"
 export { default as ViewExam } from "./dashboard/ViewExam.tsx"

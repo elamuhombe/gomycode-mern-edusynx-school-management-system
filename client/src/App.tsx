@@ -19,7 +19,6 @@ import {
   AddSubject,
   AddUser,
   ViewSubject,
-  AddAttendance,
   AddExam,
   AddStudentMarks,
   ViewExam,
@@ -46,8 +45,6 @@ const App: React.FC = () => {
           <Route path="/view/view-subject" element={<ViewSubject />} />
             <Route path="/add/add-user" element={<AddUser />} />
             <Route path="add/add-students-marks-entry" element={<AddStudentMarks />} />
-
-            <Route path="/add/add-attendance" element={<AddAttendance />} />
             <Route path="/add/add-subject" element={<AddSubject />} />
             <Route path="/view/view-class" element={<ViewClass />} />
             <Route path="/add/add-student" element={<AddStudentForm  />} />

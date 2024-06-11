@@ -61,7 +61,7 @@ useEffect(() =>{
     {
       name: "Students",
       icon: <FaUserGraduate />,
-      submenus: ["Add Student", "View Student"],
+      submenus: ["View Student"],
     },
     {
       name: "Classes",
@@ -82,7 +82,7 @@ useEffect(() =>{
     {
       name: "Attendance",
       icon: <FaUser />,
-      submenus: ["Add Attendance", "View Attendance"],
+      submenus: ["View Attendance"],
     },
     { name: "Users", icon: <FaUser />, submenus: ["Add User", "View Users"] },
     { name: "Logout", action: () => handleLogout() }, // Added Logout item
