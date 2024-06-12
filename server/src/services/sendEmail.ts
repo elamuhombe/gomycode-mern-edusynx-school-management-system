@@ -18,7 +18,7 @@ async function sendEmail(params: EmailParams): Promise<EmailResponse> {
   try {
     // Create a transporter with Gmail SMTP settings
     const transporter = nodemailer.createTransport({
-      host: 'mail.elainees.dev',
+      host: 'smtp.gmail.com',
       port: 465,
       secure: true,
       auth: {
