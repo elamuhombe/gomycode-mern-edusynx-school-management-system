@@ -6,10 +6,10 @@ import { TextField, Select, MenuItem } from "@mui/material"; // Importing necess
 
 const Register: React.FC = () => { // Functional component Register
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen"> {/* Main container */}
+    <div className="flex flex-col"> {/* Main container */}
       <Header /> {/* Rendering Header component */}
-      <div className="flex flex-col items-center w-full max-w-md px-4 justify-center"> {/* Form container */}
-        <form className="flex flex-col w-full gap-4"> {/* Form */}
+      <div className="flex flex-col items-center justify-center h-screen"> {/* Form container */}
+        <form className="w-full max-w-sm mb-48"> {/* Form */}
           <h3 className="text-xl font-600">Register</h3> {/* Form title */}
           <p>Please fill out the registration form below.</p> {/* Form description */}
           <div className="flex flex-col w-full gap-4"> {/* Form fields */}

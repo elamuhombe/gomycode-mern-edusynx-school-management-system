@@ -96,7 +96,7 @@ const Login: React.FC = () => {
     <div className="flex flex-col ">
       <Header />
       <div className="flex flex-col items-center justify-center h-screen">
-        <form onSubmit={(e) => handleLogin(e)} className="w-full max-w-sm">
+        <form onSubmit={(e) => handleLogin(e)} className="w-full max-w-sm mb-8">
           <div className="mb-4">
             <label htmlFor="username" className="block mb-2">
               Username:
@@ -133,7 +133,7 @@ const Login: React.FC = () => {
           </div>
           <button
             type="submit"
-            className="mt-8 w-full bg-red-400 text-white py-2 rounded hover:bg-blue-600">
+            className="w-full bg-red-400 text-white py-2 rounded hover:bg-blue-600">
             Login
           </button>
         </form>
