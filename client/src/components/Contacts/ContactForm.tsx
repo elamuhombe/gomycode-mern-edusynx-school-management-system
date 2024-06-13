@@ -1,5 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { TextField } from "@mui/material";
+import Swal from "sweetalert2";
 import useSubmitForm from "./../../hooks/useSubmitForm";
 
 interface FormData {
@@ -22,6 +23,17 @@ const ContactForm: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // Validation
+    if (!formData.names || !formData.phoneNumber || !formData.email || !formData.message) {
+      Swal.fire({
+        title: 'Error!',
+        text: 'All fields are required',
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      });
+      return;
+    }
+
     try {
       console.log("Form Data:", formData);
       const result = await submitForm(
@@ -30,9 +42,21 @@ const ContactForm: React.FC = () => {
         formData
       );
       console.log("Result:", result);
+      Swal.fire({
+        title: 'Success!',
+        text: 'Email sent successfully',
+        icon: 'success',
+        confirmButtonText: 'Ok'
+      });
       setFormData(defaultFormData);
     } catch (error) {
       console.error("Error:", error);
+      Swal.fire({
+        title: 'Error!',
+        text: 'Failed to send email',
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      });
     }
   };
 
