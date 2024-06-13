@@ -25,7 +25,7 @@ const ContactForm: React.FC = () => {
     try {
       console.log("Form Data:", formData);
       const result = await submitForm(
-        `${import.meta.env.VITE_API_UR}L/sendEmail`,
+        `${import.meta.env.VITE_API_URL}/sendEmail`,
         "POST",
         formData
       );
