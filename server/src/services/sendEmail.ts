@@ -16,6 +16,11 @@ interface EmailResponse {
 // Async function to send an email using Nodemailer
 async function sendEmail(params: EmailParams): Promise<EmailResponse> {
   try {
+    // Validate that 'to' is provided
+    if (!params.to) {
+      throw new Error("Email address of the recipient is required.");
+    }
+
     // Create a transporter with Gmail SMTP settings
     const transporter = nodemailer.createTransport({
       host: 'elainees.dev',
@@ -40,9 +45,9 @@ async function sendEmail(params: EmailParams): Promise<EmailResponse> {
 
     console.log("Email sent successfully:", info.response);
     return { success: true }; // Return success response
-  } catch (error) {
-    console.error("An unexpected error occurred while sending email:", error);
-    return { success: false, error: "An unexpected error occurred while sending email. Please try again later." }; // Return error response
+  } catch (error: any) { // Explicitly type 'error' as 'any' or the expected type
+    console.error("An unexpected error occurred while sending email:", error.message);
+    return { success: false, error: error.message }; // Return error response
   }
 }
 
