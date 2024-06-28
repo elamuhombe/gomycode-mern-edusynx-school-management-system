@@ -82,6 +82,7 @@ export interface IUser {
   subject_name?: string |ISubject;
   teachingSubjects?: (string |ISubject)[]; // Optional array of teaching subjects
   isClassTeacher?: boolean; // Optional boolean indicating whether the teacher is a class teacher
+  guardian: string;
 }
 export interface ISubject {
   _id: any;
@@ -104,5 +105,12 @@ export interface IStudentMarks{
     subjectName: string;
     marks: number;
   }[];
+}
+
+// Interface for Guardian data from API
+export interface Guardian {
+  _id: string;
+  firstName: string;
+  lastName: string;
 }
 
