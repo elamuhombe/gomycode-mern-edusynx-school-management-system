@@ -112,5 +112,6 @@ export interface Guardian {
   _id: string;
   firstName: string;
   lastName: string;
+  email: string;
 }
 
