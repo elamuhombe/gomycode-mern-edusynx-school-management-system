@@ -5,6 +5,8 @@ const ViewStudentData: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const studentsPerPage = 10;
   const[guardians,setGuardians] = useState<any[]>([]);
+  const [studentsWithGuardians, setStudentsWithGuardians] = useState<any[]>([]);
+
 
   useEffect(() => {
     // Fetch all students
@@ -24,7 +26,7 @@ const ViewStudentData: React.FC = () => {
       });
 
       // Fetch all guardians
-    fetch(`${import.meta.env.VITE_API_URL}/guardian`)
+    fetch(`${import.meta.env.VITE_API_URL}/guardians`)
     .then(response => {
       if (!response.ok) {
         throw new Error('Failed to fetch guardians');
@@ -39,6 +41,8 @@ const ViewStudentData: React.FC = () => {
       console.error('Error fetching guardians:', error);
     });
   }, []);
+
+  
 
   // Calculate the indexes of the first and last student on the current page
   const indexOfLastStudent = currentPage * studentsPerPage;
