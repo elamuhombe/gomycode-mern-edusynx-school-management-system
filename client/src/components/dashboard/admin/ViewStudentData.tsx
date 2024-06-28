@@ -4,6 +4,7 @@ const ViewStudentData: React.FC = () => {
   const [students, setStudents] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const studentsPerPage = 10;
+  const[guardians,setGuardians] = useState<any[]>([]);
 
   useEffect(() => {
     // Fetch all students
@@ -21,6 +22,22 @@ const ViewStudentData: React.FC = () => {
       .catch(error => {
         console.error('Error fetching students:', error);
       });
+
+      // Fetch all guardians
+    fetch(`${import.meta.env.VITE_API_URL}/guardian`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to fetch guardians');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Guardian data:', data); // Log the data received
+      setGuardians(data);
+    })
+    .catch(error => {
+      console.error('Error fetching guardians:', error);
+    });
   }, []);
 
   // Calculate the indexes of the first and last student on the current page
@@ -52,6 +69,7 @@ const ViewStudentData: React.FC = () => {
                   <td className="border p-2">{student.studentFirstName} {student.studentLastName}</td>
                   <td className="border p-2">{student.studentGender}</td>
                   <td className="border p-2">{new Date(student.dateOfBirth).toLocaleDateString()}</td>
+                  <td className="border p-2">{}</td>
                 </tr>
               ))}
             </tbody>
