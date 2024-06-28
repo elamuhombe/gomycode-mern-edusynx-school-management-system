@@ -1,61 +1,62 @@
 import React, { useState, useEffect } from 'react';
+import { Guardian } from '../../../types';
 
 const ViewStudentData: React.FC = () => {
+  // State variables
   const [students, setStudents] = useState<any[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const studentsPerPage = 10;
-  const[guardians,setGuardians] = useState<any[]>([]);
-  const [studentsWithGuardians, setStudentsWithGuardians] = useState<any[]>([]);
+  const [guardians, setGuardians] = useState<Guardian[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-
+  // Fetch students and guardians data from API
   useEffect(() => {
-    // Fetch all students
-    fetch(`${import.meta.env.VITE_API_URL}/student`)
-      .then(response => {
+    const fetchStudents = async () => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/student`);
         if (!response.ok) {
           throw new Error('Failed to fetch students');
         }
-        return response.json();
-      })
-      .then(data => {
-        console.log('Student data:', data); // Log the data received
+        const data = await response.json();
         setStudents(data);
-      })
-      .catch(error => {
-        console.error('Error fetching students:', error);
-      });
-
-      // Fetch all guardians
-    fetch(`${import.meta.env.VITE_API_URL}/guardians`)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Failed to fetch guardians');
+      } catch (error) {
+        setError('Error fetching students');
       }
-      return response.json();
-    })
-    .then(data => {
-      console.log('Guardian data:', data); // Log the data received
-      setGuardians(data);
-    })
-    .catch(error => {
-      console.error('Error fetching guardians:', error);
-    });
+    };
+
+    const fetchGuardians = async () => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/user?role=guardian`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch guardians');
+        }
+        const data = await response.json();
+        setGuardians(data);
+      } catch (error) {
+        setError('Error fetching guardians');
+      }
+    };
+
+    // Fetch both students and guardians in parallel
+    Promise.all([fetchStudents(), fetchGuardians()]).then(() => setLoading(false));
+
+    // Empty dependency array ensures this effect runs only once on mount
   }, []);
 
-  
+  // Function to get guardian name by ID
+  const getGuardianName = (guardianId: string): string => {
+    const guardian = guardians.find(g => g._id === guardianId);
+    return guardian ? `${guardian.firstName} ${guardian.lastName}` : 'Unknown Guardian';
+  };
 
-  // Calculate the indexes of the first and last student on the current page
-  const indexOfLastStudent = currentPage * studentsPerPage;
-  const indexOfFirstStudent = indexOfLastStudent - studentsPerPage;
-  const currentStudents = students.slice(indexOfFirstStudent, indexOfLastStudent);
-
-  // Change page
-  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-
+  // Render UI based on loading state, error state, and data availability
   return (
     <div className="container mx-auto px-4 py-8">
       <h2 className="text-2xl font-semibold mb-4">Student Data</h2>
-      {students.length > 0 ? (
+      {loading ? (
+        <p>Loading...</p>
+      ) : error ? (
+        <p>{error}</p>
+      ) : students.length > 0 ? (
         <div className="overflow-x-auto">
           <table className="table-auto border-collapse border w-full">
             <thead>
@@ -64,31 +65,21 @@ const ViewStudentData: React.FC = () => {
                 <th className="border p-2">Student Name</th>
                 <th className="border p-2">Gender</th>
                 <th className="border p-2">Date of Birth</th>
+                <th className="border p-2">Guardian Name</th>
               </tr>
             </thead>
             <tbody>
-              {currentStudents.map((student, index) => (
+              {students.map((student, index) => (
                 <tr key={student._id}>
-                  <td className="border p-2">{indexOfFirstStudent + index + 1}</td>
+                  <td className="border p-2">{index + 1}</td>
                   <td className="border p-2">{student.studentFirstName} {student.studentLastName}</td>
                   <td className="border p-2">{student.studentGender}</td>
                   <td className="border p-2">{new Date(student.dateOfBirth).toLocaleDateString()}</td>
-                  <td className="border p-2">{}</td>
+                  <td className="border p-2">{getGuardianName(student.guardian)}</td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <div className="flex justify-center mt-4">
-            {Array.from({ length: Math.ceil(students.length / studentsPerPage) }, (_, i) => (
-              <button
-                key={i + 1}
-                onClick={() => paginate(i + 1)}
-                className={`px-4 py-2 mx-1 border rounded ${currentPage === i + 1 ? 'bg-blue-500 text-white' : 'bg-white'}`}
-              >
-                {i + 1}
-              </button>
-            ))}
-          </div>
         </div>
       ) : (
         <p>No students found.</p>
