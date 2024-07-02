@@ -136,7 +136,7 @@ const  date = new Date().toLocaleDateString("en-US",{ year: 'numeric', month: 'l
       if(!request.ok){
           return Swal.fire("error","could not save the attendance")
       }
-      let data = await request.json()
+      const data = await request.json()
       console.log({data})
   }
 
@@ -219,7 +219,7 @@ const  date = new Date().toLocaleDateString("en-US",{ year: 'numeric', month: 'l
                 <td style={{ border: "1px solid black", padding: "8px" }} >
                   <button onClick ={(_e:React.MouseEvent<HTMLButtonElement>)=>{
                   setCreatedAttendanceData(prev=>{
-                    let updated = prev
+                    const updated = prev
                     updated[index].isPresent = !prev[index].isPresent
                     console.log({updated})
                     return updated

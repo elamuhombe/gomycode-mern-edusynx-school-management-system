@@ -18,9 +18,9 @@ export interface ISchool {
   city: string;
   password: string;
   role: string;
-  status: { type: String; default: "inactive" }; // Default status is 'inactive'
-  paymentID: String; // New field for payment ID
-  paymentUsername: String; // New field for username associated with payment
+  status: { type: string; default: "inactive" }; // Default status is 'inactive'
+  paymentID: string; // New field for payment ID
+  paymentUsername: string; // New field for username associated with payment
 }
 
 // Interface for the Student document
@@ -82,7 +82,7 @@ export interface IUser {
   subject_name?: string |ISubject;
   teachingSubjects?: (string |ISubject)[]; // Optional array of teaching subjects
   isClassTeacher?: boolean; // Optional boolean indicating whether the teacher is a class teacher
-  guardian: string;
+  // guardian: string;
 }
 export interface ISubject {
   _id: any;
@@ -112,5 +112,6 @@ export interface Guardian {
   _id: string;
   firstName: string;
   lastName: string;
+  email: string;
 }
 

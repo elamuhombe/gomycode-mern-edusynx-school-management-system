@@ -22,7 +22,7 @@ const Login: React.FC = () => {
   const userAuth = useUserAuth();
 
   const { dispatch, state } = useGlobalState(); // Destructure dispatch and state from useGlobalState
-  let loggedInUser = userAuth.savedUser as ISchool;
+  const loggedInUser = userAuth.savedUser as ISchool;
 
   useEffect(() => {
     if (userAuth.isLoggedIn) {
@@ -57,7 +57,7 @@ const Login: React.FC = () => {
       }
 
       const data = await response.json();
-      let userData = data.accountDetails.school
+      const userData = data.accountDetails.school
         ? data.accountDetails
         : { ...data.accountDetails, school: data.accountDetails._id };
       // Update user in global state

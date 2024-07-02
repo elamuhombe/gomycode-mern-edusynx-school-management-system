@@ -39,8 +39,8 @@ const AddStudentForm: React.FC = () => {
     className: "",
     year: undefined,
   });
-  let location = useLocation();
-  let guardians = location.state && location.state.guardian;
+  const location = useLocation();
+  const guardians = location.state && location.state.guardian;
   const extractedFamilyNumber = guardians?.familyNumber ?? null;
   console.log(extractedFamilyNumber);
 
