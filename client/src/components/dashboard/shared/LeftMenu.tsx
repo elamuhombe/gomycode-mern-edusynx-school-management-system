@@ -125,7 +125,7 @@ useEffect(() =>{
                     )
                   )
                     return item;
-                  let links =
+                  const links =
                     viewerLinks.find(
                       (val) => val.key == (loggedInUser?.role as string)
                     ) || null;
