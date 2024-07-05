@@ -77,6 +77,16 @@ school-management-system/
 
 ## 6. Installation
 The project can be cloned.
+Steps to cloning the project:
+1. Install Git. Visit the official site for Git installation: https://git-scm.com/
+2. Login to GitHub. Click on the "Code" button (usually green) and copy the repository URL (either HTTPS or SSH).
+3. Open a terminal or command window:
+   - On Windows, you can use Git Bash, Command Prompt, or PowerShell.
+   - On macOS or Linux, you can use the Terminal.
+4. Clone the repository. Use the code below:
+   git clone https://github.com/elamuhombe/gomycode-mern-edusynx-school-management-system
+
+   - This will create a directory with the name of the repository and download all its files into that directory.
 
 ## 7. Usage
 Login to the system by clicking on the login link and entering the username: shiners and password: shinpass267
