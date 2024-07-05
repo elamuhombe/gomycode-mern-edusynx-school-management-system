@@ -76,10 +76,10 @@ school-management-system/
 ```
 
 ## 6. Installation
-Instructions for installing and setting up the School Management System will be provided in the project documentation.
+The project can be cloned.
 
 ## 7. Usage
-Details on how to use the system will be documented in the user manual.
+Login to the system by clicking on the login link and entering the username: shiners and password: shinpass267
 
 ## 8. Contributing
 Contributions to the project are welcome. Please refer to the contribution guidelines in the project repository.
