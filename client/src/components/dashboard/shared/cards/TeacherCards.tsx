@@ -13,7 +13,7 @@ const TeacherCards: React.FC = () => {
 
         // Check if request was not successful
         if (!response.ok) {
-          setError("Failed to fetch guardians");
+          setError("Failed to fetch teachers");
           return;
         }
 
