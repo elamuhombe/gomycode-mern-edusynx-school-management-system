@@ -1,19 +1,19 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Your project description here",
   "scripts": {
     "start:dev": "npm i && concurrently \"npm run run-app\" \"npm run run-server\"",
     "start": "nodemon src/server.ts",
     "run-app": "cd client && npm run dev",
     "dev": "nodemon src/server.ts",
     "run-server": "cd server && npm run dev",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Implement actual test commands here\" && exit 1",
     "build": "tsc",
-    "vercel-build": "echo 'hello'"
+    "vercel-build": "echo 'Configure Vercel build steps here'"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["your", "keywords", "here"],
+  "author": "Your Name",
   "license": "ISC",
   "dependencies": {
     "@types/node-fetch": "^2.6.11",
@@ -32,5 +32,22 @@
     "@types/node": "^20.12.4",
     "@types/nodemailer": "^6.4.14",
     "ts-node": "^10.9.2"
+  },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint", "react", "react-hooks"],
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:react/recommended",
+      "plugin:react-hooks/recommended"
+    ],
+    "rules": {
+      "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }]
+    },
+    "env": {
+      "node": true,
+      "browser": true 
+    }
   }
 }
