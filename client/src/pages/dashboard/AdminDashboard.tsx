@@ -10,6 +10,7 @@ import StudentCards from "../../components/dashboard/shared/cards/StudentCard";
 // import TeacherCards from "../../components/dashboard/shared/cards/TeacherCards";
 //import StudentGenderPieChart from "../../components/dashboard/shared/cards/studentGenderPieChart"
 import useFetch from "../../hooks/useFetch";
+import StudentsGenderCountBarChart from "../../components/dashboard/shared/cards/StudentsGenderCountBarChart";
 
 const AdminDashboard: React.FC = () => {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -61,10 +62,15 @@ const AdminDashboard: React.FC = () => {
             description={<StudentCards data={dbData?.numGuardians || 0} />}
           />
           <Card title="Total Income" description="800,000" />
-          {/* <StudentGenderPieChart /> */}
-          {/* Pass the required props to GenderBarChart */}
+          {/* <StudentGenderBar Chart /> */}
+          {/* Pass the required props to StudentsGenderCountBarChart */}
           {/* <GenderBarChart /> */}
+          <Card title="Students Gender Bar graph" 
+          description={<StudentsGenderCountBarChart />}
+          // <StudentsGenderCountBarChart />
+          />
         </div>
+  
       </div>
     </div>
   );

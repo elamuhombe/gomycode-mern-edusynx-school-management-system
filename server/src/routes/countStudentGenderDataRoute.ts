@@ -1,20 +1,27 @@
 import express, { Request, Response } from "express";
-import { countStudentsByGender } from './../utils/countStudentsByGender'; // Import the function to count students by gender
+import { Student } from "./../models/Student";
 
-
+// Create a new Express router
 const countStudentGenderRouter = express.Router();
 
-// Define a route to count boys and girls
-countStudentGenderRouter.get('/students/countStudentsByGender', async (req: Request, res: Response) => {
-    try {
-      const { boys, girls } = await countStudentsByGender(); // Call the function to count students by gender
-      res.json({ boys, girls }); // Send the counts as JSON response
-    } catch (error) {
-      // Handle error
-      console.error('Error:', error);
-      res.status(500).json({ error: 'Internal Server Error' }); // Send 500 status code and error message
-    }
-  });
-  
+// Endpoint to get the number of boys and girls
+countStudentGenderRouter.get('/gender-count', async (req, res) => {
+  try {
+      // Count documents where studentGender is 'boy'
+      const boyCount = await Student.find({ studentGender: 'boy' }).countDocuments();
+      // Count documents where studentGender is 'girl'
+      const girlCount = await Student.find({ studentGender: 'girl' }).countDocuments();
 
+      // Respond with JSON containing counts of boys and girls
+      res.status(200).send([
+          { gender: 'boy', count: boyCount },
+          { gender: 'girl', count: girlCount }
+      ]);
+  } catch (error) {
+      // Handle errors and respond with a 500 status code
+      res.status(500).send(error);
+  }
+});
+
+// Export the router to be used in other parts of the application
 export default countStudentGenderRouter;
